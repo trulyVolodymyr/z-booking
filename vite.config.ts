@@ -9,7 +9,7 @@ import { ComponentsBuilder } from './vite.config.components'
 import { ImportsBuilder } from './vite.config.imports'
 
 export default defineConfig({
-  base: 'z-booking',
+  base: '/z-booking/',
   plugins: [
     vue(),
     visualizer({
