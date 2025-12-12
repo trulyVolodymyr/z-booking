@@ -1,0 +1,8 @@
+@use "base";
+@use "./utils/animations";
+@use "./element-reset";
+
+@tailwind base;
+
+@tailwind components;
+@tailwind utilities;
