@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[300px] h-full p-5 flex flex-col bg-[#F9F9F9]">
+  <div class="w-[300px] h-full p-3 1080:p-5 flex flex-col bg-[#F9F9F9] shrink-0">
     <span class="font-semibold text-xl text-text">
       Appointment booking
     </span>

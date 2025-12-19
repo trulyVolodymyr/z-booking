@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[330px] h-[270px] border border-[#E6EBEF] rounded-[10px] p-3 bg-white overflow-hidden">
+  <div class="w-[280px] 1080:w-[330px] h-[270px] border border-[#E6EBEF] rounded-[10px] p-3 bg-white overflow-hidden">
     <!-- Month Navigation -->
     <div class="flex items-center justify-between mb-2">
       <button

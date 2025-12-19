@@ -1,49 +1,47 @@
 <template>
-  <div class="custom-steps">
-    <div class="steps-container">
-      <div
-        v-for="(step, index) in steps"
-        :key="index"
-        class="step-item"
-        :class="{ 'last-step': index === steps.length - 1 }"
-      >
-        <!-- Step Circle -->
-        <div class="step-circle-container">
-          <div
-            class="step-circle"
-            :class="{
-              'completed': index < activeStep,
-              'active': index === activeStep,
-              'inactive': index > activeStep,
-              'disabled': !canNavigateToStep(index)
-            }"
-            @click="handleStepClick(index)"
-          >
-            <!-- Completed step with check icon -->
-
-            <IconCheckCircle v-if="index < activeStep" />
-            <!-- Active or inactive step with number -->
-            <span v-else class="step-number">{{ index + 1 }}</span>
-          </div>
-
-          <!-- Connector line -->
-          <div
-            v-if="index < steps.length - 1"
-            class="step-connector"
-            :class="{
-              'completed': index < activeStep,
-              'hidden-under-title': index === activeStep
-            }"
-          />
-        </div>
-
-        <!-- Step Title - only show for active step -->
+  <div class="steps-container">
+    <div
+      v-for="(step, index) in steps"
+      :key="index"
+      class="step-item"
+      :class="{ 'last-step': index === steps.length - 1 }"
+    >
+      <!-- Step Circle -->
+      <div class="step-circle-container">
         <div
-          v-if="index === activeStep"
-          class="step-title active"
+          class="step-circle"
+          :class="{
+            'completed': index < activeStep,
+            'active': index === activeStep,
+            'inactive': index > activeStep,
+            'disabled': !canNavigateToStep(index)
+          }"
+          @click="handleStepClick(index)"
         >
-          {{ step }}
+          <!-- Completed step with check icon -->
+
+          <IconCheckCircle v-if="index < activeStep" />
+          <!-- Active or inactive step with number -->
+          <span v-else class="step-number">{{ index + 1 }}</span>
         </div>
+
+        <!-- Connector line -->
+        <div
+          v-if="index < steps.length - 1"
+          class="step-connector"
+          :class="{
+            'completed': index < activeStep,
+            'hidden-under-title': index === activeStep
+          }"
+        />
+      </div>
+
+      <!-- Step Title - only show for active step -->
+      <div
+        v-if="index === activeStep"
+        class="step-title active"
+      >
+        {{ step }}
       </div>
     </div>
   </div>
@@ -69,15 +67,8 @@ const handleStepClick = (index: number) => {
 </script>
 
 <style scoped>
-.custom-steps {
-  width: 100%;
-}
-
 .steps-container {
   display: flex;
-  align-items: flex-start;
-  justify-content: end;
-  gap: 0;
 }
 
 .step-item {
