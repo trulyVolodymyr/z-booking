@@ -1,12 +1,15 @@
 (function () {
   'use strict'
 
-  // Configuration
-  const CONFIG = {
-    formUrl: 'https://trulyvolodymyr.github.io/z-booking', // Replace with your form URL
+  // Default configuration
+  const DEFAULTS = {
+    formUrl: 'https://trulyvolodymyr.github.io/z-booking',
     buttonText: 'Open Form',
     buttonPosition: 'bottom-right' // 'bottom-right', 'bottom-left', 'top-right', 'top-left'
   }
+
+  // Merge with external config from window.ZBookingConfig
+  const CONFIG = { ...DEFAULTS, ...(window.ZBookingConfig || {}) }
 
   // Check if widget already exists or if we're inside an iframe (prevent recursion)
   if (document.getElementById('widget-overlay')) return
@@ -61,8 +64,8 @@
     
     #widget-iframe-container {
       position: relative !important;
-      width: 97% !important;
-      height: 97vh !important;
+      width: 94% !important;
+      height: 94vh !important;
       background: white !important;
       border-radius: 12px !important;
       box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
@@ -135,7 +138,11 @@
   // Event handlers
   function openWidget () {
     if (!iframe.getAttribute('src')) {
-      iframe.src = CONFIG.formUrl
+      let url = CONFIG.formUrl
+      if (CONFIG.token) {
+        url += (url.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(CONFIG.token)
+      }
+      iframe.src = url
     }
     overlay.classList.add('active')
     document.body.style.overflow = 'hidden'
