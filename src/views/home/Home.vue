@@ -343,7 +343,11 @@ const handleContinue = () => {
   activeStep.value++
 }
 
-const selectService = (serviceId: number) => {
+const selectService = (serviceId: number | null) => {
+  if (serviceId === null) {
+    selectedService.value = undefined
+    return
+  }
   const service = servicesConfig.value.find((s) => s.id === serviceId)
   if (selectedService.value?.id === serviceId) {
     selectedService.value = undefined
