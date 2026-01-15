@@ -61,9 +61,9 @@
     
     #widget-iframe-container {
       position: relative !important;
-      width: 90% !important;
+      width: 97% !important;
       max-width: 1000px !important;
-      height: 80vh !important;
+      height: 97vh !important;
       max-height: 700px !important;
       background: white !important;
       border-radius: 12px !important;
