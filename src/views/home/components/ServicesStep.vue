@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ console.log(servicesConfig) }}
     <!-- Mobile Layout -->
     <template v-if="isMobile">
       <p class="text-text text-center mb-4">
@@ -14,6 +15,7 @@
           type="text"
           placeholder="Search for service"
           class="ml-4 outline-none w-full bg-[#F9FAFB] text-sm"
+          @input="searchJobs(($event.target as HTMLInputElement).value)"
         >
       </div>
 
@@ -94,6 +96,7 @@
           type="text"
           placeholder="Search for service"
           class="ml-6 outline-none w-full bg-[#F9FAFB] text-sm"
+          @input="searchJobs(($event.target as HTMLInputElement).value)"
         >
       </div>
 
@@ -120,11 +123,11 @@
       </div>
 
       <div class="h-[220px]">
-        <span>{{ selectedService?.title }}</span>
+        <span v-if="!filteredJobs.length && selectedService">{{ selectedService.title }}</span>
 
-        <div v-if="selectedService?.options" class="space-y-3 mt-6">
+        <div v-if="filteredJobs.length || selectedService?.options" class="space-y-3 mt-6">
           <div
-            v-for="(option, index) in selectedService.options"
+            v-for="(option, index) in displayedJobs"
             :key="index"
             class="flex items-center justify-between cursor-pointer"
             @click="$emit('toggleOption', option.label)"
@@ -152,7 +155,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 interface IServiceOption {
   id: number
@@ -179,7 +182,7 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emit = defineEmits<{
   'update:serviceSearch': [value: string]
-  selectService: [serviceId: number]
+  selectService: [serviceId: number | null]
   toggleOption: [optionLabel: string]
   bookOption: [service: IService, option: IServiceOption]
   unbookOption: [optionLabel: string]
@@ -211,4 +214,41 @@ const serviceSearchModel = computed({
   get: () => props.serviceSearch,
   set: (value: string) => emit('update:serviceSearch', value)
 })
+
+const allJobs = computed(() => {
+  return props.servicesConfig.flatMap(service =>
+    (service.options || []).map(option => ({
+      ...option,
+      serviceId: service.id,
+      serviceTitle: service.title
+    }))
+  )
+})
+
+const filteredJobs = ref<typeof allJobs.value>([])
+
+const displayedJobs = computed(() => {
+  if (filteredJobs.value.length) {
+    if (props.selectedService) {
+      return filteredJobs.value.filter(job => job.serviceId === props.selectedService?.id)
+    }
+    return filteredJobs.value
+  }
+  return props.selectedService?.options || []
+})
+
+const searchJobs = (query: string) => {
+  if (!query.trim()) {
+    filteredJobs.value = []
+    return
+  }
+  expandedService.value = null
+  emit('selectService', null)
+  const lowerQuery = query.toLowerCase()
+  filteredJobs.value = allJobs.value.filter(job =>
+    job.label.toLowerCase().includes(lowerQuery)
+  )
+
+  console.log(filteredJobs.value)
+}
 </script>
