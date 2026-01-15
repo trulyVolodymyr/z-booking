@@ -3,7 +3,7 @@
 
   // Configuration
   const CONFIG = {
-    formUrl: 'https://trulyvolodymyr.github.io/iframe/', // Replace with your form URL
+    formUrl: 'https://trulyvolodymyr.github.io/z-booking', // Replace with your form URL
     buttonText: 'Open Form',
     buttonPosition: 'bottom-right' // 'bottom-right', 'bottom-left', 'top-right', 'top-left'
   }
