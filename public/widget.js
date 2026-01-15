@@ -8,8 +8,9 @@
     buttonPosition: 'bottom-right' // 'bottom-right', 'bottom-left', 'top-right', 'top-left'
   }
 
-  // Check if widget already exists
-  if (document.getElementById('widget-container')) return
+  // Check if widget already exists or if we're inside an iframe (prevent recursion)
+  if (document.getElementById('widget-overlay')) return
+  if (window.self !== window.top) return
 
   // Create styles
   const style = document.createElement('style')
@@ -40,27 +41,36 @@
     
     #widget-overlay {
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 1000000;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: rgba(0,0,0,0.5) !important;
+      z-index: 1000000 !important;
       animation: fadeIn 0.3s ease;
+      align-items: center !important;
+      justify-content: center !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
     }
-    #widget-overlay.active { display: flex; align-items: center; justify-content: center; }
+    #widget-overlay.active { display: flex !important; }
     
     #widget-iframe-container {
-      position: relative;
-      width: 90%;
-      max-width: 600px;
-      height: 80%;
-      max-height: 700px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      position: relative !important;
+      width: 90% !important;
+      max-width: 1000px !important;
+      height: 80vh !important;
+      max-height: 700px !important;
+      background: white !important;
+      border-radius: 12px !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
       animation: slideUp 0.3s ease;
+      margin: auto !important;
+      transform: none !important;
     }
     
     #widget-close {
@@ -102,31 +112,31 @@
   `
   document.head.appendChild(style)
 
-  // Create widget HTML
-  const container = document.createElement('div')
-  container.id = 'widget-container'
-  container.innerHTML = `
-    <button id="widget-button" class="${CONFIG.buttonPosition}">
-      ${CONFIG.buttonText}
-    </button>
-    <div id="widget-overlay">
-      <div id="widget-iframe-container">
-        <button id="widget-close">&times;</button>
-        <iframe id="widget-iframe" src="" title="Form Widget"></iframe>
-      </div>
+  // Create widget button (directly on body)
+  const btn = document.createElement('button')
+  btn.id = 'widget-button'
+  btn.className = CONFIG.buttonPosition
+  btn.textContent = CONFIG.buttonText
+  document.body.appendChild(btn)
+
+  // Create overlay (directly on body for full viewport coverage)
+  const overlay = document.createElement('div')
+  overlay.id = 'widget-overlay'
+  overlay.innerHTML = `
+    <div id="widget-iframe-container">
+      <button id="widget-close">&times;</button>
+      <iframe id="widget-iframe" src="" title="Form Widget"></iframe>
     </div>
   `
-  document.body.appendChild(container)
+  document.body.appendChild(overlay)
 
   // Get elements
-  const btn = document.getElementById('widget-button')
-  const overlay = document.getElementById('widget-overlay')
   const closeBtn = document.getElementById('widget-close')
   const iframe = document.getElementById('widget-iframe')
 
   // Event handlers
   function openWidget () {
-    if (!iframe.src) {
+    if (!iframe.getAttribute('src')) {
       iframe.src = CONFIG.formUrl
     }
     overlay.classList.add('active')
