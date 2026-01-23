@@ -1,7 +1,7 @@
 <template>
   <div class="w-[300px] h-full p-3 1080:p-5 flex flex-col bg-[#F9F9F9] shrink-0">
     <span class="font-semibold text-xl text-text">
-      Appointment booking
+      {{ $t('general.appointmentBooking') }}
     </span>
 
     <div class="w-full h-[1px] bg-text mt-2 mb-2" />
@@ -10,7 +10,7 @@
       <!-- Appointment Section -->
       <div v-if="selectedDate && selectedTime">
         <p class="font-semibold text text-[#547278] mb-2">
-          Appointment
+          {{ $t('general.appointment') }}
         </p>
         <div>
           <p class="text-text opacity-60 text-sm mb-1">
@@ -20,8 +20,7 @@
             {{ formatDate(selectedDate) }} - {{ selectedTime }}
           </p>
           <p class="text-text opacity-60 text-[10px] leading-relaxed">
-            Your service will be performed on the selected day. You can pick up your vehicle shortly
-            before closing time and will receive additional information once it is ready for pickup.
+            {{ $t('general.servicePickupInfo') }}
           </p>
         </div>
       </div>
@@ -35,7 +34,7 @@
         :class="{ '-mr-3': hasScroll }"
       >
         <p class="font-semibold text-lg text-text mb-2">
-          Services
+          {{ $t('general.services') }}
         </p>
         <div class="space-y-2">
           <div
@@ -65,7 +64,7 @@
 
       <div v-if="selectedAdditionalInfo.length > 0" class="mb-4">
         <p class="font-semibold text-lg text-text mb-4">
-          Additional Information
+          {{ $t('general.additionalInformation') }}
         </p>
         <div class="space-y-2">
           <div
@@ -101,8 +100,8 @@
       >
         {{
           activeStep === 3
-            ? (isConfirming ? 'Confirming...' : 'Confirm Booking')
-            : 'Continue'
+            ? (isConfirming ? $t('general.confirming') : $t('general.confirmBooking'))
+            : $t('general.continue')
         }}
       </button>
     </div>

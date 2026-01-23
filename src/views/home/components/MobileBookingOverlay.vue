@@ -21,7 +21,7 @@
             >
               <IconArrowBack class="text-text" />
             </button>
-            <span class="font-semibold text-lg text-text">Booking Summary</span>
+            <span class="font-semibold text-lg text-text">{{ $t('general.bookingSummary') }}</span>
           </div>
 
           <!-- Content -->
@@ -29,7 +29,7 @@
             <!-- Appointment Section -->
             <div v-if="selectedDate && selectedTime" class="mb-4">
               <p class="font-semibold text-sm text-[#547278] mb-2">
-                Appointment
+                {{ $t('general.appointment') }}
               </p>
               <div>
                 <p class="text-text opacity-60 text-sm mb-1">
@@ -44,10 +44,10 @@
 
             <!-- Services Section -->
             <div class="mb-4">
-              <p class="font-semibold text-sm text-[#547278] mb-2">Services</p>
+              <p class="font-semibold text-sm text-[#547278] mb-2">{{ $t('general.services') }}</p>
 
               <div v-if="selectedJobs.length === 0" class="text-text opacity-60 text-sm">
-                No services selected
+                {{ $t('general.noServicesSelected') }}
               </div>
 
               <div v-else class="space-y-0">
@@ -61,7 +61,7 @@
                       {{ job.option.label }}
                     </p>
                     <p class="text-sm text-text opacity-60">
-                      Price calculation at the branch
+                      {{ $t('general.priceCalculationAtBranch') }}
                     </p>
                   </div>
                 </div>
@@ -70,7 +70,7 @@
 
             <!-- Additional Information Section -->
             <div v-if="selectedAdditionalInfo.length > 0" class="mb-4">
-              <p class="font-semibold text-sm text-[#547278] mb-2">Additional Information</p>
+              <p class="font-semibold text-sm text-[#547278] mb-2">{{ $t('general.additionalInformation') }}</p>
               <div class="space-y-0">
                 <div
                   v-for="(info, index) in selectedAdditionalInfo"
@@ -84,22 +84,22 @@
 
             <!-- Customer Information Section -->
             <div class="mb-4">
-              <p class="font-semibold text-sm text-[#547278] mb-2">Customer Information</p>
+              <p class="font-semibold text-sm text-[#547278] mb-2">{{ $t('general.customerInformation') }}</p>
               <div class="space-y-2">
                 <div v-if="bookingInfo.email" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">Email</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.email') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.email }}</span>
                 </div>
                 <div v-if="bookingInfo.firstName || bookingInfo.lastName" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">Name</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.name') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.firstName }} {{ bookingInfo.lastName }}</span>
                 </div>
                 <div v-if="bookingInfo.mobile" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">Mobile</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.mobile') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.mobile }}</span>
                 </div>
                 <div v-if="bookingInfo.phone" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">Phone</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.phone') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.phone }}</span>
                 </div>
               </div>
@@ -107,14 +107,14 @@
 
             <!-- Address Section -->
             <div v-if="bookingInfo.street || bookingInfo.zipCode || bookingInfo.city" class="mb-4">
-              <p class="font-semibold text-sm text-[#547278] mb-2">Address</p>
+              <p class="font-semibold text-sm text-[#547278] mb-2">{{ $t('general.address') }}</p>
               <div class="space-y-2">
                 <div v-if="bookingInfo.street" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">Street</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.street') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.street }}</span>
                 </div>
                 <div v-if="bookingInfo.zipCode || bookingInfo.city" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">City</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.city') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.zipCode }} {{ bookingInfo.city }}</span>
                 </div>
               </div>
@@ -125,26 +125,26 @@
               v-if="bookingInfo.licensePlate || bookingInfo.carBrand || bookingInfo.model"
               class="mb-4"
             >
-              <p class="font-semibold text-sm text-[#547278] mb-2">Vehicle Info</p>
+              <p class="font-semibold text-sm text-[#547278] mb-2">{{ $t('general.vehicleInfo') }}</p>
               <div class="space-y-2">
                 <div v-if="bookingInfo.licensePlate" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">License Plate</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.licensePlate') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.licensePlate }}</span>
                 </div>
                 <div v-if="bookingInfo.carBrand" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">Car Brand</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.carBrand') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.carBrand }}</span>
                 </div>
                 <div v-if="bookingInfo.model" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">Model</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.model') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.model }}</span>
                 </div>
                 <div v-if="bookingInfo.mileage" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">Mileage</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.mileage') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.mileage }}</span>
                 </div>
                 <div v-if="bookingInfo.vin" class="flex justify-between">
-                  <span class="text-text opacity-60 text-sm">VIN</span>
+                  <span class="text-text opacity-60 text-sm">{{ $t('general.vin') }}</span>
                   <span class="text-text text-sm">{{ bookingInfo.vin }}</span>
                 </div>
               </div>
@@ -161,7 +161,7 @@
               :disabled="isBooking"
               @click="handleBookAppointment"
             >
-              {{ isBooking ? 'Booking...' : 'Book Appointment' }}
+              {{ isBooking ? $t('general.booking') : $t('general.bookAppointment') }}
             </button>
           </div>
         </div>

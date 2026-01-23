@@ -21,7 +21,7 @@
             >
               <IconArrowBack class="text-text" />
             </button>
-            <span class="font-semibold text-lg text-text">Appointment booking</span>
+            <span class="font-semibold text-lg text-text">{{ $t('general.appointmentBooking') }}</span>
           </div>
 
           <!-- Content -->
@@ -29,7 +29,7 @@
             <!-- Appointment Section -->
             <div v-if="selectedDate && selectedTime" class="mb-4">
               <p class="font-semibold text-sm text-[#547278] mb-2">
-                Appointment
+                {{ $t('general.appointment') }}
               </p>
               <div>
                 <p class="text-text opacity-60 text-sm mb-1">
@@ -43,10 +43,10 @@
             </div>
 
             <!-- Services Section -->
-            <p class="font-semibold text-sm text-[#547278] mb-2">Services</p>
+            <p class="font-semibold text-sm text-[#547278] mb-2">{{ $t('general.services') }}</p>
 
             <div v-if="selectedJobs.length === 0" class="text-text opacity-60 text-sm">
-              No services selected
+              {{ $t('general.noServicesSelected') }}
             </div>
 
             <div v-else class="space-y-0">
@@ -60,7 +60,7 @@
                     {{ job.option.label }}
                   </p>
                   <p class="text-sm text-text opacity-60">
-                    Price calculation at the branch
+                    {{ $t('general.priceCalculationAtBranch') }}
                   </p>
                 </div>
                 <button
@@ -75,7 +75,7 @@
 
             <!-- Additional Information Section -->
             <div v-if="selectedAdditionalInfo.length > 0" class="mt-4">
-              <p class="font-semibold text-sm text-[#547278] mb-2">Additional Information</p>
+              <p class="font-semibold text-sm text-[#547278] mb-2">{{ $t('general.additionalInformation') }}</p>
               <div class="space-y-0">
                 <div
                   v-for="(info, index) in selectedAdditionalInfo"

@@ -3,7 +3,7 @@
     <!-- Mobile Layout -->
     <template v-if="isMobile">
       <p class="text-text text-center mb-4">
-        Please choose a suitable date when we can welcome you to our facility.
+        {{ $t('general.appointmentDescriptionShort') }}
       </p>
 
       <!-- Quick Appointments - Full Width -->
@@ -30,7 +30,7 @@
       <!-- OR divider -->
       <div class="my-4 uppercase font-semibold text-text text-sm flex items-center">
         <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
-        <span class="px-4">OR</span>
+        <span class="px-4">{{ $t('general.or') }}</span>
         <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
       </div>
 
@@ -47,14 +47,14 @@
       <div v-if="selectedDate" class="mt-4">
         <!-- No times available message -->
         <div v-if="morningTimes.length === 0 && afternoonTimes.length === 0" class="text-center py-4">
-          <p class="text-text opacity-60 text-sm">No available time slots for this date</p>
+          <p class="text-text opacity-60 text-sm">{{ $t('general.noAvailableTimeSlots') }}</p>
         </div>
 
         <!-- Two Column Layout for Times -->
         <div v-else class="grid grid-cols-2 gap-4">
           <!-- Morning Column -->
           <div>
-            <p class="font-semibold text-text text-sm mb-2 text-center">Morning</p>
+            <p class="font-semibold text-text text-sm mb-2 text-center">{{ $t('general.morning') }}</p>
             <div class="space-y-2">
               <button
                 v-for="(time, index) in morningTimes"
@@ -73,7 +73,7 @@
 
           <!-- Afternoon Column -->
           <div>
-            <p class="font-semibold text-text text-sm mb-2 text-center">Afternoon</p>
+            <p class="font-semibold text-text text-sm mb-2 text-center">{{ $t('general.afternoon') }}</p>
             <div class="space-y-2">
               <button
                 v-for="(time, index) in afternoonTimes"
@@ -96,15 +96,15 @@
     <!-- Desktop Layout -->
     <template v-else>
       <p class="font-medium text-xl text-text mb-4">
-        Select your desired appointment
+        {{ $t('general.selectDesiredAppointment') }}
       </p>
       <p class="text-text mb-6">
-        Please choose a suitable date when we can welcome you to our facility and provide the service.
+        {{ $t('general.appointmentDescription') }}
       </p>
 
       <div class="p-6 bg-white w-full border border-[#E6EBEF] rounded-[10px]">
         <p class="font-semibold text-text">
-          Next available appointment
+          {{ $t('general.nextAvailableAppointment') }}
         </p>
 
         <div class="flex gap-6 mt-4">
@@ -130,14 +130,14 @@
 
       <div class="my-6 uppercase font-semibold text-text flex items-center">
         <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
-        <span class="px-4">OR</span>
+        <span class="px-4">{{ $t('general.or') }}</span>
         <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
       </div>
 
       <div class="flex w-full gap-6">
         <div>
           <span class="font-semibold text-text mb-3 block">
-            Choose desired appointment
+            {{ $t('general.chooseDesiredAppointment') }}
           </span>
           <CustomCalendar
             v-model="selectedDate"
@@ -148,7 +148,7 @@
         <div v-if="selectedDate" class="flex-1 mt-9">
           <!-- No times available message -->
           <div v-if="morningTimes.length === 0 && afternoonTimes.length === 0" class="text-center py-8">
-            <p class="text-text opacity-60">No available time slots for this date</p>
+            <p class="text-text opacity-60">{{ $t('general.noAvailableTimeSlots') }}</p>
           </div>
 
           <!-- Morning Times -->
@@ -159,7 +159,7 @@
           >
             <!-- Rotated Title -->
             <div class="flex items-center justify-center" style="writing-mode: vertical-rl; transform: rotate(180deg);">
-              <span class="font-semibold text-text whitespace-nowrap">Morning</span>
+              <span class="font-semibold text-text whitespace-nowrap">{{ $t('general.morning') }}</span>
             </div>
 
             <!-- Left Arrow -->
@@ -207,7 +207,7 @@
           >
             <!-- Rotated Title -->
             <div class="flex items-center justify-center" style="writing-mode: vertical-rl; transform: rotate(180deg);">
-              <span class="font-semibold text-text whitespace-nowrap">Afternoon</span>
+              <span class="font-semibold text-text whitespace-nowrap">{{ $t('general.afternoon') }}</span>
             </div>
 
             <!-- Left Arrow -->

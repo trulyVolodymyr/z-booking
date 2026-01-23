@@ -3,12 +3,12 @@
     <!-- Mobile Layout -->
     <template v-if="isMobile">
       <p class="text-text text-center mb-4">
-        Please enter your vehicle and customer data.
+        {{ $t('general.vehicleCustomerDataDescription') }}
       </p>
 
       <!-- Customer Information -->
       <p class="font-semibold text-sm text-text mb-3">
-        Customer Information
+        {{ $t('general.customerInformation') }}
       </p>
 
       <div class="space-y-3 mb-4">
@@ -20,7 +20,7 @@
           <input
             v-model="bookingInfo.email"
             type="email"
-            placeholder="Email*"
+            :placeholder="$t('general.emailPlaceholder')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -34,7 +34,7 @@
           <input
             v-model="bookingInfo.firstName"
             type="text"
-            placeholder="First Name*"
+            :placeholder="$t('general.firstNamePlaceholder')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -48,7 +48,7 @@
           <input
             v-model="bookingInfo.lastName"
             type="text"
-            placeholder="Last Name*"
+            :placeholder="$t('general.lastNamePlaceholder')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -62,7 +62,7 @@
           <input
             v-model="bookingInfo.mobile"
             type="text"
-            placeholder="Mobile*"
+            :placeholder="$t('general.mobilePlaceholder')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -76,7 +76,7 @@
           <input
             v-model="bookingInfo.phone"
             type="text"
-            placeholder="Phone"
+            :placeholder="$t('general.phone')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -85,7 +85,7 @@
 
       <!-- Address -->
       <p class="font-semibold text-sm text-text mb-3">
-        Address
+        {{ $t('general.address') }}
       </p>
 
       <div class="space-y-3 mb-4">
@@ -97,7 +97,7 @@
           <input
             v-model="bookingInfo.street"
             type="text"
-            placeholder="Street"
+            :placeholder="$t('general.street')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -111,7 +111,7 @@
           <input
             v-model="bookingInfo.zipCode"
             type="text"
-            placeholder="ZIP Code"
+            :placeholder="$t('general.zipCode')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -125,7 +125,7 @@
           <input
             v-model="bookingInfo.city"
             type="text"
-            placeholder="City"
+            :placeholder="$t('general.city')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -134,7 +134,7 @@
 
       <!-- Vehicle Info -->
       <p class="font-semibold text-sm text-text mb-3">
-        Vehicle Info
+        {{ $t('general.vehicleInfo') }}
       </p>
 
       <div class="space-y-3 mb-4">
@@ -146,7 +146,7 @@
           <input
             v-model="bookingInfo.licensePlate"
             type="text"
-            placeholder="License Plate"
+            :placeholder="$t('general.licensePlate')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -160,7 +160,7 @@
           <input
             v-model="bookingInfo.carBrand"
             type="text"
-            placeholder="Car Brand"
+            :placeholder="$t('general.carBrand')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -174,7 +174,7 @@
           <input
             v-model="bookingInfo.model"
             type="text"
-            placeholder="Model"
+            :placeholder="$t('general.model')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -185,7 +185,7 @@
           <input
             v-model="bookingInfo.mileage"
             type="text"
-            placeholder="Mileage"
+            :placeholder="$t('general.mileage')"
             class="flex-1 h-[44px] text-sm text-text placeholder:text-[#C2CDD6]
               focus:outline-none"
           >
@@ -196,7 +196,7 @@
           <input
             v-model="bookingInfo.vin"
             type="text"
-            placeholder="VIN"
+            :placeholder="$t('general.vin')"
             class="flex-1 h-[44px] text-sm text-text placeholder:text-[#C2CDD6]
               focus:outline-none"
           >
@@ -207,8 +207,7 @@
       <div class="mt-4">
         <el-checkbox v-model="bookingInfo.privacyConsent" size="large">
           <p class="text-xs text-text whitespace-normal break-words">
-            I consent to the processing of my personal data for the purpose of online
-            appointment scheduling. More details can be found in our privacy policy*.
+            {{ $t('general.privacyConsentMobile') }}
           </p>
         </el-checkbox>
       </div>
@@ -217,22 +216,22 @@
     <!-- Desktop Layout -->
     <template v-else>
       <p class="font-medium text-2xl text-text mb-5">
-        Vehicle and Customer Data
+        {{ $t('general.vehicleAndCustomerData') }}
       </p>
 
       <div v-if="false" class="flex px-5 py-2 bg-white w-full mb-5 border border-[#E6EBEF] rounded-[10px]">
         <div class="w-[280px]">
           <p class="font-semibold text-xl text-text mb-3">
-            Are you already a customer?
+            {{ $t('general.areYouAlreadyCustomer') }}
           </p>
           <p class="text-text text-[15px]">
-            Automatically retrieve your data using your email address.
+            {{ $t('general.retrieveDataByEmail') }}
           </p>
         </div>
 
         <div class="p-3 bg-[#F9FAFB] rounded-lg flex-1">
           <p class="font-semibold text-xl mb-3">
-            Your Email Address
+            {{ $t('general.yourEmailAddress') }}
           </p>
 
           <div class="flex gap-3">
@@ -251,7 +250,7 @@
               class="flex items-center justify-center bg-primary text-white rounded-lg
                 h-10 shrink-0 py-[10px] px-4 transition-colors"
             >
-              Request Access Link
+              {{ $t('general.requestAccessLink') }}
             </button>
           </div>
         </div>
@@ -259,7 +258,7 @@
 
       <div>
         <p class="font-semibold text-sm text-text mb-3">
-          Customer Information
+          {{ $t('general.customerInformation') }}
         </p>
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white mb-3">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
@@ -268,7 +267,7 @@
           <input
             v-model="bookingInfo.email"
             type="email"
-            placeholder="Email*"
+            :placeholder="$t('general.emailPlaceholder')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -282,7 +281,7 @@
             <input
               v-model="bookingInfo.firstName"
               type="text"
-              placeholder="First Name*"
+              :placeholder="$t('general.firstNamePlaceholder')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -295,7 +294,7 @@
             <input
               v-model="bookingInfo.lastName"
               type="text"
-              placeholder="Last Name*"
+              :placeholder="$t('general.lastNamePlaceholder')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -310,7 +309,7 @@
             <input
               v-model="bookingInfo.mobile"
               type="text"
-              placeholder="Mobile*"
+              :placeholder="$t('general.mobilePlaceholder')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -323,7 +322,7 @@
             <input
               v-model="bookingInfo.phone"
               type="text"
-              placeholder="Phone"
+              :placeholder="$t('general.phone')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -331,7 +330,7 @@
         </div>
 
         <p class="font-semibold text-sm text-text mb-3">
-          Address
+          {{ $t('general.address') }}
         </p>
 
         <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-white mb-3">
@@ -341,7 +340,7 @@
           <input
             v-model="bookingInfo.street"
             type="text"
-            placeholder="Street"
+            :placeholder="$t('general.street')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
@@ -355,7 +354,7 @@
             <input
               v-model="bookingInfo.zipCode"
               type="text"
-              placeholder="ZIP Code"
+              :placeholder="$t('general.zipCode')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -368,7 +367,7 @@
             <input
               v-model="bookingInfo.city"
               type="text"
-              placeholder="City"
+              :placeholder="$t('general.city')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -376,7 +375,7 @@
         </div>
 
         <p class="font-semibold text-sm text-text mb-3">
-          Vehicle Info
+          {{ $t('general.vehicleInfo') }}
         </p>
 
         <div class="flex flex-wrap gap-3 mb-3">
@@ -387,7 +386,7 @@
             <input
               v-model="bookingInfo.licensePlate"
               type="text"
-              placeholder="License Plate"
+              :placeholder="$t('general.licensePlate')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -400,7 +399,7 @@
             <input
               v-model="bookingInfo.carBrand"
               type="text"
-              placeholder="Car Brand"
+              :placeholder="$t('general.carBrand')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -413,7 +412,7 @@
             <input
               v-model="bookingInfo.model"
               type="text"
-              placeholder="Model"
+              :placeholder="$t('general.model')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -425,7 +424,7 @@
             <input
               v-model="bookingInfo.mileage"
               type="text"
-              placeholder="Mileage"
+              :placeholder="$t('general.mileage')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -435,7 +434,7 @@
             <input
               v-model="bookingInfo.vin"
               type="text"
-              placeholder="VIN"
+              :placeholder="$t('general.vin')"
               class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
@@ -445,8 +444,7 @@
         <div class="mt-4">
           <el-checkbox v-model="bookingInfo.privacyConsent" size="large">
             <p class="text-sm text-text text-wrap">
-              I consent to the processing of my personal data for the purpose of online appointment scheduling.
-              More details can be found in our privacy policy*.
+              {{ $t('general.privacyConsent') }}
             </p>
           </el-checkbox>
         </div>

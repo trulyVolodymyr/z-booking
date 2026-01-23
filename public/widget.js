@@ -76,8 +76,8 @@
     
     #widget-close {
       position: absolute;
-      top: -15px;
-      right: -15px;
+      top: -10px;
+      right: -10px;
       width: 40px;
       height: 40px;
       background: white;
@@ -100,6 +100,7 @@
       height: 100%;
       border: none;
       border-radius: 12px;
+      scale: 0.95;
     }
     
     @keyframes fadeIn {
@@ -174,4 +175,10 @@
       closeWidget()
     }
   })
+
+  // Expose API globally for clients to control the modal
+  window.ZBookingWidget = {
+    open: openWidget,
+    close: closeWidget
+  }
 })()

@@ -4,7 +4,7 @@
     <!-- Mobile Layout -->
     <template v-if="isMobile">
       <p class="text-text text-center mb-4">
-        Select the desired service using the search function or by choosing a suitable category.
+        {{ $t('general.selectServiceDescription') }}
       </p>
 
       <!-- Search input -->
@@ -13,7 +13,7 @@
         <input
           v-model="serviceSearchModel"
           type="text"
-          placeholder="Search for service"
+          :placeholder="$t('general.searchForService')"
           class="ml-4 outline-none w-full bg-[#F9FAFB] text-sm"
           @input="searchJobs(($event.target as HTMLInputElement).value)"
         >
@@ -22,7 +22,7 @@
       <!-- OR divider -->
       <div class="my-4 uppercase font-semibold text-text text-sm flex items-center">
         <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
-        <span class="px-4">OR</span>
+        <span class="px-4">{{ $t('general.or') }}</span>
         <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
       </div>
 
@@ -72,7 +72,7 @@
                   : 'bg-primary text-white hover:bg-blue-600'"
                 @click.stop="toggleBookOption(service, option)"
               >
-                {{ isOptionBooked(option.label) ? 'Unbook' : 'Book' }}
+                {{ isOptionBooked(option.label) ? $t('general.unbook') : $t('general.book') }}
               </button>
             </div>
           </div>
@@ -83,10 +83,10 @@
     <!-- Desktop Layout -->
     <template v-else>
       <p class="font-medium text-xl text-text mb-4">
-        Select your service
+        {{ $t('general.selectYourService') }}
       </p>
       <p class="text-text mb-6">
-        Select the desired service using the search function or by choosing a suitable category.
+        {{ $t('general.selectServiceDescription') }}
       </p>
 
       <div class="flex items-center h-10 bg-[#F9FAFB] rounded-[10px] mx-4">
@@ -94,7 +94,7 @@
         <input
           v-model="serviceSearchModel"
           type="text"
-          placeholder="Search for service"
+          :placeholder="$t('general.searchForService')"
           class="ml-6 outline-none w-full bg-[#F9FAFB] text-sm"
           @input="searchJobs(($event.target as HTMLInputElement).value)"
         >
@@ -102,7 +102,7 @@
 
       <div class="my-6 uppercase font-semibold text-text flex items-center">
         <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
-        <span class="px-4">OR</span>
+        <span class="px-4">{{ $t('general.or') }}</span>
         <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
       </div>
 
@@ -130,7 +130,7 @@
             v-for="(option, index) in displayedJobs"
             :key="index"
             class="flex items-center justify-between cursor-pointer"
-            @click="$emit('toggleOption', option.label)"
+            @click="$emit('toggleOption', option)"
           >
             <div class="flex items-center gap-3">
               <div
@@ -183,7 +183,7 @@ const props = withDefaults(defineProps<IProps>(), {
 const emit = defineEmits<{
   'update:serviceSearch': [value: string]
   selectService: [serviceId: number | null]
-  toggleOption: [optionLabel: string]
+  toggleOption: [option: IServiceOption & { serviceId?: number; serviceTitle?: string }]
   bookOption: [service: IService, option: IServiceOption]
   unbookOption: [optionLabel: string]
 }>()

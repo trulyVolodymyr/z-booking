@@ -14,22 +14,22 @@
 
         <!-- Thank you message -->
         <p class="text-sm text-text mb-2">
-          Thank you, your appointment booking for the
+          {{ $t('general.thankYouAppointmentBooking') }}
         </p>
 
         <!-- Date and Time -->
         <h1 class="text-xl font-bold text-text mb-2">
-          {{ formattedDate }} at {{ formattedTime }}
+          {{ formattedDate }} {{ $t('general.at') }} {{ formattedTime }}
         </h1>
 
         <!-- Confirmation message -->
         <p class="text-sm text-text mb-6">
-          has been successfully received. You will receive a final confirmation shortly.
+          {{ $t('general.bookingSuccessfullyReceived') }}
         </p>
 
         <!-- Additional info -->
         <p class="text-xs text-text mb-6">
-          If you have any questions about your appointment booking, you can also reach us by phone or email.
+          {{ $t('general.questionsAboutBooking') }}
         </p>
 
         <!-- Contact section - Stacked -->
@@ -57,10 +57,10 @@
                 </a>
               </div>
               <p class="text-xs text-text">
-                Mon. - Fri.: 8 AM - 5 PM
+                {{ $t('general.monFriHours') }}
               </p>
               <p class="text-xs text-text">
-                Sat. and Sun.: closed
+                {{ $t('general.satSunClosed') }}
               </p>
             </div>
 
@@ -94,22 +94,22 @@
 
           <!-- Thank you message -->
           <p class="text-lg text-text mb-4">
-            Thank you, your appointment booking for the
+            {{ $t('general.thankYouAppointmentBooking') }}
           </p>
 
           <!-- Date and Time -->
           <h1 class="text-3xl font-bold text-text mb-4">
-            {{ formattedDate }} at {{ formattedTime }}
+            {{ formattedDate }} {{ $t('general.at') }} {{ formattedTime }}
           </h1>
 
           <!-- Confirmation message -->
           <p class="text-base text-text mb-12">
-            has been successfully received. You will receive a final confirmation shortly.
+            {{ $t('general.bookingSuccessfullyReceived') }}
           </p>
 
           <!-- Additional info -->
           <p class="text-sm text-text mb-8">
-            If you have any questions about your appointment booking, you can also reach us by phone or email.
+            {{ $t('general.questionsAboutBooking') }}
           </p>
 
           <!-- Contact section -->
@@ -136,10 +136,10 @@
                     +49 1234 567891011
                   </a>
                   <p class="text-sm text-text mt-1">
-                    Mon. - Fri.: 8 AM - 5 PM
+                    {{ $t('general.monFriHours') }}
                   </p>
                   <p class="text-sm text-text">
-                    Sat. and Sun.: closed
+                    {{ $t('general.satSunClosed') }}
                   </p>
                 </div>
               </div>

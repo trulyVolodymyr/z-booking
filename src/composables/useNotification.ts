@@ -15,7 +15,7 @@ export const useNotification = () => {
       title: options.title,
       message: options.message,
       type: options.type || 'info',
-      duration: options.duration || 3000
+      duration: options.duration || 300000
     })
   }
 

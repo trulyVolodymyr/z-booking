@@ -1,4 +1,5 @@
 <template>
+  <!--  -->
   <div
     v-loading="loading"
     class="flex items-center justify-center h-full w-full bg-white p-1 900:p-4"
@@ -15,7 +16,7 @@
             @click="activeStep--"
           >
             <IconArrowBack class="text-primary" />
-            Back
+            {{ $t('general.back') }}
           </button>
 
           <CustomSteps
@@ -173,7 +174,7 @@
           :disabled="isContinueDisabled"
           @click="handleContinue"
         >
-          Continue
+          {{ $t('general.continue') }}
         </button>
       </div>
 
@@ -294,27 +295,26 @@ const getTokenFromUrl = (): string => {
 
 const token = ref<string>(getTokenFromUrl())
 
-const toggleOption = (optionLabel: string) => {
-  const index = selectedServiceOptions.value.indexOf(optionLabel)
+const toggleOption = (option: { id: number; label: string; serviceId?: number; serviceTitle?: string }) => {
+  const index = selectedServiceOptions.value.indexOf(option.label)
   if (index > -1) {
     selectedServiceOptions.value.splice(index, 1)
-    const jobIndex = selectedJobs.value.findIndex(job => job.option.label === optionLabel)
+    const jobIndex = selectedJobs.value.findIndex(job => job.option.label === option.label)
     if (jobIndex > -1) {
       selectedJobs.value.splice(jobIndex, 1)
     }
   } else {
-    selectedServiceOptions.value.push(optionLabel)
-    if (selectedService.value) {
-      const option = selectedService.value.options?.find((opt) => opt.label === optionLabel)
-      if (option) {
-        selectedJobs.value.push({
-          serviceTitle: selectedService.value.title,
-          option: {
-            id: option.id,
-            label: option.label
-          }
-        })
-      }
+    selectedServiceOptions.value.push(option.label)
+    // Use serviceTitle from the option if available (from filtered jobs), otherwise from selectedService
+    const serviceTitle = option.serviceTitle || selectedService.value?.title || ''
+    if (serviceTitle) {
+      selectedJobs.value.push({
+        serviceTitle,
+        option: {
+          id: option.id,
+          label: option.label
+        }
+      })
     }
   }
   fetchAvailableDays()
@@ -459,5 +459,9 @@ init()
 <style lang='scss'>
 *{
   @apply scale-[98%] 1080:scale-100;
+}
+
+.el-icon.el-notification__closeBtn {
+  @apply -top-2 -right-[30px];
 }
 </style>

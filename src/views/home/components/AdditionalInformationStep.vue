@@ -3,7 +3,7 @@
     <!-- Mobile Layout -->
     <template v-if="isMobile">
       <p class="text-text text-center mb-4">
-        Please enter further details about your booking here.
+        {{ $t('general.additionalInfoDescription') }}
       </p>
 
       <div class="space-y-3 mb-6">
@@ -24,13 +24,13 @@
 
       <div>
         <p class="font-medium text-text mb-3 text-sm">
-          Notes on the appointment
+          {{ $t('general.notesOnAppointment') }}
         </p>
 
         <!-- Full width textarea -->
         <textarea
           v-model="notes"
-          placeholder="Supplementary remarks"
+          :placeholder="$t('general.supplementaryRemarks')"
           class="w-full h-[100px] p-3 border border-[#C2CDD6] rounded-lg resize-none
             focus:outline-none focus:border-primary transition-colors mb-3"
         />
@@ -43,7 +43,7 @@
             @click="handleUploadRegistration"
           >
             <IconCarProfile class="shrink-0" />
-            <span class="text-sm">Upload vehicle registration</span>
+            <span class="text-sm">{{ $t('general.uploadVehicleRegistration') }}</span>
           </button>
           <button
             class="flex h-[44px] items-center justify-center gap-2 px-4 py-3 border border-[#C2CDD6]
@@ -51,7 +51,7 @@
             @click="handleUploadDocuments"
           >
             <IconFiles class="shrink-0" />
-            <span class="text-sm">Upload other documents</span>
+            <span class="text-sm">{{ $t('general.uploadOtherDocuments') }}</span>
           </button>
         </div>
 
@@ -81,10 +81,10 @@
     <!-- Desktop Layout -->
     <template v-else>
       <p class="font-medium text-xl text-text mb-4">
-        Additional Information
+        {{ $t('general.additionalInformation') }}
       </p>
       <p class="text-text mb-6">
-        Please enter further details about your booking here.
+        {{ $t('general.additionalInfoDescription') }}
       </p>
 
       <div class="space-y-3 mb-6">
@@ -105,12 +105,12 @@
 
       <div>
         <p class="font-medium text-text mb-3 text-sm">
-          Notes on the appointment
+          {{ $t('general.notesOnAppointment') }}
         </p>
         <div class="flex gap-4">
           <textarea
             v-model="notes"
-            placeholder="Supplementary remarks"
+            :placeholder="$t('general.supplementaryRemarks')"
             class="flex-1 h-[112px] p-3 border border-[#C2CDD6] rounded-lg resize-none
               focus:outline-none focus:border-primary transition-colors"
           />
@@ -121,7 +121,7 @@
               @click="handleUploadRegistration"
             >
               <IconCarProfile />
-              Upload vehicle registration
+              {{ $t('general.uploadVehicleRegistration') }}
             </button>
             <button
               class="flex h-[44px] items-center gap-2 px-6 py-3 border border-[#C2CDD6]
@@ -129,7 +129,7 @@
               @click="handleUploadDocuments"
             >
               <IconFiles />
-              Upload other documents
+              {{ $t('general.uploadOtherDocuments') }}
             </button>
           </div>
         </div>
