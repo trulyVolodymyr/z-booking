@@ -1,6 +1,7 @@
 import { ref, computed, watch } from 'vue'
 import type { ISelectedJob } from '@/views/home/components/AppointmentBookingSidebar.vue'
 import type { IConfig } from '@/types/config.types'
+import { setLocale } from '@/plugins/i18n'
 
 interface IServiceOption {
   id: number
@@ -46,6 +47,7 @@ const selectedServiceOptions = ref<string[]>([])
 const selectedJobs = ref<ISelectedJob[]>([])
 const selectedAdditionalInfo = ref<string[]>([])
 const uploadedFiles = ref<IUploadedFile[]>([])
+const registrationFile = ref<IUploadedFile | null>(null)
 const selectedAppointment = ref<string | null>(null)
 const selectedDate = ref<string | null>(null)
 const selectedTime = ref<string | null>(null)
@@ -151,6 +153,14 @@ export const useAppointmentBooking = () => {
     }
   })
 
+  // Watch config and set locale from opts.lang
+  watch(config, (newConfig) => {
+    if (newConfig?.opts?.lang) {
+      lang.value = newConfig.opts.lang
+      setLocale(newConfig.opts.lang)
+    }
+  }, { immediate: true })
+
   return {
     loading,
     activeStep,
@@ -160,6 +170,7 @@ export const useAppointmentBooking = () => {
     selectedJobs,
     selectedAdditionalInfo,
     uploadedFiles,
+    registrationFile,
     selectedAppointment,
     selectedDate,
     selectedTime,

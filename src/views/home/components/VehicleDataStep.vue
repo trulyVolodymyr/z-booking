@@ -13,7 +13,7 @@
 
       <div class="space-y-3 mb-4">
         <!-- Email -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
             <IconMail class="text-primary" />
           </div>
@@ -27,7 +27,7 @@
         </div>
 
         <!-- First Name -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
             <IconUser class="text-primary" />
           </div>
@@ -41,7 +41,7 @@
         </div>
 
         <!-- Last Name -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
             <IconUser class="text-primary" />
           </div>
@@ -55,9 +55,9 @@
         </div>
 
         <!-- Mobile -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconMobile class="text-[#C2CDD6]" />
+            <IconMobile class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.mobile"
@@ -69,9 +69,9 @@
         </div>
 
         <!-- Phone -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconPhone class="text-[#C2CDD6]" />
+            <IconPhone class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.phone"
@@ -90,9 +90,9 @@
 
       <div class="space-y-3 mb-4">
         <!-- Street -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconMapPin class="text-[#C2CDD6]" />
+            <IconMapPin class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.street"
@@ -104,9 +104,9 @@
         </div>
 
         <!-- ZIP Code -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconMapPin class="text-[#C2CDD6]" />
+            <IconMapPin class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.zipCode"
@@ -118,9 +118,9 @@
         </div>
 
         <!-- City -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconMapPin class="text-[#C2CDD6]" />
+            <IconMapPin class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.city"
@@ -139,7 +139,7 @@
 
       <div class="space-y-3 mb-4">
         <!-- License Plate -->
-        <div class="flex items-center border-2 border-[#C2CDD6] rounded-lg bg-white overflow-hidden">
+        <div class="flex items-center border-2 border-[#C2CDD6] rounded-lg bg-primaryBg  overflow-hidden">
           <div class="w-10 h-[44px] bg-[#003399] flex items-center justify-center shrink-0" />
           <input
             v-model="bookingInfo.licensePlate"
@@ -151,9 +151,9 @@
         </div>
 
         <!-- Car Brand -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconCarProfile class="text-[#C2CDD6]" />
+            <IconCarProfile class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.carBrand"
@@ -165,9 +165,9 @@
         </div>
 
         <!-- Model -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconCarProfile class="text-[#C2CDD6]" />
+            <IconCarProfile class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.model"
@@ -179,7 +179,7 @@
         </div>
 
         <!-- Mileage -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white px-4">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  px-4">
           <input
             v-model="bookingInfo.mileage"
             type="text"
@@ -190,7 +190,7 @@
         </div>
 
         <!-- VIN -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white px-4">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  px-4">
           <input
             v-model="bookingInfo.vin"
             type="text"
@@ -217,7 +217,7 @@
         {{ $t('general.vehicleAndCustomerData') }}
       </p>
 
-      <div v-if="false" class="flex px-5 py-2 bg-white w-full mb-5 border border-[#E6EBEF] rounded-[10px]">
+      <div v-if="false" class="flex px-5 py-2 bg-primaryBg  w-full mb-5 border border-[#E6EBEF] rounded-[10px]">
         <div class="w-[280px]">
           <p class="font-semibold text-xl text-text mb-3">
             {{ $t('general.areYouAlreadyCustomer') }}
@@ -233,7 +233,7 @@
           </p>
 
           <div class="flex gap-3">
-            <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white flex-1">
+            <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  flex-1">
               <div class="w-[40px] h-10 flex items-center justify-center border-r border-[#E6EBEF]">
                 <IconMail class="text-[#707070]" />
               </div>
@@ -258,7 +258,7 @@
         <p class="font-semibold text-sm text-text mb-3">
           {{ $t('general.customerInformation') }}
         </p>
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white mb-3">
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  mb-3">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
             <IconMail class="text-primary" />
           </div>
@@ -272,7 +272,7 @@
         </div>
 
         <div class="flex gap-3 mb-3">
-          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-white">
+          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
             <div class="w-10 h-[44px] text-sm flex items-center justify-center">
               <IconUser class="text-primary" />
             </div>
@@ -285,7 +285,7 @@
             >
           </div>
 
-          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-white">
+          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
             <div class="w-10 h-[44px] text-sm flex items-center justify-center">
               <IconUser class="text-primary" />
             </div>
@@ -300,9 +300,9 @@
         </div>
 
         <div class="flex gap-3 mb-5">
-          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-white">
+          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
             <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-              <IconMobile class="text-[#C2CDD6]" />
+              <IconMobile class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.mobile"
@@ -313,9 +313,9 @@
             >
           </div>
 
-          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-white">
+          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
             <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-              <IconPhone class="text-[#C2CDD6]" />
+              <IconPhone class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.phone"
@@ -331,9 +331,9 @@
           {{ $t('general.address') }}
         </p>
 
-        <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-white mb-3">
+        <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  mb-3">
           <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconMapPin class="text-[#C2CDD6]" />
+            <IconMapPin class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.street"
@@ -345,9 +345,9 @@
         </div>
 
         <div class="flex gap-3 mb-5">
-          <div class="flex w-[220px] items-center border border-[#E6EBEF] rounded-lg bg-white">
+          <div class="flex w-[220px] items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
             <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-              <IconMapPin class="text-[#C2CDD6]" />
+              <IconMapPin class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.zipCode"
@@ -358,9 +358,9 @@
             >
           </div>
 
-          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-white">
+          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
             <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-              <IconMapPin class="text-[#C2CDD6]" />
+              <IconMapPin class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.city"
@@ -379,7 +379,7 @@
         <div class="flex flex-wrap gap-3 mb-3">
           <div
             class="flex w-full 1080:w-[220px] items-center border border-[#324448]
-          rounded-lg bg-white relative overflow-hidden"
+          rounded-lg bg-primaryBg  relative overflow-hidden"
           >
             <div
               class="w-8 h-[44px] bg-[#003399] flex items-center justify-center shrink-0 absolute
@@ -389,15 +389,16 @@
               v-model="bookingInfo.licensePlate"
               type="text"
               :placeholder="$t('general.licensePlate')"
-              class="flex-1 h-[44px] text-2xl font-bold px-4 text-[#324448] pl-12 w-full
+              class="flex-1 h-[44px] text-2xl px-4 text-[#324448] pl-12 w-full
               placeholder:text-[#C2CDD6] placeholder:font-normal z-[1]
-              focus:outline-none uppercase placeholder:normal-case"
+              focus:outline-none uppercase placeholder:normal-case placeholder:font-sans"
+              style="font-family: 'FE-Font', sans-serif;"
             >
           </div>
 
-          <div class="flex flex-1 min-w-0 items-center border border-[#E6EBEF] rounded-lg bg-white">
+          <div class="flex flex-1 min-w-0 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
             <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-              <IconCarProfile class="text-[#C2CDD6]" />
+              <IconCarProfile class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.carBrand"
@@ -408,9 +409,9 @@
             >
           </div>
 
-          <div class="flex flex-1 min-w-0 items-center border border-[#E6EBEF] rounded-lg bg-white">
+          <div class="flex flex-1 min-w-0 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
             <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-              <IconCarProfile class="text-[#C2CDD6]" />
+              <IconCarProfile class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.model"
@@ -423,7 +424,7 @@
         </div>
 
         <div class="flex gap-3">
-          <div class="flex w-[220px] items-center border border-[#E6EBEF] rounded-lg bg-white px-4">
+          <div class="flex w-[220px] items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  px-4">
             <input
               v-model="bookingInfo.mileage"
               type="text"
@@ -433,7 +434,7 @@
             >
           </div>
 
-          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-white px-4">
+          <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  px-4">
             <input
               v-model="bookingInfo.vin"
               type="text"

@@ -81,7 +81,7 @@
 
     <!-- Desktop Layout -->
     <template v-else>
-      <div class="flex items-center justify-center bg-white p-8 flex-1 border border-[#E6EBEF] rounded-[10px]">
+      <div class="flex items-center justify-center bg-primaryBg  p-8 flex-1 border border-[#E6EBEF] rounded-[10px]">
         <div class="max-w-2xl w-full text-center">
           <!-- Success Icon -->
           <div class="flex justify-center mb-8">

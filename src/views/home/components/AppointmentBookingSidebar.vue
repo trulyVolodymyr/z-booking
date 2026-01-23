@@ -145,7 +145,9 @@ const {
   isContinueDisabled,
   bookingInfo,
   reservationId,
-  bookingSuccess
+  bookingSuccess,
+  registrationFile,
+  uploadedFiles
 } = useAppointmentBooking()
 const { error, success } = useNotification()
 
@@ -205,6 +207,46 @@ const handleRemoveAdditionalInfo = (index: number) => {
   emit('remove-additional-info', index)
 }
 
+const uploadAttachments = async () => {
+  const filesToUpload: File[] = []
+
+  // Collect registration file if exists
+  if (registrationFile.value?.file) {
+    filesToUpload.push(registrationFile.value.file)
+  }
+
+  // Collect all uploaded documents
+  uploadedFiles.value.forEach((uploadedFile) => {
+    if (uploadedFile.file) {
+      filesToUpload.push(uploadedFile.file)
+    }
+  })
+
+  if (filesToUpload.length === 0) return
+
+  // Format date as MM/DD/YYYY
+  const orderDate = selectedDate.value ? formatDate(selectedDate.value) : ''
+
+  const uploadPromises = filesToUpload.map((file) => {
+    const formData = new FormData()
+    formData.append('order-id-for-attachment', reservationId.value || '')
+    formData.append('order-number-for-attachment', bookingInfo.value.licensePlate)
+    formData.append('order-date-for-attachment', orderDate)
+    formData.append('attachment[]', file)
+
+    return fetch('https://www.zeitmechanik.net/zm3/web/app.php/cloud/upload-order-attachment', {
+      method: 'POST',
+      body: formData
+    })
+  })
+
+  try {
+    await Promise.all(uploadPromises)
+  } catch (err) {
+    console.error('Failed to upload attachments:', err)
+  }
+}
+
 const handleConfirmBooking = async () => {
   try {
     isConfirming.value = true
@@ -253,6 +295,8 @@ const handleConfirmBooking = async () => {
 
     // Check if booking was successful
     if (res.success) {
+      // Upload attachments after successful booking
+      await uploadAttachments()
       bookingSuccess.value = true
       success('Booking confirmed successfully!')
     } else {

@@ -13,5 +13,6 @@ export const colors = {
   warning: 'var(--el-color-warning)',
   danger: 'var(--el-color-danger)',
 
+  primaryBg: 'var(--el-color-primaryBg)',
   text: '#324448'
 }

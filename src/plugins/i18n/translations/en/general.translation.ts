@@ -4,8 +4,6 @@ export const generalTranslations = {
   continue: 'Continue',
   or: 'OR',
 
-  // Home.vue
-
   // ServicesStep
   selectYourService: 'Select your service',
   selectServiceDescription: 'Select the desired service using the search function or by choosing a suitable category.',
@@ -89,6 +87,4 @@ export const generalTranslations = {
   priceCalculationAtBranch: 'Price calculation at the branch',
   bookAppointment: 'Book Appointment',
   booking: 'Booking...'
-
-  // MobileCartOverlay - uses same keys as above
 }

@@ -2,12 +2,12 @@
   <!--  -->
   <div
     v-loading="loading"
-    class="flex items-center justify-center h-full w-full bg-white p-1 900:p-4"
+    class="flex items-center justify-center h-full w-full bg-primaryBg p-1 900:p-4"
   >
     <div class="w-full max-w-[1440px]  justify-center gap-2 1080:gap-6 hidden 900:flex">
       <div
         v-if="!bookingSuccess"
-        class="flex-1 p-3 1080:p-5 border border-[#E6EBEF] bg-white rounded-[10px]"
+        class="flex-1 p-3 1080:p-5 border border-[#E6EBEF] bg-primaryBg  rounded-[10px]"
       >
         <div class="w-full flex justify-end mb-6 relative">
           <button
@@ -69,7 +69,7 @@
       <!-- Fixed Header -->
       <div
         v-if="!bookingSuccess"
-        class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#E6EBEF]"
+        class="fixed top-0 left-0 right-0 z-50 bg-primaryBg  border-b border-[#E6EBEF]"
       >
         <!-- Top bar: back button, step name, cart button -->
         <div class="flex items-center justify-between px-4 py-3">
@@ -86,7 +86,7 @@
 
           <button
             class="relative flex items-center justify-center w-10 h-10 rounded-full
-              border border-[#E6EBEF] bg-white"
+              border border-[#E6EBEF] bg-primaryBg "
             @click="isMobileCartOpen = true"
           >
             <IconCart class="w-5 h-5 text-primary" />
@@ -110,7 +110,7 @@
                 'text-[#666] border-2 border-[#E6EBEF]': index > activeStep
               }"
             >
-              <IconCheckCircle v-if="index < activeStep" class="w-8 h-8" />
+              <IconCheckCircle v-if="index < activeStep" class="w-8 h-8 text-primary" />
               <span v-else>{{ index + 1 }}</span>
             </div>
             <div
@@ -164,7 +164,7 @@
       <!-- Fixed Bottom Button -->
       <div
         v-if="!bookingSuccess"
-        class="fixed bottom-0 left-0 right-0 z-50 bg-white pt-1 border-t border-[#E6EBEF]"
+        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg  pt-1 border-t border-[#E6EBEF]"
       >
         <button
           class="w-full py-3 rounded-lg font-semibold text-white transition-colors"
@@ -446,6 +446,15 @@ const init = async () => {
     loading.value = true
     config.value = await getConfig({ token: token.value })
     console.log('config', config.value)
+
+    // Set primary color from config
+    if (config.value?.opts?.['highlight-bg']) {
+      document.documentElement.style.setProperty('--el-color-primary', config.value.opts['highlight-bg'])
+    }
+    // Set background color from config
+    if (config.value?.opts?.['bg-color']) {
+      document.documentElement.style.setProperty('--el-color-primaryBg', config.value.opts['bg-color'])
+    }
   } catch (err) {
     error('Failed to load configuration. Please try again.')
   } finally {

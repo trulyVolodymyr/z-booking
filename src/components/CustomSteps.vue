@@ -1,37 +1,46 @@
 <template>
-  <div class="steps-container">
+  <div class="flex">
     <div
       v-for="(step, index) in steps"
       :key="index"
-      class="step-item"
-      :class="{ 'last-step': index === steps.length - 1 }"
+      class="flex flex-col items-center relative transition-all duration-300"
+      :class="[
+        index === activeStep ? 'flex-[0_0_240px] max-w-[240px]' : 'flex-[0_0_120px] max-w-[150px]',
+        index === steps.length - 1 && index !== activeStep ? 'flex-[0_0_auto]' : '',
+        index === steps.length - 1 && index === activeStep ? 'flex-[0_0_160px]' : ''
+      ]"
     >
       <!-- Step Circle -->
-      <div class="step-circle-container">
+      <div class="flex items-center w-full relative">
         <div
-          class="step-circle"
+          class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer
+            transition-all duration-300 relative z-[2]"
           :class="{
-            'completed': index < activeStep,
-            'active': index === activeStep,
-            'inactive': index > activeStep,
-            'disabled': !canNavigateToStep(index)
+            'bg-transparent': index < activeStep,
+            'bg-primary border-2 border-primary': index === activeStep,
+            'bg-primaryBg  border-2 border-[#e6ebef]': index > activeStep,
+            'cursor-not-allowed opacity-50': !canNavigateToStep(index)
           }"
           @click="handleStepClick(index)"
         >
-          <!-- Completed step with check icon -->
-
-          <IconCheckCircle v-if="index < activeStep" />
-          <!-- Active or inactive step with number -->
-          <span v-else class="step-number">{{ index + 1 }}</span>
+          <IconCheckCircle v-if="index < activeStep" class="text-primary" />
+          <span
+            v-else
+            class="text-sm font-semibold"
+            :class="index === activeStep ? 'text-white' : 'text-[#666]'"
+          >
+            {{ index + 1 }}
+          </span>
         </div>
 
         <!-- Connector line -->
         <div
           v-if="index < steps.length - 1"
-          class="step-connector"
+          class="flex-1 h-[2px] mx-4 transition-colors duration-300"
           :class="{
-            'completed': index < activeStep,
-            'hidden-under-title': index === activeStep
+            'bg-primary': index < activeStep,
+            'bg-[#e6ebef]': index >= activeStep,
+            'z-[1]': index === activeStep
           }"
         />
       </div>
@@ -39,7 +48,8 @@
       <!-- Step Title - only show for active step -->
       <div
         v-if="index === activeStep"
-        class="step-title active"
+        class="absolute left-12 top-1/2 -translate-y-1/2 text-base font-semibold
+          text-primary whitespace-nowrap z-[3] bg-primaryBg  px-2"
       >
         {{ step }}
       </div>

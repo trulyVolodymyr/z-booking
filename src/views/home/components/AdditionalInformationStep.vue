@@ -10,12 +10,15 @@
         <div
           v-for="(option, index) in options"
           :key="index"
-          class="border-2 rounded-lg p-3 cursor-pointer transition-colors flex items-center gap-3 bg-white"
+          class="border-2 rounded-lg p-3 cursor-pointer transition-colors flex items-center gap-3 bg-primaryBg "
           :class="selectedOptions.includes(option) ?
             'border-primary bg-blue-50 shadow-lg' : 'border-[#E6EBEF]'"
           @click="toggleOption(option)"
         >
-          <IconCheckCircleFull v-if="selectedOptions.includes(option)" class="shrink-0" />
+          <IconCheckCircleFull
+            v-if="selectedOptions.includes(option)"
+            class="size-8 shrink-0 text-primary"
+          />
           <div v-else class="size-8 shrink-0" />
 
           <span class="text-text text-sm">{{ option }}</span>
@@ -36,21 +39,26 @@
         />
 
         <!-- File upload buttons stacked -->
-        <div class="flex flex-col gap-2">
+        <div
+          v-if="config?.params?.isDropboxEnabled"
+          class="flex flex-col gap-2"
+        >
           <button
-            class="flex h-[44px] items-center justify-center gap-2 px-4 py-3 border border-[#C2CDD6]
-              text-primary rounded-lg hover:bg-blue-50 transition-colors bg-white w-full"
+            class="flex h-[44px] items-center justify-center gap-2 px-4 py-3 border transition-colors w-full rounded-lg"
+            :class="registrationFile
+              ? 'border-primary bg-primary/10' : 'border-[#C2CDD6] bg-primaryBg hover:bg-blue-50'"
             @click="handleUploadRegistration"
           >
-            <IconCarProfile class="shrink-0" />
-            <span class="text-sm">{{ $t('general.uploadVehicleRegistration') }}</span>
+            <IconCheckCircleFull v-if="registrationFile" class="size-5 shrink-0 text-primary" />
+            <IconCarProfile v-else class="size-5 shrink-0 text-primary" />
+            <span class="text-sm text-primary">{{ $t('general.uploadVehicleRegistration') }}</span>
           </button>
           <button
             class="flex h-[44px] items-center justify-center gap-2 px-4 py-3 border border-[#C2CDD6]
-              text-primary rounded-lg hover:bg-blue-50 transition-colors bg-white w-full"
+              text-primary rounded-lg hover:bg-blue-50 transition-colors bg-primaryBg  w-full"
             @click="handleUploadDocuments"
           >
-            <IconFiles class="shrink-0" />
+            <IconFiles class="size-5 shrink-0 text-primary" />
             <span class="text-sm">{{ $t('general.uploadOtherDocuments') }}</span>
           </button>
         </div>
@@ -91,13 +99,13 @@
         <div
           v-for="(option, index) in options"
           :key="index"
-          class="border-2 rounded-lg p-2 cursor-pointer transition-colors flex items-center gap-3 bg-white"
+          class="border-2 rounded-lg p-2 cursor-pointer transition-colors flex items-center gap-3 bg-primaryBg "
           :class="selectedOptions.includes(option) ?
             'border-primary bg-blue-50 shadow-lg' : 'border-[#E6EBEF]'"
           @click="toggleOption(option)"
         >
-          <IconCheckCircleFull v-if="selectedOptions.includes(option)" />
-          <div v-else class="size-8" />
+          <IconCheckCircleFull v-if="selectedOptions.includes(option)" class="size-8 shrink-0 text-primary" />
+          <div v-else class="size-8 shrink-0" />
 
           <span class="text-text">{{ option }}</span>
         </div>
@@ -116,19 +124,21 @@
           />
           <div class="flex flex-col justify-between">
             <button
-              class="flex h-[44px] items-center gap-2 px-6 py-3 border border-[#C2CDD6]
-                text-primary rounded-lg hover:bg-blue-50 transition-colors whitespace-nowrap bg-white"
+              class="flex h-[44px] items-center gap-2 px-6 py-3 border transition-colors whitespace-nowrap rounded-lg"
+              :class="registrationFile
+                ? 'border-primary bg-primary/10' : 'border-[#C2CDD6] bg-primaryBg  hover:bg-blue-50'"
               @click="handleUploadRegistration"
             >
-              <IconCarProfile />
-              {{ $t('general.uploadVehicleRegistration') }}
+              <IconCheckCircleFull v-if="registrationFile" class="size-5 shrink-0 text-primary" />
+              <IconCarProfile v-else class="size-5 shrink-0 text-primary" />
+              <span class="text-primary">{{ $t('general.uploadVehicleRegistration') }}</span>
             </button>
             <button
               class="flex h-[44px] items-center gap-2 px-6 py-3 border border-[#C2CDD6]
-                text-primary rounded-lg hover:bg-blue-50 transition-colors whitespace-nowrap bg-white"
+                text-primary rounded-lg hover:bg-blue-50 transition-colors whitespace-nowrap bg-primaryBg "
               @click="handleUploadDocuments"
             >
-              <IconFiles />
+              <IconFiles class="size-5 shrink-0 text-primary" />
               {{ $t('general.uploadOtherDocuments') }}
             </button>
           </div>
@@ -211,7 +221,7 @@ const notes = ref('')
 const registrationInput = ref<HTMLInputElement | null>(null)
 const documentsInput = ref<HTMLInputElement | null>(null)
 
-const { uploadedFiles } = useAppointmentBooking()
+const { uploadedFiles, registrationFile, config } = useAppointmentBooking()
 const { error } = useNotification()
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10 MB in bytes
@@ -264,11 +274,19 @@ const handleFileSelect = (event: Event, type: 'registration' | 'documents') => {
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
     if (validateFile(file)) {
-      uploadedFiles.value.push({
-        name: file.name,
-        file,
-        type
-      })
+      if (type === 'registration') {
+        registrationFile.value = {
+          name: file.name,
+          file,
+          type
+        }
+      } else {
+        uploadedFiles.value.push({
+          name: file.name,
+          file,
+          type
+        })
+      }
     }
   }
 

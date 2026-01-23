@@ -5,7 +5,8 @@
   const DEFAULTS = {
     formUrl: 'https://trulyvolodymyr.github.io/z-booking',
     buttonText: 'Open Form',
-    buttonPosition: 'bottom-right' // 'bottom-right', 'bottom-left', 'top-right', 'top-left'
+    buttonPosition: 'bottom-right', // 'bottom-right', 'bottom-left', 'top-right', 'top-left'
+    hiddenButton: false
   }
 
   // Merge with external config from window.ZBookingConfig
@@ -115,11 +116,13 @@
   document.head.appendChild(style)
 
   // Create widget button (directly on body)
-  const btn = document.createElement('button')
-  btn.id = 'widget-button'
-  btn.className = CONFIG.buttonPosition
-  btn.textContent = CONFIG.buttonText
-  document.body.appendChild(btn)
+  if (!CONFIG.hiddenButton) {
+    const btn = document.createElement('button')
+    btn.id = 'widget-button'
+    btn.className = CONFIG.buttonPosition
+    btn.textContent = CONFIG.buttonText
+    document.body.appendChild(btn)
+  }
 
   // Create overlay (directly on body for full viewport coverage)
   const overlay = document.createElement('div')
@@ -154,7 +157,10 @@
     document.body.style.overflow = ''
   }
 
-  btn.addEventListener('click', openWidget)
+  const btn = document.getElementById('widget-button')
+  if (btn) {
+    btn.addEventListener('click', openWidget)
+  }
   closeBtn.addEventListener('click', closeWidget)
   overlay.addEventListener('click', function (e) {
     if (e.target === overlay) {

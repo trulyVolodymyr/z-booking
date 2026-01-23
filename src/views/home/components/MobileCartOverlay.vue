@@ -12,7 +12,7 @@
         />
 
         <!-- Overlay Panel -->
-        <div class="absolute inset-y-0 right-0 w-full  bg-white flex flex-col">
+        <div class="absolute inset-y-0 right-0 w-full  bg-primaryBg  flex flex-col">
           <!-- Header -->
           <div class="flex items-center gap-4 px-4 py-4 border-b border-[#E6EBEF]">
             <button

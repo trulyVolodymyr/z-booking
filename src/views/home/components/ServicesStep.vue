@@ -34,7 +34,7 @@
           class="border rounded-[10px] overflow-hidden transition-all"
           :class="expandedService === service.id
             ? 'border-primary bg-[#F0F7FF]'
-            : 'border-[#C2CDD6] bg-white'"
+            : 'border-[#C2CDD6] bg-primaryBg '"
         >
           <!-- Service Header -->
           <div
@@ -109,7 +109,7 @@
         <div
           v-for="(service, index) in servicesConfig"
           :key="index"
-          class="border rounded-[10px] cursor-pointer bg-white transition-colors border-l-[4px] border-l-primary"
+          class="border rounded-[10px] cursor-pointer bg-primaryBg  transition-colors border-l-[4px] border-l-primary"
           :class="selectedService?.id === service.id ? 'border-primary shadow-md' : 'border-[#C2CDD6]'"
           @click="$emit('selectService', service.id)"
         >

@@ -102,7 +102,7 @@
         {{ $t('general.appointmentDescription') }}
       </p>
 
-      <div class="p-6 bg-white w-full border border-[#E6EBEF] rounded-[10px]">
+      <div class="p-6 bg-primaryBg  w-full border border-[#E6EBEF] rounded-[10px]">
         <p class="font-semibold text-text">
           {{ $t('general.nextAvailableAppointment') }}
         </p>
@@ -155,7 +155,7 @@
           <div
             v-if="morningTimes.length > 0"
             class="mb-6 border border-[#E6EBEF] rounded-[10px] h-[123px] flex items-center
-            p-1 1080:p-4 gap-2 1080:gap-3 bg-white"
+            p-1 1080:p-4 gap-2 1080:gap-3 bg-primaryBg "
           >
             <!-- Rotated Title -->
             <div class="flex items-center justify-center" style="writing-mode: vertical-rl; transform: rotate(180deg);">
@@ -203,7 +203,7 @@
           <div
             v-if="afternoonTimes.length > 0"
             class="border border-[#E6EBEF] rounded-[10px] h-[123px] flex items-center
-            p-3 1080:p-4 gap-1 1080:gap-3 bg-white"
+            p-3 1080:p-4 gap-1 1080:gap-3 bg-primaryBg "
           >
             <!-- Rotated Title -->
             <div class="flex items-center justify-center" style="writing-mode: vertical-rl; transform: rotate(180deg);">

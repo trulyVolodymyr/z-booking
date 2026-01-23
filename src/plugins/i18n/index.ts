@@ -1,7 +1,7 @@
 import type { Plugin } from 'vue'
 import { createI18n } from 'vue-i18n'
 
-import { en, de } from './translations'
+import { en, de, fr, it } from './translations'
 
 const i18n = createI18n({
   legacy: false,
@@ -21,14 +21,34 @@ const i18n = createI18n({
         month: '2-digit',
         day: '2-digit'
       }
+    },
+    fr: {
+      short: {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }
+    },
+    it: {
+      short: {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }
     }
   },
 
   messages: {
     ...en,
-    ...de
+    ...de,
+    ...fr,
+    ...it
   }
 })
+
+const setLocale = (locale: string) => {
+  i18n.global.locale.value = locale
+}
 
 const I18nPlugin: Plugin = {
   install: (app) => {
@@ -38,5 +58,6 @@ const I18nPlugin: Plugin = {
 
 export {
   i18n,
-  I18nPlugin
+  I18nPlugin,
+  setLocale
 }

@@ -125,6 +125,7 @@ export interface IConfigParams {
   portal: string
   token: string
   qrid: string
+  isDropboxEnabled: boolean
   lagersoftTextbausteinId: number
   company: string
   // Dynamic language keys (de, en, fr, etc.)

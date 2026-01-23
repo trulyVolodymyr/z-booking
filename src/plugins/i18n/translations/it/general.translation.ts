@@ -1,0 +1,90 @@
+export const generalTranslations = {
+  // Common
+  back: 'Indietro',
+  continue: 'Continua',
+  or: 'OPPURE',
+
+  // ServicesStep
+  selectYourService: 'Seleziona il tuo servizio',
+  selectServiceDescription: 'Seleziona il servizio desiderato utilizzando la funzione di ricerca o scegliendo una categoria adatta.',
+  searchForService: 'Cerca servizio',
+  book: 'Prenota',
+  unbook: 'Annulla',
+
+  // AdditionalInformationStep
+  additionalInformation: 'Informazioni aggiuntive',
+  additionalInfoDescription: 'Inserisci qui ulteriori dettagli sulla tua prenotazione.',
+  notesOnAppointment: 'Note sull\'appuntamento',
+  supplementaryRemarks: 'Osservazioni supplementari',
+  uploadVehicleRegistration: 'Carica libretto di circolazione',
+  uploadOtherDocuments: 'Carica altri documenti',
+  optionWaitOnSite: 'Desidero attendere in loco',
+  optionReplacementMobility: 'Ho bisogno di un veicolo sostitutivo',
+  optionNightDropOff: 'Desidero riconsegnare il veicolo tramite consegna notturna',
+  optionVehicleBackBy: 'Ho bisogno del mio veicolo entro il',
+  optionCallbackFromDealership: 'Desidero essere richiamato dalla concessionaria',
+
+  // AppointmentStep
+  selectDesiredAppointment: 'Seleziona l\'appuntamento desiderato',
+  appointmentDescription: 'Scegli una data adatta in cui possiamo accoglierti nella nostra struttura ed effettuare il servizio.',
+  appointmentDescriptionShort: 'Scegli una data adatta in cui possiamo accoglierti nella nostra struttura.',
+  nextAvailableAppointment: 'Prossimo appuntamento disponibile',
+  chooseDesiredAppointment: 'Scegli l\'appuntamento desiderato',
+  noAvailableTimeSlots: 'Nessuna fascia oraria disponibile per questa data',
+  morning: 'Mattina',
+  afternoon: 'Pomeriggio',
+
+  // AppointmentBookingSidebar
+  appointmentBooking: 'Prenotazione appuntamento',
+  appointment: 'Appuntamento',
+  services: 'Servizi',
+  confirmBooking: 'Conferma prenotazione',
+  confirming: 'Conferma in corso...',
+  servicePickupInfo: 'Il tuo servizio verrà effettuato nel giorno selezionato. Potrai ritirare il tuo veicolo poco prima dell\'orario di chiusura e riceverai ulteriori informazioni quando sarà pronto per il ritiro.',
+
+  // VehicleDataStep
+  vehicleAndCustomerData: 'Dati veicolo e cliente',
+  vehicleCustomerDataDescription: 'Inserisci i dati del tuo veicolo e i tuoi dati personali.',
+  customerInformation: 'Informazioni cliente',
+  address: 'Indirizzo',
+  vehicleInfo: 'Informazioni veicolo',
+  email: 'E-mail',
+  emailPlaceholder: 'E-mail*',
+  firstName: 'Nome',
+  firstNamePlaceholder: 'Nome*',
+  lastName: 'Cognome',
+  lastNamePlaceholder: 'Cognome*',
+  mobile: 'Cellulare',
+  mobilePlaceholder: 'Cellulare*',
+  phone: 'Telefono',
+  street: 'Via',
+  zipCode: 'CAP',
+  city: 'Città',
+  licensePlate: 'Targa',
+  carBrand: 'Marca del veicolo',
+  model: 'Modello',
+  mileage: 'Chilometraggio',
+  vin: 'Numero di telaio',
+  name: 'Nome',
+  privacyConsent: 'Acconsento al trattamento dei miei dati personali ai fini della prenotazione online dell\'appuntamento. Maggiori dettagli nella nostra informativa sulla privacy*.',
+  privacyConsentMobile: 'Acconsento al trattamento dei miei dati personali ai fini della prenotazione online dell\'appuntamento. Maggiori dettagli nella nostra informativa sulla privacy*.',
+  areYouAlreadyCustomer: 'Sei già cliente?',
+  retrieveDataByEmail: 'Recupera automaticamente i tuoi dati utilizzando il tuo indirizzo e-mail.',
+  yourEmailAddress: 'Il tuo indirizzo e-mail',
+  requestAccessLink: 'Richiedi link di accesso',
+
+  // FinishStep
+  thankYouAppointmentBooking: 'Grazie, la tua prenotazione per il',
+  at: 'alle',
+  bookingSuccessfullyReceived: 'è stata ricevuta con successo. Riceverai a breve una conferma definitiva.',
+  questionsAboutBooking: 'Per qualsiasi domanda sulla tua prenotazione, puoi contattarci anche telefonicamente o via e-mail.',
+  monFriHours: 'Lun. - Ven.: 8:00 - 17:00',
+  satSunClosed: 'Sab. e Dom.: chiuso',
+
+  // MobileBookingOverlay
+  bookingSummary: 'Riepilogo prenotazione',
+  noServicesSelected: 'Nessun servizio selezionato',
+  priceCalculationAtBranch: 'Calcolo del prezzo in filiale',
+  bookAppointment: 'Prenota appuntamento',
+  booking: 'Prenotazione in corso...'
+}
