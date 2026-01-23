@@ -139,16 +139,14 @@
 
       <div class="space-y-3 mb-4">
         <!-- License Plate -->
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-white">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconCarProfile class="text-[#C2CDD6]" />
-          </div>
+        <div class="flex items-center border-2 border-[#C2CDD6] rounded-lg bg-white overflow-hidden">
+          <div class="w-10 h-[44px] bg-[#003399] flex items-center justify-center shrink-0" />
           <input
             v-model="bookingInfo.licensePlate"
             type="text"
             :placeholder="$t('general.licensePlate')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
-              focus:outline-none rounded-r-lg"
+            class="flex-1 h-[44px] text-lg font-bold px-4 text-text placeholder:text-[#C2CDD6] placeholder:font-normal
+              focus:outline-none uppercase"
           >
         </div>
 
@@ -379,16 +377,21 @@
         </p>
 
         <div class="flex flex-wrap gap-3 mb-3">
-          <div class="flex w-full 1080:w-[220px] items-center border border-[#E6EBEF] rounded-lg bg-white">
-            <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-              <IconCarProfile class="text-[#C2CDD6]" />
-            </div>
+          <div
+            class="flex w-full 1080:w-[220px] items-center border border-[#324448]
+          rounded-lg bg-white relative overflow-hidden"
+          >
+            <div
+              class="w-8 h-[44px] bg-[#003399] flex items-center justify-center shrink-0 absolute
+              left-0 z-10"
+            />
             <input
               v-model="bookingInfo.licensePlate"
               type="text"
               :placeholder="$t('general.licensePlate')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
-              focus:outline-none rounded-r-lg"
+              class="flex-1 h-[44px] text-2xl font-bold px-4 text-[#324448] pl-12 w-full
+              placeholder:text-[#C2CDD6] placeholder:font-normal z-[1]
+              focus:outline-none uppercase placeholder:normal-case"
             >
           </div>
 

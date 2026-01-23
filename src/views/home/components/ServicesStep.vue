@@ -63,7 +63,6 @@
             >
               <div>
                 <p class="font-medium text-text text-sm">{{ option.label }}</p>
-                <p class="text-xs text-[#547278]">ab 129,00 €</p>
               </div>
               <button
                 class="px-4 py-2 text-sm font-semibold rounded-lg transition-colors"

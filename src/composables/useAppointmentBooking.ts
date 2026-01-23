@@ -39,7 +39,7 @@ export interface IBookingInfo {
 // Global state - singleton pattern
 const lang = ref<string>('en')
 const loading = ref<boolean>(false)
-const activeStep = ref<number>(0)
+const activeStep = ref<number>(3)
 const serviceSearch = ref<string>('')
 const selectedService = ref<IService | undefined>()
 const selectedServiceOptions = ref<string[]>([])
