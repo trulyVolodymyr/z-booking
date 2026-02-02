@@ -1,7 +1,7 @@
 import { ref, computed, watch } from 'vue'
 import type { ISelectedJob } from '@/views/home/components/AppointmentBookingSidebar.vue'
 import type { IConfig } from '@/types/config.types'
-import { setLocale } from '@/plugins/i18n'
+import { setLocale, i18n } from '@/plugins/i18n'
 
 interface IServiceOption {
   id: number
@@ -75,12 +75,15 @@ const bookingInfo = ref<IBookingInfo>({
 const reservationId = ref<string | null>(null)
 const bookingSuccess = ref<boolean>(false)
 
-const stepTitles = ref<string[]>([
-  'Services',
-  'Additional information',
-  'Appointment',
-  'Vehicle data'
-])
+const stepTitles = computed<string[]>(() => {
+  const t = i18n.global.t
+  return [
+    t('general.stepServices'),
+    t('general.stepAdditionalInfo'),
+    t('general.stepAppointment'),
+    t('general.stepVehicleData')
+  ]
+})
 
 export const useAppointmentBooking = () => {
   const servicesConfig = computed<IService[]>(() => {

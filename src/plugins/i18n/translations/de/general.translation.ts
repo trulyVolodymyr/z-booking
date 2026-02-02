@@ -86,5 +86,43 @@ export const generalTranslations = {
   noServicesSelected: 'Keine Leistungen ausgewählt',
   priceCalculationAtBranch: 'Preisberechnung in der Filiale',
   bookAppointment: 'Termin buchen',
-  booking: 'Wird gebucht...'
+  booking: 'Wird gebucht...',
+
+  // Step titles
+  stepServices: 'Leistungen',
+  stepAdditionalInfo: 'Zusätzliche Informationen',
+  stepAppointment: 'Termin',
+  stepVehicleData: 'Fahrzeugdaten',
+
+  // Days of week (short)
+  mon: 'Mo',
+  tue: 'Di',
+  wed: 'Mi',
+  thu: 'Do',
+  fri: 'Fr',
+  sat: 'Sa',
+  sun: 'So',
+
+  // Days of week (full)
+  monday: 'Montag',
+  tuesday: 'Dienstag',
+  wednesday: 'Mittwoch',
+  thursday: 'Donnerstag',
+  friday: 'Freitag',
+  saturday: 'Samstag',
+  sunday: 'Sonntag',
+
+  // Months
+  january: 'Januar',
+  february: 'Februar',
+  march: 'März',
+  april: 'April',
+  may: 'Mai',
+  june: 'Juni',
+  july: 'Juli',
+  august: 'August',
+  september: 'September',
+  october: 'Oktober',
+  november: 'November',
+  december: 'Dezember'
 }

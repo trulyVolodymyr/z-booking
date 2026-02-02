@@ -254,10 +254,13 @@
 
 <script lang='ts' setup>
 import { ref, watch, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import CustomCalendar from '@/components/CustomCalendar.vue'
 import { createReservation } from '@/api/services/general.service'
 import { useNotification } from '@/composables/useNotification'
+
+const { t } = useI18n()
 
 interface IProps {
   token: string
@@ -295,7 +298,15 @@ const isUpdatingReservation = ref(false)
 // Format quick appointments for display
 const formatQuickAppointment = (isoDateTime: string): string => {
   const date = new Date(isoDateTime)
-  const days = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']
+  const days = [
+    t('general.sun'),
+    t('general.mon'),
+    t('general.tue'),
+    t('general.wed'),
+    t('general.thu'),
+    t('general.fri'),
+    t('general.sat')
+  ]
   const dayName = days[date.getDay()]
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')

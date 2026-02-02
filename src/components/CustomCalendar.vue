@@ -1,5 +1,8 @@
 <template>
-  <div class="w-[280px] 1080:w-[330px] h-[270px] border border-[#E6EBEF] rounded-[10px] p-3 bg-primaryBg  overflow-hidden">
+  <div
+    class="w-[280px] 1080:w-[330px] h-[270px] border border-[#E6EBEF] rounded-[10px] p-3 bg-primaryBg
+  overflow-hidden"
+  >
     <!-- Month Navigation -->
     <div class="flex items-center justify-between mb-2">
       <button
@@ -56,6 +59,9 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 interface ICalendarDay {
   date: number
@@ -86,14 +92,32 @@ const emit = defineEmits<IEmits>()
 const currentMonth = ref(new Date().getMonth())
 const currentYear = ref(new Date().getFullYear())
 
-const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const weekdays = computed(() => [
+  t('general.mon'),
+  t('general.tue'),
+  t('general.wed'),
+  t('general.thu'),
+  t('general.fri'),
+  t('general.sat'),
+  t('general.sun')
+])
 
-const monthNames = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-]
+const monthNames = computed(() => [
+  t('general.january'),
+  t('general.february'),
+  t('general.march'),
+  t('general.april'),
+  t('general.may'),
+  t('general.june'),
+  t('general.july'),
+  t('general.august'),
+  t('general.september'),
+  t('general.october'),
+  t('general.november'),
+  t('general.december')
+])
 
-const monthName = computed(() => monthNames[currentMonth.value])
+const monthName = computed(() => monthNames.value[currentMonth.value])
 
 const calendarDays = computed((): ICalendarDay[] => {
   const days: ICalendarDay[] = []

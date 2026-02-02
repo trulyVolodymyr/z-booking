@@ -86,5 +86,43 @@ export const generalTranslations = {
   noServicesSelected: 'Aucun service sélectionné',
   priceCalculationAtBranch: 'Calcul du prix en agence',
   bookAppointment: 'Réserver un rendez-vous',
-  booking: 'Réservation en cours...'
+  booking: 'Réservation en cours...',
+
+  // Step titles
+  stepServices: 'Services',
+  stepAdditionalInfo: 'Informations complémentaires',
+  stepAppointment: 'Rendez-vous',
+  stepVehicleData: 'Données du véhicule',
+
+  // Days of week (short)
+  mon: 'Lun',
+  tue: 'Mar',
+  wed: 'Mer',
+  thu: 'Jeu',
+  fri: 'Ven',
+  sat: 'Sam',
+  sun: 'Dim',
+
+  // Days of week (full)
+  monday: 'Lundi',
+  tuesday: 'Mardi',
+  wednesday: 'Mercredi',
+  thursday: 'Jeudi',
+  friday: 'Vendredi',
+  saturday: 'Samedi',
+  sunday: 'Dimanche',
+
+  // Months
+  january: 'Janvier',
+  february: 'Février',
+  march: 'Mars',
+  april: 'Avril',
+  may: 'Mai',
+  june: 'Juin',
+  july: 'Juillet',
+  august: 'Août',
+  september: 'Septembre',
+  october: 'Octobre',
+  november: 'Novembre',
+  december: 'Décembre'
 }

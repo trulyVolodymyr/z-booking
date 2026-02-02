@@ -190,9 +190,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useNotification } from '@/composables/useNotification'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
+
+const { t } = useI18n()
 
 interface IProps {
   modelValue: string[]
@@ -208,13 +211,13 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 const emit = defineEmits<IEmits>()
 
-const options = [
-  'I would like to wait on-site',
-  'I need replacement mobility',
-  'I would like to return the vehicle via night drop-off',
-  'I need my vehicle back by',
-  'I would like a callback from the dealership'
-]
+const options = computed(() => [
+  t('general.optionWaitOnSite'),
+  t('general.optionReplacementMobility'),
+  t('general.optionNightDropOff'),
+  t('general.optionVehicleBackBy'),
+  t('general.optionCallbackFromDealership')
+])
 
 const selectedOptions = ref<string[]>(props.modelValue || [])
 const notes = ref('')

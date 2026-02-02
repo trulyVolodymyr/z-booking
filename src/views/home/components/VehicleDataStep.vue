@@ -61,7 +61,7 @@
           </div>
           <input
             v-model="bookingInfo.mobile"
-            type="text"
+            type="phone"
             :placeholder="$t('general.mobilePlaceholder')"
             class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"

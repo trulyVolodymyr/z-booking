@@ -110,9 +110,12 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import { confirmBooking } from '@/api/services/general.service'
 import { useNotification } from '@/composables/useNotification'
+
+const { t } = useI18n()
 
 export interface ISelectedJob {
   serviceTitle: string
@@ -176,7 +179,15 @@ watch(() => props.selectedJobs, () => {
 
 const formatDayOfWeek = (dateStr: string) => {
   const date = new Date(dateStr)
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  const days = [
+    t('general.sunday'),
+    t('general.monday'),
+    t('general.tuesday'),
+    t('general.wednesday'),
+    t('general.thursday'),
+    t('general.friday'),
+    t('general.saturday')
+  ]
   return days[date.getDay()]
 }
 
