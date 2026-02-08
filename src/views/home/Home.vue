@@ -50,7 +50,7 @@
 
       <AppointmentBookingSidebar
         v-if="!bookingSuccess"
-        class="border !h-[750px] border-[#E6EBEF] bg-[#FFFFFF] rounded-r-[10px] border-l-[0px]"
+        class="border !h-[730px] border-[#E6EBEF] bg-[#FFFFFF] rounded-r-[10px] border-l-[0px]"
         :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
         :selected-jobs="selectedJobs"
         :selected-additional-info="selectedAdditionalInfo"
