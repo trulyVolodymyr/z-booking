@@ -5,7 +5,7 @@
   >
     <div
       :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
-      class="w-full max-w-[1920px] h-[750px] justify-center hidden 900:flex"
+      class="w-full max-w-[1920px] h-[730px] justify-center hidden 900:flex"
     >
       <div
         v-if="!bookingSuccess"
