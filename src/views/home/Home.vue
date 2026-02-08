@@ -1,27 +1,26 @@
 <template>
-  <!--  -->
   <div
     v-loading="loading"
     class="flex items-center justify-center h-full w-full bg-primaryBg p-1 900:p-4"
   >
-    <div class="w-full max-w-[1440px]  justify-center gap-2 1080:gap-6 hidden 900:flex">
+    <div
+      :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
+      class="w-full max-w-[1920px] h-[750px] justify-center hidden 900:flex"
+    >
       <div
         v-if="!bookingSuccess"
-        class="flex-1 p-3 1080:p-5 border border-[#E6EBEF] bg-primaryBg  rounded-[10px]"
+        class="flex-1 p-3 1080:p-6 border border-[#E6EBEF] bg-primaryBg rounded-l-[10px] flex flex-col"
       >
-        <div class="w-full flex justify-end mb-6 relative">
-          <button
-            v-if="activeStep > 0"
-            class="flex items-center gap-2 text-primary absolute left-0 top-[3px]"
-            @click="activeStep--"
+        <div class="w-full flex items-end mb-12 relative">
+          <img
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+            class="1250:!w-[170px] 1250:!h-[70px] w-[120px] h-[50px] shrink-0"
           >
-            <IconArrowBack class="text-primary" />
-            {{ $t('general.back') }}
-          </button>
 
           <CustomSteps
             v-model="activeStep"
-            class="scale-75 1080:scale-1"
+            class="ml-auto"
             :steps="stepTitles"
           />
         </div>
@@ -38,19 +37,21 @@
         <AdditionalInformationStep
           v-if="activeStep === 1"
           v-model="selectedAdditionalInfo"
+          @go-back="activeStep--"
         />
 
         <AppointmentStep
           v-if="activeStep === 2"
           :token="token"
-          @date-selected="fetchAvailableTimes"
+          @go-back="activeStep--"
         />
-        <VehicleDataStep v-if="activeStep === 3" />
+        <VehicleDataStep v-if="activeStep === 3" @go-back="activeStep--" />
       </div>
 
       <AppointmentBookingSidebar
         v-if="!bookingSuccess"
-        class="border !h-[750px] border-[#E6EBEF] bg-[#FFFFFF] rounded-[10px]"
+        class="border !h-[750px] border-[#E6EBEF] bg-[#FFFFFF] rounded-r-[10px] border-l-[0px]"
+        :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
         :selected-jobs="selectedJobs"
         :selected-additional-info="selectedAdditionalInfo"
         :selected-appointment="selectedAppointment"
@@ -86,7 +87,7 @@
 
           <button
             class="relative flex items-center justify-center w-10 h-10 rounded-full
-              border border-[#E6EBEF] bg-primaryBg "
+              border border-[#E6EBEF] bg-primaryBg m-1"
             @click="isMobileCartOpen = true"
           >
             <IconCart class="w-5 h-5 text-primary" />
@@ -149,7 +150,6 @@
           v-if="activeStep === 2"
           :token="token"
           :is-mobile="true"
-          @date-selected="fetchAvailableTimes"
         />
         <VehicleDataStep
           v-if="activeStep === 3 && !bookingSuccess"
@@ -164,7 +164,7 @@
       <!-- Fixed Bottom Button -->
       <div
         v-if="!bookingSuccess"
-        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg  pt-1 border-t border-[#E6EBEF]"
+        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg  pt-1 border-t border-[#E6EBEF] m-1"
       >
         <button
           class="w-full py-3 rounded-lg font-semibold text-white transition-colors"
@@ -224,6 +224,7 @@ const {
   selectedJobs,
   selectedAdditionalInfo,
   selectedAppointment,
+  selectedDate,
   availableDays,
   availableTimes,
   quickAppointments,
@@ -242,6 +243,13 @@ const mobileContentRef = ref<HTMLElement | null>(null)
 watch(activeStep, () => {
   if (mobileContentRef.value) {
     mobileContentRef.value.scrollTop = 0
+  }
+})
+
+// Watch selectedDate and fetch available times (centralized to avoid duplicate calls)
+watch(selectedDate, (newDate) => {
+  if (newDate) {
+    fetchAvailableTimes(newDate)
   }
 })
 
@@ -418,24 +426,53 @@ const fetchQuickAppointments = async () => {
   try {
     const today = new Date()
     const todayStr = today.toISOString().split('T')[0]
+    const sortedDays = [...availableDays.value].sort()
 
-    // Check if today is in availableDays
-    let dateToFetch = todayStr
-    if (!availableDays.value.includes(todayStr)) {
-      // Find the closest available day to today
-      const sortedDays = [...availableDays.value].sort()
-      const closestDay = sortedDays.find(day => day >= todayStr) || sortedDays[0]
-      dateToFetch = closestDay
-    }
+    // Find starting day index
+    let startIndex = sortedDays.findIndex(day => day >= todayStr)
+    if (startIndex === -1) startIndex = 0
 
     const workIds = selectedJobs.value.map(job => job.option.id)
-    const response = await getAvailableTimes({
-      token: token.value,
-      date: dateToFetch,
-      workIds
-    })
+    const collectedMorning: string[] = []
+    const collectedAfternoon: string[] = []
 
-    quickAppointments.value = response.availableTimes || []
+    // Keep fetching days until we have 1 morning + 2 afternoon times
+    let dayIndex = startIndex
+    while (
+      (collectedMorning.length < 1 || collectedAfternoon.length < 2) &&
+      dayIndex < sortedDays.length
+    ) {
+      const dateToFetch = sortedDays[dayIndex]
+      const response = await getAvailableTimes({
+        token: token.value,
+        date: dateToFetch,
+        workIds
+      })
+
+      const times = response.availableTimes || []
+
+      for (const time of times) {
+        const hour = new Date(time).getHours()
+        if (hour < 12 && collectedMorning.length < 1) {
+          collectedMorning.push(time)
+        } else if (hour >= 12 && collectedAfternoon.length < 2) {
+          collectedAfternoon.push(time)
+        }
+
+        // Stop if we have enough
+        if (collectedMorning.length >= 1 && collectedAfternoon.length >= 2) {
+          break
+        }
+      }
+
+      dayIndex++
+    }
+
+    // Combine and sort by date if dates differ
+    const allTimes = [...collectedMorning, ...collectedAfternoon]
+    allTimes.sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+
+    quickAppointments.value = allTimes
   } catch (err) {
     error('Failed to load quick appointments. Please try again.')
   }
@@ -445,7 +482,6 @@ const init = async () => {
   try {
     loading.value = true
     config.value = await getConfig({ token: token.value })
-    console.log('config', config.value)
 
     // Set primary color from config
     if (config.value?.opts?.['highlight-bg']) {
@@ -467,7 +503,7 @@ init()
 
 <style lang='scss'>
 *{
-  @apply scale-[98%] 1080:scale-100;
+
 }
 
 .el-icon.el-notification__closeBtn {

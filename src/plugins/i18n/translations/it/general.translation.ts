@@ -3,6 +3,8 @@ export const generalTranslations = {
   back: 'Indietro',
   continue: 'Continua',
   or: 'OPPURE',
+  close: 'Chiudi',
+  ok: 'OK',
 
   // ServicesStep
   selectYourService: 'Seleziona il tuo servizio',
@@ -14,7 +16,9 @@ export const generalTranslations = {
   // AdditionalInformationStep
   additionalInformation: 'Informazioni aggiuntive',
   additionalInfoDescription: 'Inserisci qui ulteriori dettagli sulla tua prenotazione.',
-  notesOnAppointment: 'Note sull\'appuntamento',
+  additionalServicesQuestion: 'Hai bisogno di servizi aggiuntivi?',
+  uploadDocumentsQuestion: 'Vuoi caricare dei documenti?',
+  notesOnAppointment: 'Hai ulteriori informazioni riguardo al tuo appuntamento?',
   supplementaryRemarks: 'Osservazioni supplementari',
   uploadVehicleRegistration: 'Carica libretto di circolazione',
   uploadOtherDocuments: 'Carica altri documenti',
@@ -23,6 +27,7 @@ export const generalTranslations = {
   optionNightDropOff: 'Desidero riconsegnare il veicolo tramite consegna notturna',
   optionVehicleBackBy: 'Ho bisogno del mio veicolo entro il',
   optionCallbackFromDealership: 'Desidero essere richiamato dalla concessionaria',
+  selectDateTime: 'Seleziona data e ora',
 
   // AppointmentStep
   selectDesiredAppointment: 'Seleziona l\'appuntamento desiderato',
@@ -31,6 +36,8 @@ export const generalTranslations = {
   nextAvailableAppointment: 'Prossimo appuntamento disponibile',
   chooseDesiredAppointment: 'Scegli l\'appuntamento desiderato',
   noAvailableTimeSlots: 'Nessuna fascia oraria disponibile per questa data',
+  noMorningAppointments: 'Ci scusiamo, ma non abbiamo più appuntamenti disponibili al mattino per il giorno selezionato.',
+  noAfternoonAppointments: 'Ci scusiamo, ma non abbiamo più appuntamenti disponibili nel pomeriggio per il giorno selezionato.',
   morning: 'Mattina',
   afternoon: 'Pomeriggio',
 

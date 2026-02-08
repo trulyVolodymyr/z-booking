@@ -5,7 +5,6 @@
       <p class="text-text text-center mb-4">
         {{ $t('general.appointmentDescriptionShort') }}
       </p>
-
       <!-- Quick Appointments - Full Width -->
       <div class="space-y-2 mb-4">
         <div
@@ -95,35 +94,41 @@
 
     <!-- Desktop Layout -->
     <template v-else>
-      <p class="font-medium text-xl text-text mb-4">
-        {{ $t('general.selectDesiredAppointment') }}
-      </p>
-      <p class="text-text mb-6">
+      <div class="flex items-center gap-3">
+        <button
+          class="flex items-center gap-2 text-primary mb-4"
+          @click="emit('go-back')"
+        >
+          <IconArrowBack class="text-primary size-6" />
+        </button>
+        <p class="font-semibold text-2xl text-text mb-4 font-serif">
+          {{ $t('general.selectDesiredAppointment') }}
+        </p>
+      </div>
+      <p class="text-text mb-4">
         {{ $t('general.appointmentDescription') }}
       </p>
 
-      <div class="p-6 bg-primaryBg  w-full border border-[#E6EBEF] rounded-[10px]">
-        <p class="font-semibold text-text">
-          {{ $t('general.nextAvailableAppointment') }}
-        </p>
+      <p class="font-semibold text-text">
+        {{ $t('general.nextAvailableAppointment') }}
+      </p>
 
-        <div class="flex gap-6 mt-4">
-          <div
-            v-for="(appointment, index) in quickAppointments"
-            :key="index"
-            class="w-1/3 h-16 border rounded-lg p-3 flex items-center gap-3
+      <div class="flex gap-6 mt-4">
+        <div
+          v-for="(appointment, index) in quickAppointments"
+          :key="index"
+          class="w-1/3 h-16 border rounded-lg p-3 flex items-center gap-3
               cursor-pointer transition-colors"
-            :class="selectedAppointment === appointment.time ?
-              'border-primary bg-blue-50 shadow-md' : 'border-[#C2CDD6] hover:border-primary hover:shadow-md'"
-            @click="selectAppointment(appointment.time)"
-          >
-            <div class="size-8 bg-[#E5F1FF] rounded flex items-center justify-center flex-shrink-0">
-              <IconEvent class="text-primary" />
-            </div>
-            <div class="flex flex-col">
-              <span class="text-sm text-[#707070]">{{ parseDate(appointment.time) }}</span>
-              <span class="text-base font-semibold text-text">{{ parseTime(appointment.time) }}</span>
-            </div>
+          :class="selectedAppointment === appointment.time ?
+            'border-primary bg-blue-50 shadow-md' : 'border-[#C2CDD6] hover:border-primary hover:shadow-md'"
+          @click="selectAppointment(appointment.time)"
+        >
+          <div class="size-8 bg-[#E5F1FF] rounded flex items-center justify-center flex-shrink-0">
+            <IconEvent class="text-primary" />
+          </div>
+          <div class="flex flex-col">
+            <span class="text-sm text-[#707070]">{{ parseDate(appointment.time) }}</span>
+            <span class="text-base font-semibold text-text">{{ parseTime(appointment.time) }}</span>
           </div>
         </div>
       </div>
@@ -153,7 +158,6 @@
 
           <!-- Morning Times -->
           <div
-            v-if="morningTimes.length > 0"
             class="mb-6 border border-[#E6EBEF] rounded-[10px] h-[123px] flex items-center
             p-1 1080:p-4 gap-2 1080:gap-3 bg-primaryBg "
           >
@@ -162,46 +166,55 @@
               <span class="font-semibold text-text whitespace-nowrap">{{ $t('general.morning') }}</span>
             </div>
 
-            <!-- Left Arrow -->
-            <button
-              :disabled="morningOffset === 0"
-              class="size-5 1080:size-8 flex items-center justify-center border border-[#C2CDD6] rounded
-                hover:border-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
-              @click="prevMorningPage"
-            >
-              <IconLeft class="size-2 1080:size-4" />
-            </button>
-
-            <!-- Time Slots Grid -->
-            <div class="flex-1 grid grid-cols-3 gap-1 1080:gap-3">
-              <button
-                v-for="(time, index) in visibleMorningTimes"
-                :key="index"
-                class="h-[36px] 1080:h-[46px] border rounded-lg flex items-center
-                  justify-center text-[10px] 1080:text-sm transition-all"
-                :class="selectedTime === time ?
-                  'border-primary text-primary shadow-md font-semibold' :
-                  'border-[#C2CDD6] text-text hover:border-primary hover:shadow-md'"
-                @click="selectTime(time)"
-              >
-                {{ time }}
-              </button>
+            <!-- Empty State -->
+            <div v-if="morningTimes.length === 0" class="flex-1 flex items-center justify-center mx-10">
+              <p class="text-text opacity-60 text-sm text-center italic">
+                {{ $t('general.noMorningAppointments') }}
+              </p>
             </div>
 
-            <!-- Right Arrow -->
-            <button
-              :disabled="morningOffset + visibleMorningTimes.length >= morningTimes.length"
-              class="size-5 1080:size-8 flex items-center justify-center border border-[#C2CDD6] rounded
-                hover:border-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
-              @click="nextMorningPage"
-            >
-              <IconRight class="size-2 1080:size-4" />
-            </button>
+            <!-- Time Slots -->
+            <template v-else>
+              <!-- Left Arrow -->
+              <button
+                :disabled="morningOffset === 0"
+                class="size-5 1080:size-8 flex items-center justify-center border border-[#C2CDD6] rounded
+                  hover:border-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
+                @click="prevMorningPage"
+              >
+                <IconLeft class="size-2 1080:size-4" />
+              </button>
+
+              <!-- Time Slots Grid -->
+              <div class="flex-1 grid grid-cols-3 gap-1 1080:gap-3">
+                <button
+                  v-for="(time, index) in visibleMorningTimes"
+                  :key="index"
+                  class="h-[36px] 1080:h-[46px] border rounded-lg flex items-center
+                    justify-center text-[10px] 1080:text-sm transition-all"
+                  :class="selectedTime === time ?
+                    'border-primary text-primary shadow-md font-semibold' :
+                    'border-[#C2CDD6] text-text hover:border-primary hover:shadow-md'"
+                  @click="selectTime(time)"
+                >
+                  {{ time }}
+                </button>
+              </div>
+
+              <!-- Right Arrow -->
+              <button
+                :disabled="morningOffset + visibleMorningTimes.length >= morningTimes.length"
+                class="size-5 1080:size-8 flex items-center justify-center border border-[#C2CDD6] rounded
+                  hover:border-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
+                @click="nextMorningPage"
+              >
+                <IconRight class="size-2 1080:size-4" />
+              </button>
+            </template>
           </div>
 
           <!-- Afternoon Times -->
           <div
-            v-if="afternoonTimes.length > 0"
             class="border border-[#E6EBEF] rounded-[10px] h-[123px] flex items-center
             p-3 1080:p-4 gap-1 1080:gap-3 bg-primaryBg "
           >
@@ -210,41 +223,51 @@
               <span class="font-semibold text-text whitespace-nowrap">{{ $t('general.afternoon') }}</span>
             </div>
 
-            <!-- Left Arrow -->
-            <button
-              :disabled="afternoonOffset === 0"
-              class="size-5 1080:size-8 flex items-center justify-center border border-[#C2CDD6] rounded
-                hover:border-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
-              @click="prevAfternoonPage"
-            >
-              <IconLeft class="size-2 1080:size-4" />
-            </button>
-
-            <!-- Time Slots Grid -->
-            <div class="flex-1 grid grid-cols-3 gap-1 1080:gap-3">
-              <button
-                v-for="(time, index) in visibleAfternoonTimes"
-                :key="index"
-                class="h-[46px] border rounded-lg flex items-center justify-center text-[10px] 1080:text-sm
-                  transition-all"
-                :class="selectedTime === time ?
-                  'border-primary text-primary shadow-md font-semibold' :
-                  'border-[#C2CDD6] text-text hover:border-primary hover:shadow-md'"
-                @click="selectTime(time)"
-              >
-                {{ time }}
-              </button>
+            <!-- Empty State -->
+            <div v-if="afternoonTimes.length === 0" class="flex-1 flex items-center justify-center mx-10">
+              <p class="text-text opacity-60 text-sm text-center italic">
+                {{ $t('general.noAfternoonAppointments') }}
+              </p>
             </div>
 
-            <!-- Right Arrow -->
-            <button
-              :disabled="afternoonOffset + visibleAfternoonTimes.length >= afternoonTimes.length"
-              class="size-5 1080:size-8 flex items-center justify-center border border-[#C2CDD6] rounded
-                hover:border-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
-              @click="nextAfternoonPage"
-            >
-              <IconRight class="size-2 1080:size-4" />
-            </button>
+            <!-- Time Slots -->
+            <template v-else>
+              <!-- Left Arrow -->
+              <button
+                :disabled="afternoonOffset === 0"
+                class="size-5 1080:size-8 flex items-center justify-center border border-[#C2CDD6] rounded
+                  hover:border-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
+                @click="prevAfternoonPage"
+              >
+                <IconLeft class="size-2 1080:size-4" />
+              </button>
+
+              <!-- Time Slots Grid -->
+              <div class="flex-1 grid grid-cols-3 gap-1 1080:gap-3">
+                <button
+                  v-for="(time, index) in visibleAfternoonTimes"
+                  :key="index"
+                  class="h-[46px] border rounded-lg flex items-center justify-center text-[10px] 1080:text-sm
+                    transition-all"
+                  :class="selectedTime === time ?
+                    'border-primary text-primary shadow-md font-semibold' :
+                    'border-[#C2CDD6] text-text hover:border-primary hover:shadow-md'"
+                  @click="selectTime(time)"
+                >
+                  {{ time }}
+                </button>
+              </div>
+
+              <!-- Right Arrow -->
+              <button
+                :disabled="afternoonOffset + visibleAfternoonTimes.length >= afternoonTimes.length"
+                class="size-5 1080:size-8 flex items-center justify-center border border-[#C2CDD6] rounded
+                  hover:border-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex-shrink-0"
+                @click="nextAfternoonPage"
+              >
+                <IconRight class="size-2 1080:size-4" />
+              </button>
+            </template>
           </div>
         </div>
       </div>
@@ -268,7 +291,7 @@ interface IProps {
 }
 
 interface IEmits {
-  (e: 'date-selected', date: string): void
+  (e: 'go-back'): void
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -326,39 +349,19 @@ const quickAppointments = computed<IAppointment[]>(() => {
     return []
   }
 
-  const morningSlots = rawQuickAppointments.value.filter((time: string) => {
-    const date = new Date(time)
-    return date.getHours() < 12
-  })
-
-  const afternoonSlots = rawQuickAppointments.value.filter((time: string) => {
-    const date = new Date(time)
-    return date.getHours() >= 12
-  })
-
-  const slots: IAppointment[] = []
-
-  // Take first 2 morning appointments
-  morningSlots.slice(0, 2).forEach((time: string) => {
-    slots.push({ time: formatQuickAppointment(time) })
-  })
-
-  // Take first 1 afternoon appointment
-  if (afternoonSlots.length > 0) {
-    slots.push({ time: formatQuickAppointment(afternoonSlots[0]) })
-  }
-
-  return slots
+  // rawQuickAppointments already contains 1 morning + 2 afternoon, sorted by date
+  // Just format them for display
+  return rawQuickAppointments.value.map((time: string) => ({
+    time: formatQuickAppointment(time)
+  }))
 })
 
 const morningOffset = ref(0)
 const afternoonOffset = ref(0)
 
-// Watch for selectedDate changes and fetch available times
+// Watch for selectedDate changes to reset UI state
 watch(selectedDate, (newDate, oldDate) => {
   if (newDate) {
-    emit('date-selected', newDate)
-
     // If date changed and we have a quick appointment selected, check if date matches
     if (selectedAppointment.value && oldDate !== newDate) {
       // Parse the date from quick appointment to see if it matches new date
@@ -511,7 +514,6 @@ watch([selectedJobs, selectedDate, selectedTime], ([newJobs, newDate, newTime], 
     const dateTimeChanged = (oldDate && oldDate !== newDate) || (oldTime && oldTime !== newTime)
 
     if (jobsChanged || dateTimeChanged) {
-      console.log('Reservation data changed, updating reservation...')
       makeReservation(newDate, newTime)
     }
   }
@@ -594,9 +596,8 @@ const selectAppointment = async (time: string) => {
     // Store the time to be set after times are loaded
     pendingTimeSelection.value = timeStr
 
-    // Set date and emit to fetch available times
+    // Set date (Home.vue watches selectedDate and fetches available times)
     selectedDate.value = isoDate
-    emit('date-selected', isoDate)
 
     // Set time immediately for reservation (it will also be set when times load)
     selectedTime.value = timeStr

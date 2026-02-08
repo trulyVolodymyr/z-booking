@@ -3,6 +3,8 @@ export const generalTranslations = {
   back: 'Back',
   continue: 'Continue',
   or: 'OR',
+  close: 'Close',
+  ok: 'OK',
 
   // ServicesStep
   selectYourService: 'Select your service',
@@ -14,7 +16,9 @@ export const generalTranslations = {
   // AdditionalInformationStep
   additionalInformation: 'Additional Information',
   additionalInfoDescription: 'Please enter further details about your booking here.',
-  notesOnAppointment: 'Notes on the appointment',
+  additionalServicesQuestion: 'Do you require any additional services?',
+  uploadDocumentsQuestion: 'Do you want to upload documents?',
+  notesOnAppointment: 'Do you have any additional information in regard to your appointment?',
   supplementaryRemarks: 'Supplementary remarks',
   uploadVehicleRegistration: 'Upload vehicle registration',
   uploadOtherDocuments: 'Upload other documents',
@@ -23,6 +27,7 @@ export const generalTranslations = {
   optionNightDropOff: 'I would like to return the vehicle via night drop-off',
   optionVehicleBackBy: 'I need my vehicle back by',
   optionCallbackFromDealership: 'I would like a callback from the dealership',
+  selectDateTime: 'Select date & time',
 
   // AppointmentStep
   selectDesiredAppointment: 'Select your desired appointment',
@@ -31,6 +36,8 @@ export const generalTranslations = {
   nextAvailableAppointment: 'Next available appointment',
   chooseDesiredAppointment: 'Choose desired appointment',
   noAvailableTimeSlots: 'No available time slots for this date',
+  noMorningAppointments: 'We apologize, but we do not have any more appointments available in the morning on the selected day.',
+  noAfternoonAppointments: 'We apologize, but we do not have any more appointments available in the afternoon on the selected day.',
   morning: 'Morning',
   afternoon: 'Afternoon',
 

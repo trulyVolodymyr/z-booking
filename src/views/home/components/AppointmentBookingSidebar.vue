@@ -1,6 +1,6 @@
 <template>
-  <div class="w-[300px] h-full p-3 1080:p-5 flex flex-col bg-[#F9F9F9] shrink-0">
-    <span class="font-semibold text-xl text-text">
+  <div class="1250:w-[300px] 1440:w-[400px] w-[250px] h-full p-3 1080:p-6 flex flex-col bg-[#F9F9F9] shrink-0">
+    <span class="font-semibold text-xl text-text font-serif">
       {{ $t('general.appointmentBooking') }}
     </span>
 
@@ -33,14 +33,13 @@
         class="overflow-y-auto flex-shrink min-h-0"
         :class="{ '-mr-3': hasScroll }"
       >
-        <p class="font-semibold text-lg text-text mb-2">
+        <p class="font-semibold text-base text-[#7B9CA3] mb-2">
           {{ $t('general.services') }}
         </p>
         <div class="space-y-2">
           <div
             v-for="(job, index) in selectedJobs"
             :key="index"
-            class="border-b border-[#E6EBEF] pb-2"
           >
             <div class="flex items-center justify-between gap-1">
               <div class="flex-1 min-w-0">
@@ -70,7 +69,6 @@
           <div
             v-for="(info, index) in selectedAdditionalInfo"
             :key="index"
-            class="border-b border-[#E6EBEF] pb-2"
           >
             <div class="flex items-center justify-between gap-1">
               <div class="flex-1 min-w-0">

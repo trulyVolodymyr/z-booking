@@ -1,31 +1,7 @@
 <template>
-  <div>
-    {{ console.log(servicesConfig) }}
+  <div class="flex-1 flex flex-col min-h-0">
     <!-- Mobile Layout -->
     <template v-if="isMobile">
-      <p class="text-text text-center mb-4">
-        {{ $t('general.selectServiceDescription') }}
-      </p>
-
-      <!-- Search input -->
-      <div class="flex items-center h-10 bg-[#F9FAFB] rounded-[10px] mb-4">
-        <IconSearch class="ml-3" />
-        <input
-          v-model="serviceSearchModel"
-          type="text"
-          :placeholder="$t('general.searchForService')"
-          class="ml-4 outline-none w-full bg-[#F9FAFB] text-sm"
-          @input="searchJobs(($event.target as HTMLInputElement).value)"
-        >
-      </div>
-
-      <!-- OR divider -->
-      <div class="my-4 uppercase font-semibold text-text text-sm flex items-center">
-        <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
-        <span class="px-4">{{ $t('general.or') }}</span>
-        <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
-      </div>
-
       <!-- Services Accordion -->
       <div class="space-y-3">
         <div
@@ -80,21 +56,21 @@
     </template>
 
     <!-- Desktop Layout -->
-    <template v-else>
-      <p class="font-medium text-xl text-text mb-4">
+    <div v-else class="flex-1 flex flex-col min-h-0">
+      <p class="font-semibold text-2xl text-text mb-4 font-serif">
         {{ $t('general.selectYourService') }}
       </p>
       <p class="text-text mb-6">
         {{ $t('general.selectServiceDescription') }}
       </p>
 
-      <div class="flex items-center h-10 bg-[#F9FAFB] rounded-[10px] mx-4">
+      <div class="flex items-center h-10 bg-[#ECEFF4] rounded-[10px] mx-4">
         <IconSearch class="ml-3" />
         <input
           v-model="serviceSearchModel"
           type="text"
           :placeholder="$t('general.searchForService')"
-          class="ml-6 outline-none w-full bg-[#F9FAFB] text-sm"
+          class="ml-6 outline-none w-full bg-[#ECEFF4] text-sm"
           @input="searchJobs(($event.target as HTMLInputElement).value)"
         >
       </div>
@@ -105,11 +81,12 @@
         <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
       </div>
 
-      <div class="grid grid-cols-1 900:grid-cols-2 1080:grid-cols-3 gap-[10px] mb-6">
+      <div class="grid grid-cols-1 900:grid-cols-2 1080:grid-cols-3 gap-[10px] mb-6 mx-4">
         <div
           v-for="(service, index) in servicesConfig"
           :key="index"
-          class="border rounded-[10px] cursor-pointer bg-primaryBg  transition-colors border-l-[4px] border-l-primary"
+          class="border-[2px] rounded-[8px] cursor-pointer bg-primaryBg  transition-colors border-l-[4px]
+          border-l-primary"
           :class="selectedService?.id === service.id ? 'border-primary shadow-md' : 'border-[#C2CDD6]'"
           @click="$emit('selectService', service.id)"
         >
@@ -121,10 +98,10 @@
         </div>
       </div>
 
-      <div class="h-[220px]">
+      <div class="flex-1 flex flex-col min-h-0 mx-4">
         <span v-if="!filteredJobs.length && selectedService">{{ selectedService.title }}</span>
 
-        <div v-if="filteredJobs.length || selectedService?.options" class="space-y-3 mt-6">
+        <div v-if="displayedJobs.length" class="space-y-3 flex-1 overflow-y-auto min-h-0">
           <div
             v-for="(option, index) in displayedJobs"
             :key="index"
@@ -149,7 +126,7 @@
           </div>
         </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -233,7 +210,10 @@ const displayedJobs = computed(() => {
     }
     return filteredJobs.value
   }
-  return props.selectedService?.options || []
+  if (props.selectedService?.options) {
+    return props.selectedService.options
+  }
+  return allJobs.value
 })
 
 const searchJobs = (query: string) => {
@@ -247,7 +227,5 @@ const searchJobs = (query: string) => {
   filteredJobs.value = allJobs.value.filter(job =>
     job.label.toLowerCase().includes(lowerQuery)
   )
-
-  console.log(filteredJobs.value)
 }
 </script>

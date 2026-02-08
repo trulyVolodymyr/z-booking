@@ -14,70 +14,70 @@
       <div class="space-y-3 mb-4">
         <!-- Email -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconMail class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.email"
             type="email"
             :placeholder="$t('general.emailPlaceholder')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
 
         <!-- First Name -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconUser class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.firstName"
             type="text"
             :placeholder="$t('general.firstNamePlaceholder')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
 
         <!-- Last Name -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconUser class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.lastName"
             type="text"
             :placeholder="$t('general.lastNamePlaceholder')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
 
         <!-- Mobile -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconMobile class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.mobile"
             type="phone"
             :placeholder="$t('general.mobilePlaceholder')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
 
         <!-- Phone -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconPhone class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.phone"
             type="text"
             :placeholder="$t('general.phone')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
@@ -91,42 +91,42 @@
       <div class="space-y-3 mb-4">
         <!-- Street -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconMapPin class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.street"
             type="text"
             :placeholder="$t('general.street')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
 
         <!-- ZIP Code -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconMapPin class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.zipCode"
             type="text"
             :placeholder="$t('general.zipCode')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
 
         <!-- City -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconMapPin class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.city"
             type="text"
             :placeholder="$t('general.city')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
@@ -140,40 +140,40 @@
       <div class="space-y-3 mb-4">
         <!-- License Plate -->
         <div class="flex items-center border-2 border-[#C2CDD6] rounded-lg bg-primaryBg  overflow-hidden">
-          <div class="w-10 h-[44px] bg-[#003399] flex items-center justify-center shrink-0" />
+          <div class="w-10 h-10 bg-[#003399] flex items-center justify-center shrink-0" />
           <input
             v-model="bookingInfo.licensePlate"
             type="text"
             :placeholder="$t('general.licensePlate')"
-            class="flex-1 h-[44px] text-lg font-bold px-4 text-text placeholder:text-[#C2CDD6] placeholder:font-normal
+            class="flex-1 h-10 text-lg font-bold px-4 text-text placeholder:text-[#C2CDD6] placeholder:font-normal
               focus:outline-none uppercase"
           >
         </div>
 
         <!-- Car Brand -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconCarProfile class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.carBrand"
             type="text"
             :placeholder="$t('general.carBrand')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
 
         <!-- Model -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconCarProfile class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.model"
             type="text"
             :placeholder="$t('general.model')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
@@ -184,7 +184,7 @@
             v-model="bookingInfo.mileage"
             type="text"
             :placeholder="$t('general.mileage')"
-            class="flex-1 h-[44px] text-sm text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm text-text placeholder:text-[#C2CDD6]
               focus:outline-none"
           >
         </div>
@@ -195,7 +195,7 @@
             v-model="bookingInfo.vin"
             type="text"
             :placeholder="$t('general.vin')"
-            class="flex-1 h-[44px] text-sm text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm text-text placeholder:text-[#C2CDD6]
               focus:outline-none"
           >
         </div>
@@ -213,9 +213,17 @@
 
     <!-- Desktop Layout -->
     <template v-else>
-      <p class="font-medium text-2xl text-text mb-5">
-        {{ $t('general.vehicleAndCustomerData') }}
-      </p>
+      <div class="flex items-center gap-3">
+        <button
+          class="flex items-center gap-2 text-primary mb-4"
+          @click="emit('go-back')"
+        >
+          <IconArrowBack class="text-primary size-6" />
+        </button>
+        <p class="font-semibold text-2xl text-text mb-4 font-serif">
+          {{ $t('general.vehicleAndCustomerData') }}
+        </p>
+      </div>
 
       <div v-if="false" class="flex px-5 py-2 bg-primaryBg  w-full mb-5 border border-[#E6EBEF] rounded-[10px]">
         <div class="w-[280px]">
@@ -258,70 +266,71 @@
         <p class="font-semibold text-sm text-text mb-3">
           {{ $t('general.customerInformation') }}
         </p>
-        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  mb-3">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
-            <IconMail class="text-primary" />
-          </div>
-          <input
-            v-model="bookingInfo.email"
-            type="email"
-            :placeholder="$t('general.emailPlaceholder')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
-              focus:outline-none rounded-r-lg"
-          >
-        </div>
 
         <div class="flex gap-3 mb-3">
           <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-            <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+            <div class="w-10 h-10 text-sm flex items-center justify-center">
               <IconUser class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.firstName"
               type="text"
               :placeholder="$t('general.firstNamePlaceholder')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
 
           <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-            <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+            <div class="w-10 h-10 text-sm flex items-center justify-center">
               <IconUser class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.lastName"
               type="text"
               :placeholder="$t('general.lastNamePlaceholder')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
         </div>
 
+        <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  mb-3">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
+            <IconMail class="text-primary" />
+          </div>
+          <input
+            v-model="bookingInfo.email"
+            type="email"
+            :placeholder="$t('general.emailPlaceholder')"
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              focus:outline-none rounded-r-lg"
+          >
+        </div>
+
         <div class="flex gap-3 mb-5">
           <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-            <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+            <div class="w-10 h-10 text-sm flex items-center justify-center">
               <IconMobile class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.mobile"
               type="text"
               :placeholder="$t('general.mobilePlaceholder')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
 
           <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-            <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+            <div class="w-10 h-10 text-sm flex items-center justify-center">
               <IconPhone class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.phone"
               type="text"
               :placeholder="$t('general.phone')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
@@ -332,41 +341,41 @@
         </p>
 
         <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  mb-3">
-          <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+          <div class="w-10 h-10 text-sm flex items-center justify-center">
             <IconMapPin class="text-primary" />
           </div>
           <input
             v-model="bookingInfo.street"
             type="text"
             :placeholder="$t('general.street')"
-            class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+            class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
           >
         </div>
 
         <div class="flex gap-3 mb-5">
           <div class="flex w-[220px] items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-            <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+            <div class="w-10 h-10 text-sm flex items-center justify-center">
               <IconMapPin class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.zipCode"
               type="text"
               :placeholder="$t('general.zipCode')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
 
           <div class="flex flex-1 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-            <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+            <div class="w-10 h-10 text-sm flex items-center justify-center">
               <IconMapPin class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.city"
               type="text"
               :placeholder="$t('general.city')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
@@ -382,14 +391,14 @@
           rounded-lg bg-primaryBg  relative overflow-hidden"
           >
             <div
-              class="w-8 h-[44px] bg-[#003399] flex items-center justify-center shrink-0 absolute
+              class="w-8 h-10 bg-[#003399] flex items-center justify-center shrink-0 absolute
               left-0 z-10"
             />
             <input
               v-model="bookingInfo.licensePlate"
               type="text"
               :placeholder="$t('general.licensePlate')"
-              class="flex-1 h-[44px] text-2xl px-4 text-[#324448] pl-12 w-full
+              class="flex-1 h-10 text-2xl px-4 text-[#324448] pl-12 w-full
               placeholder:text-[#C2CDD6] placeholder:font-normal z-[1]
               focus:outline-none uppercase placeholder:normal-case placeholder:font-sans"
               style="font-family: 'FE-Font', sans-serif;"
@@ -397,27 +406,27 @@
           </div>
 
           <div class="flex flex-1 min-w-0 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-            <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+            <div class="w-10 h-10 text-sm flex items-center justify-center">
               <IconCarProfile class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.carBrand"
               type="text"
               :placeholder="$t('general.carBrand')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
 
           <div class="flex flex-1 min-w-0 items-center border border-[#E6EBEF] rounded-lg bg-primaryBg ">
-            <div class="w-10 h-[44px] text-sm flex items-center justify-center">
+            <div class="w-10 h-10 text-sm flex items-center justify-center">
               <IconCarProfile class="text-primary" />
             </div>
             <input
               v-model="bookingInfo.model"
               type="text"
               :placeholder="$t('general.model')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
@@ -429,7 +438,7 @@
               v-model="bookingInfo.mileage"
               type="text"
               :placeholder="$t('general.mileage')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
@@ -439,18 +448,20 @@
               v-model="bookingInfo.vin"
               type="text"
               :placeholder="$t('general.vin')"
-              class="flex-1 h-[44px] text-sm pr-4 text-text placeholder:text-[#C2CDD6]
+              class="flex-1 h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
             >
           </div>
         </div>
 
-        <div class="mt-4">
-          <el-checkbox v-model="bookingInfo.privacyConsent" size="large">
-            <p class="text-sm text-text text-wrap">
-              {{ $t('general.privacyConsent') }}
-            </p>
-          </el-checkbox>
+        <div class="mt-4 flex gap-2 items-start">
+          <el-checkbox
+            id="privacyConsent" v-model="bookingInfo.privacyConsent"
+            size="large"
+            class="!mr-0 checkbox-input"
+          />
+
+          <label class="text-sm text-text text-wrap" for="privacyConsent">{{ $t('general.privacyConsent') }}</label>
         </div>
       </div>
     </template>
@@ -464,9 +475,23 @@ interface IProps {
   isMobile?: boolean
 }
 
+interface IEmits {
+  (e: 'go-back'): void
+}
+
 withDefaults(defineProps<IProps>(), {
   isMobile: false
 })
 
+const emit = defineEmits<IEmits>()
+
 const { bookingInfo } = useAppointmentBooking()
 </script>
+
+<style lang='scss'>
+.checkbox-input {
+  .el-checkbox__input {
+    @apply -mt-[22px];
+  }
+}
+</style>
