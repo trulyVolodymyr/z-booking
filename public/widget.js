@@ -55,7 +55,7 @@
       background: rgba(0,0,0,0.5) !important;
       z-index: 1000000 !important;
       animation: fadeIn 0.3s ease;
-      align-items: center !important;
+      align-items: flex-start !important;
       justify-content: center !important;
       margin: 0 !important;
       padding: 0 !important;
@@ -65,43 +65,58 @@
     
     #widget-iframe-container {
       position: relative !important;
-      width: 94% !important;
-      height: 94vh !important;
+      width: calc(100% - 8px) !important;
+      height: calc(100vh - 40px) !important;
       background: white !important;
       border-radius: 12px !important;
       box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
       animation: slideUp 0.3s ease;
-      margin: auto !important;
+      margin: 40px 4px 0 4px !important;
       transform: none !important;
     }
     
-    #widget-close {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      width: 40px;
-      height: 40px;
+    #widget-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid #E6EBEF;
       background: white;
+      border-radius: 12px 12px 0 0;
+      background-color: #E6EBEF;
+    }
+    
+    #widget-logo {
+      height: 29px;
+      width: auto;
+    }
+    
+    #widget-close {
+      width: 28px;
+      height: 28px;
+      background: #007bff;
       border: none;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 24px;
-      line-height: 1;
-      color: #333;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.2s ease;
     }
     #widget-close:hover {
-      background: #f0f0f0;
-      transform: rotate(90deg);
+      background: #0056b3;
+    }
+    #widget-close svg {
+      width: 16px;
+      height: 16px;
+      color: white;
     }
     
     #widget-iframe {
       width: 100%;
-      height: 100%;
+      height: calc(100% - 75px);
       border: none;
-      border-radius: 12px;
-      scale: 0.95;
+      border-radius: 0 0 12px 12px;
     }
     
     @keyframes fadeIn {
@@ -124,12 +139,23 @@
     document.body.appendChild(btn)
   }
 
+  // Construct logo URL from formUrl
+  const formUrlBase = CONFIG.formUrl.replace(/\/$/, '')
+  const logoUrl = formUrlBase + '/images/logo.png'
+
   // Create overlay (directly on body for full viewport coverage)
   const overlay = document.createElement('div')
   overlay.id = 'widget-overlay'
   overlay.innerHTML = `
     <div id="widget-iframe-container">
-      <button id="widget-close">&times;</button>
+      <div id="widget-header">
+        <img id="widget-logo" src="${logoUrl}" alt="Logo" />
+        <button id="widget-close">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
       <iframe id="widget-iframe" src="" title="Form Widget"></iframe>
     </div>
   `

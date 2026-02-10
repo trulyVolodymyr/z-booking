@@ -70,10 +70,10 @@
       <!-- Fixed Header -->
       <div
         v-if="!bookingSuccess"
-        class="fixed top-0 left-0 right-0 z-50 bg-primaryBg  border-b border-[#E6EBEF]"
+        class="fixed top-0 left-0 right-0 z-50 bg-primaryBg "
       >
         <!-- Top bar: back button, step name, cart button -->
-        <div class="flex items-center justify-between px-4 py-3">
+        <div class="flex items-center justify-between px-6 mb-5 mt-3">
           <button
             v-if="activeStep > 0"
             class="flex items-center justify-center w-8 h-8"
@@ -83,18 +83,18 @@
           </button>
           <div v-else class="w-8" />
 
-          <span class="font-semibold text-lg text-text">{{ stepTitles[activeStep] }}</span>
+          <span class="font-semibold text-base text-text font-serif">{{ stepTitles[activeStep] }}</span>
 
           <button
             class="relative flex items-center justify-center w-10 h-10 rounded-full
-              border border-[#E6EBEF] bg-primaryBg m-1"
+              border border-[#E6EBEF] bg-primaryBg"
             @click="isMobileCartOpen = true"
           >
             <IconCart class="w-5 h-5 text-primary" />
             <span
               v-if="selectedJobs.length > 0"
-              class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs
-                font-semibold rounded-full flex items-center justify-center"
+              class="absolute -top-1 -right-3 w-6 h-4 bg-primary text-white text-xs
+                font-semibold rounded-md flex items-center justify-center"
             >
               {{ selectedJobs.length }}
             </span>
@@ -102,7 +102,7 @@
         </div>
 
         <!-- Stepper (numbers only) -->
-        <div class="flex items-center justify-center gap-2 py-3 px-4">
+        <div class="flex items-center justify-center gap-2 px-6">
           <template v-for="(step, index) in stepTitles" :key="index">
             <div
               class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
@@ -126,8 +126,8 @@
       <!-- Scrollable Content Area -->
       <div
         ref="mobileContentRef"
-        class="flex-1 overflow-y-auto p-4"
-        :class="bookingSuccess ? 'mt-0 mb-0' : 'mt-[120px] mb-[50px]'"
+        class="flex-1 overflow-y-auto pt-4 pl-4 pr-1  gutter"
+        :class="bookingSuccess ? 'mt-0 mb-0' : 'mt-[120px] mb-[67px]'"
       >
         <ServicesStep
           v-if="activeStep === 0"
@@ -164,7 +164,7 @@
       <!-- Fixed Bottom Button -->
       <div
         v-if="!bookingSuccess"
-        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg  pt-1 border-t border-[#E6EBEF] m-1"
+        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg border-t border-[#E6EBEF] px-5 pt-4"
       >
         <button
           class="w-full py-3 rounded-lg font-semibold text-white transition-colors"
@@ -508,5 +508,9 @@ init()
 
 .el-icon.el-notification__closeBtn {
   @apply -top-2 -right-[30px];
+}
+
+.gutter {
+  scrollbar-gutter: stable;
 }
 </style>

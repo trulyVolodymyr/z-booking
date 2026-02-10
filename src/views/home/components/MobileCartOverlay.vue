@@ -14,18 +14,18 @@
         <!-- Overlay Panel -->
         <div class="absolute inset-y-0 right-0 w-full  bg-primaryBg  flex flex-col">
           <!-- Header -->
-          <div class="flex items-center gap-4 px-4 py-4 border-b border-[#E6EBEF]">
+          <div class="flex items-center gap-4 px-4 py-3">
             <button
-              class="flex items-center justify-center w-8 h-8"
+              class="flex items-center justify-center h-8"
               @click="$emit('close')"
             >
-              <IconArrowBack class="text-text" />
+              <IconArrowBack class="text-primary" />
             </button>
-            <span class="font-semibold text-lg text-text">{{ $t('general.appointmentBooking') }}</span>
+            <span class="font-semibold text-text font-serif">{{ $t('general.appointmentBooking') }}</span>
           </div>
 
           <!-- Content -->
-          <div class="flex-1 overflow-y-auto p-4">
+          <div class="flex-1 overflow-y-auto px-4 pb-4">
             <!-- Appointment Section -->
             <div v-if="selectedDate && selectedTime" class="mb-4">
               <p class="font-semibold text-sm text-[#547278] mb-2">
@@ -53,22 +53,25 @@
               <div
                 v-for="(job, index) in selectedJobs"
                 :key="index"
-                class="flex items-start justify-between py-4 border-b border-[#E6EBEF]"
+                class="flex items-start justify-between py-2"
               >
-                <div class="flex-1">
-                  <p class="font-medium text-text">
-                    {{ job.option.label }}
-                  </p>
-                  <p class="text-sm text-text opacity-60">
-                    {{ $t('general.priceCalculationAtBranch') }}
-                  </p>
+                <div class="flex items-start gap-3 flex-1">
+                  <div class="w-[3px] self-stretch rounded-full bg-primary shrink-0 mt-1" />
+                  <div class="flex-1">
+                    <p class="font-medium text-text text-sm">
+                      {{ job.option.label }}
+                    </p>
+                    <p class="text-xs text-text opacity-60">
+                      {{ $t('general.priceCalculationAtBranch') }}
+                    </p>
+                  </div>
                 </div>
                 <button
                   class="w-10 h-10 flex items-center justify-center border border-[#C2CDD6]
                     bg-[#F9FAFB] rounded ml-2"
                   @click="$emit('remove-job', index)"
                 >
-                  <IconDelete class="w-5 h-5 text-text" />
+                  <IconDelete class="w-5 h-5 text-primary" />
                 </button>
               </div>
             </div>
@@ -82,15 +85,18 @@
                   :key="index"
                   class="flex items-start justify-between py-4 border-b border-[#E6EBEF]"
                 >
-                  <div class="flex-1">
-                    <p class="font-medium text-text">{{ info }}</p>
+                  <div class="flex items-start gap-3 flex-1">
+                    <div class="w-[3px] self-stretch rounded-full bg-primary shrink-0 mt-1" />
+                    <div class="flex-1">
+                      <p class="font-medium text-text">{{ info }}</p>
+                    </div>
                   </div>
                   <button
                     class="w-10 h-10 flex items-center justify-center border border-[#C2CDD6]
                       bg-[#F9FAFB] rounded ml-2"
                     @click="$emit('remove-additional-info', index)"
                   >
-                    <IconDelete class="w-5 h-5 text-text" />
+                    <IconDelete class="w-5 h-5 text-primary" />
                   </button>
                 </div>
               </div>

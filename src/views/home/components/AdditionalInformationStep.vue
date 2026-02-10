@@ -10,7 +10,7 @@
         <div
           v-for="(option, index) in options"
           :key="index"
-          class="flex items-center gap-3"
+          class="flex flex-wrap items-center gap-3"
         >
           <div
             class="flex items-center gap-3 cursor-pointer"
@@ -20,7 +20,7 @@
               v-if="selectedOptions.some(opt => opt.startsWith(option))"
               class="text-primary shrink-0"
             />
-            <div v-else class="size-8 flex items-center justify-center">
+            <div v-else class="size-8 flex items-center shrink-0 justify-center">
               <div class="w-[26px] h-[26px] border-[2px] border-primary rounded-full shrink-0" />
             </div>
             <span class="text-text text-sm">{{ option }}</span>
@@ -32,7 +32,7 @@
             v-model="vehicleBackByDate"
             :disabled="!isVehicleBackBySelected"
             :placeholder="$t('general.selectDateTime')"
-            class="!w-[220px]"
+            class="!w-[220px] ml-[44px] sm:ml-0"
             @click.stop
             @change="onVehicleBackByDateChange"
           />
@@ -58,7 +58,7 @@
           class="flex flex-col gap-2"
         >
           <button
-            class="flex h-[44px] items-center justify-center gap-2 px-4 py-3 border transition-colors w-full rounded-lg"
+            class="flex h-[44px] items-center gap-2 px-4 py-3 border transition-colors w-full rounded-lg"
             :class="registrationFile
               ? 'border-primary bg-primary/10' : 'border-[#C2CDD6] bg-primaryBg hover:bg-blue-50'"
             @click="handleUploadRegistration"
@@ -68,7 +68,7 @@
             <span class="text-sm text-primary">{{ $t('general.uploadVehicleRegistration') }}</span>
           </button>
           <button
-            class="flex h-[44px] items-center justify-center gap-2 px-4 py-3 border border-[#C2CDD6]
+            class="flex h-[44px] items-center gap-2 px-4 py-3 border border-[#C2CDD6]
               text-primary rounded-lg hover:bg-blue-50 transition-colors bg-primaryBg  w-full"
             @click="handleUploadDocuments"
           >
@@ -82,15 +82,15 @@
           <div
             v-for="(file, index) in uploadedFiles"
             :key="index"
-            class="flex items-center justify-between gap-2 px-3 py-2 border border-[#C2CDD6]
-              rounded-lg bg-[#F9FAFB]"
+            class="flex items-center justify-between gap-2 px-3 py-2
+              rounded-lg bg-[#DAE1E7]"
           >
             <span class="text-sm text-primary font-medium truncate flex-1">
               {{ file.name }}
             </span>
             <button
-              class="size-8 flex items-center justify-center border border-[#C2CDD6] rounded
-                hover:border-primary hover:shadow-md transition-colors shrink-0"
+              class="size-8 flex items-center shrink-0 justify-center border border-[#C2CDD6] rounded
+                hover:border-primary hover:shadow-md transition-colors bg-white"
               @click="removeFile(index)"
             >
               <IconDelete class="size-5 text-primary" />
@@ -138,7 +138,7 @@
                   class=" text-primary shrink-0"
                 />
 
-                <div v-else class="size-8 flex items-center justify-center">
+                <div v-else class="size-8 flex items-center shrink-0 justify-center">
                   <div class="w-[26px] h-[26px] border-[2px] border-primary rounded-full shrink-0" />
                 </div>
                 <span class="text-text 1250:text-sm text-xs">{{ option }}</span>
@@ -210,7 +210,7 @@
                   {{ file.name }}
                 </span>
                 <button
-                  class="size-8 flex items-center justify-center bg-white rounded-md
+                  class="size-8 flex items-center shrink-0 justify-center bg-white rounded-md
                     hover:shadow-md transition-colors shrink-0"
                   @click="removeFile(index)"
                 >

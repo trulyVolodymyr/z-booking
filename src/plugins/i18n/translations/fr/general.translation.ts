@@ -12,6 +12,7 @@ export const generalTranslations = {
   searchForService: 'Rechercher un service',
   book: 'Réserver',
   unbook: 'Annuler',
+  noResultsFound: 'Aucun résultat trouvé',
 
   // AdditionalInformationStep
   additionalInformation: 'Informations complémentaires',

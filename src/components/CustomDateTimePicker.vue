@@ -26,7 +26,7 @@
       <div
         v-if="displayValue"
         class="w-4 shrink-0 h-4 flex items-center justify-center text-[#c0c4cc] hover:text-[#909399] cursor-pointer
-        -ml-3"
+        -ml-3 -mt-[2px]"
         @click.stop="clearValue"
       >
         ×
@@ -309,13 +309,51 @@ const togglePicker = () => {
   }
 }
 
+const isMobile = computed(() => window.innerWidth < 900)
+
 const updateDropdownPosition = () => {
   if (!pickerRef.value) return
+  const dropdownHeight = 380 // Approximate height of the dropdown
+  const dropdownWidth = 280
+  const viewportHeight = window.innerHeight
+  const viewportWidth = window.innerWidth
+
+  // On mobile, center the dropdown in the viewport
+  if (isMobile.value) {
+    dropdownStyle.value = {
+      position: 'fixed',
+      top: `${Math.max(8, (viewportHeight - dropdownHeight) / 2)}px`,
+      left: `${Math.max(8, (viewportWidth - dropdownWidth) / 2)}px`,
+      zIndex: 2000
+    }
+    return
+  }
+
+  // Desktop: position near the input
   const rect = pickerRef.value.getBoundingClientRect()
+  const spaceBelow = viewportHeight - rect.bottom
+  const spaceAbove = rect.top
+
+  // Determine vertical position: prefer below, but use above if not enough space
+  let top: number
+  if (spaceBelow >= dropdownHeight + 4) {
+    top = rect.bottom + 4
+  } else if (spaceAbove >= dropdownHeight + 4) {
+    top = rect.top - dropdownHeight - 4
+  } else {
+    top = Math.max(8, (viewportHeight - dropdownHeight) / 2)
+  }
+
+  // Ensure horizontal position doesn't overflow
+  let left = rect.left
+  if (left + dropdownWidth > viewportWidth) {
+    left = Math.max(8, viewportWidth - dropdownWidth - 8)
+  }
+
   dropdownStyle.value = {
     position: 'fixed',
-    top: `${rect.bottom + 4}px`,
-    left: `${rect.left}px`,
+    top: `${top}px`,
+    left: `${left}px`,
     zIndex: 2000
   }
 }
