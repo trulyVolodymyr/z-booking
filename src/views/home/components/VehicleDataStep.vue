@@ -18,11 +18,13 @@
             <IconMail class="text-primary" />
           </div>
           <input
+            ref="emailInput"
             v-model="bookingInfo.email"
             type="email"
             :placeholder="$t('general.emailPlaceholder')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="firstNameInput?.focus()"
           >
         </div>
 
@@ -32,11 +34,13 @@
             <IconUser class="text-primary" />
           </div>
           <input
+            ref="firstNameInput"
             v-model="bookingInfo.firstName"
             type="text"
             :placeholder="$t('general.firstNamePlaceholder')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="lastNameInput?.focus()"
           >
         </div>
 
@@ -46,11 +50,13 @@
             <IconUser class="text-primary" />
           </div>
           <input
+            ref="lastNameInput"
             v-model="bookingInfo.lastName"
             type="text"
             :placeholder="$t('general.lastNamePlaceholder')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="mobileInput?.focus()"
           >
         </div>
 
@@ -60,11 +66,13 @@
             <IconMobile class="text-primary" />
           </div>
           <input
+            ref="mobileInput"
             v-model="bookingInfo.mobile"
             type="phone"
             :placeholder="$t('general.mobilePlaceholder')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="phoneInput?.focus()"
           >
         </div>
 
@@ -74,11 +82,13 @@
             <IconPhone class="text-primary" />
           </div>
           <input
+            ref="phoneInput"
             v-model="bookingInfo.phone"
             type="text"
             :placeholder="$t('general.phone')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="streetInput?.focus()"
           >
         </div>
       </div>
@@ -95,11 +105,13 @@
             <IconMapPin class="text-primary" />
           </div>
           <input
+            ref="streetInput"
             v-model="bookingInfo.street"
             type="text"
             :placeholder="$t('general.street')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="zipCodeInput?.focus()"
           >
         </div>
 
@@ -109,11 +121,13 @@
             <IconMapPin class="text-primary" />
           </div>
           <input
+            ref="zipCodeInput"
             v-model="bookingInfo.zipCode"
             type="text"
             :placeholder="$t('general.zipCode')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="cityInput?.focus()"
           >
         </div>
 
@@ -123,11 +137,13 @@
             <IconMapPin class="text-primary" />
           </div>
           <input
+            ref="cityInput"
             v-model="bookingInfo.city"
             type="text"
             :placeholder="$t('general.city')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="licensePlateInput?.focus()"
           >
         </div>
       </div>
@@ -139,15 +155,17 @@
 
       <div class="space-y-3 mb-4">
         <!-- License Plate -->
-        <div class="flex items-center border-2 border-[#C2CDD6] rounded-lg bg-primaryBg  overflow-hidden">
+        <div class="flex items-center border-2 border-[#C2CDD6] rounded-lg bg-primaryBg  overflow-hidden w-2/3">
           <div class="w-10 h-9 1250:h-10 bg-[#003399] flex items-center justify-center shrink-0" />
           <input
+            ref="licensePlateInput"
             v-model="bookingInfo.licensePlate"
             type="text"
             :placeholder="$t('general.licensePlate')"
             class="flex-1 h-9 1250:h-10 text-lg font-bold px-4 text-text placeholder:text-[#C2CDD6]
             placeholder:font-normal
               focus:outline-none uppercase"
+            @keydown.enter="carBrandInput?.focus()"
           >
         </div>
 
@@ -157,11 +175,13 @@
             <IconCarProfile class="text-primary" />
           </div>
           <input
+            ref="carBrandInput"
             v-model="bookingInfo.carBrand"
             type="text"
             :placeholder="$t('general.carBrand')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="modelInput?.focus()"
           >
         </div>
 
@@ -171,40 +191,46 @@
             <IconCarProfile class="text-primary" />
           </div>
           <input
+            ref="modelInput"
             v-model="bookingInfo.model"
             type="text"
             :placeholder="$t('general.model')"
             class="flex-1 h-9 1250:h-10 text-sm pr-4 text-text placeholder:text-[#C2CDD6]
               focus:outline-none rounded-r-lg"
+            @keydown.enter="mileageInput?.focus()"
           >
         </div>
 
         <!-- Mileage -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  px-4">
           <input
+            ref="mileageInput"
             v-model="bookingInfo.mileage"
             type="text"
             :placeholder="$t('general.mileage')"
             class="flex-1 h-9 1250:h-10 text-sm text-text placeholder:text-[#C2CDD6]
               focus:outline-none"
+            @keydown.enter="vinInput?.focus()"
           >
         </div>
 
         <!-- VIN -->
         <div class="flex items-center border border-[#E6EBEF] rounded-lg bg-primaryBg  px-4">
           <input
+            ref="vinInput"
             v-model="bookingInfo.vin"
             type="text"
             :placeholder="$t('general.vin')"
             class="flex-1 h-9 1250:h-10 text-sm text-text placeholder:text-[#C2CDD6]
               focus:outline-none"
+            @keydown.enter="vinInput?.blur()"
           >
         </div>
       </div>
 
       <!-- Privacy Consent -->
       <div class="mt-4">
-        <el-checkbox v-model="bookingInfo.privacyConsent" size="large">
+        <el-checkbox v-model="bookingInfo.privacyConsent" size="large" class="checkbox-top-align">
           <p class="text-xs text-text whitespace-normal break-words">
             {{ $t('general.privacyConsentMobile') }}
           </p>
@@ -472,7 +498,22 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
+
+const emailInput = ref<HTMLInputElement | null>(null)
+const firstNameInput = ref<HTMLInputElement | null>(null)
+const lastNameInput = ref<HTMLInputElement | null>(null)
+const mobileInput = ref<HTMLInputElement | null>(null)
+const phoneInput = ref<HTMLInputElement | null>(null)
+const streetInput = ref<HTMLInputElement | null>(null)
+const zipCodeInput = ref<HTMLInputElement | null>(null)
+const cityInput = ref<HTMLInputElement | null>(null)
+const licensePlateInput = ref<HTMLInputElement | null>(null)
+const carBrandInput = ref<HTMLInputElement | null>(null)
+const modelInput = ref<HTMLInputElement | null>(null)
+const mileageInput = ref<HTMLInputElement | null>(null)
+const vinInput = ref<HTMLInputElement | null>(null)
 
 interface IProps {
   isMobile?: boolean
@@ -492,6 +533,15 @@ const { bookingInfo } = useAppointmentBooking()
 </script>
 
 <style lang='scss'>
+.checkbox-top-align {
+  &.el-checkbox {
+    align-items: flex-start !important;
+  }
+  .el-checkbox__input {
+    margin-top: 2px;
+  }
+}
+
 .checkbox-input {
   .el-checkbox__input {
     @apply -mt-[22px];

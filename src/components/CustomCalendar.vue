@@ -2,7 +2,7 @@
   <div
     class="w-[280px] 1080:w-[330px] h-[270px] border border-[#E6EBEF] rounded-[10px] p-3 bg-primaryBg
   overflow-hidden"
-    :style="{ boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)' }"
+    :style="{ 'box-shadow': '0px 6px 12px 0px rgba(0, 0, 0, 0.03)' }"
   >
     <!-- Month Navigation -->
     <div class="flex items-center justify-between mb-2">
@@ -45,7 +45,7 @@
         :class="getDayClasses(day)"
         @click="selectDay(day)"
       >
-        <span class="text-xs" :class="getDayTextClasses(day)">
+        <span class="" :class="getDayTextClasses(day)">
           {{ day.date }}
         </span>
         <!-- Green dot indicator for available days -->

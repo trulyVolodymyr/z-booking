@@ -1,7 +1,7 @@
 <template>
   <div
     v-loading="loading"
-    class="flex items-center justify-center h-full w-full bg-primaryBg p-1 900:p-4"
+    class="flex items-center justify-center h-full w-full p-1 900:p-4"
   >
     <div
       :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
@@ -34,17 +34,18 @@
           @select-service="selectService"
           @toggle-option="toggleOption"
         />
-        <AdditionalInformationStep
+
+        <AppointmentStep
           v-if="activeStep === 1"
+          :token="token"
+          @go-back="activeStep--"
+        />
+        <AdditionalInformationStep
+          v-if="activeStep === 2"
           v-model="selectedAdditionalInfo"
           @go-back="activeStep--"
         />
 
-        <AppointmentStep
-          v-if="activeStep === 2"
-          :token="token"
-          @go-back="activeStep--"
-        />
         <VehicleDataStep v-if="activeStep === 3" @go-back="activeStep--" />
       </div>
 
@@ -79,7 +80,7 @@
             class="flex items-center justify-center w-8 h-8"
             @click="activeStep--"
           >
-            <IconArrowBack class="text-text" />
+            <IconArrowBack class="text-primary size-4" />
           </button>
           <div v-else class="w-8" />
 
@@ -141,16 +142,19 @@
           @book-option="handleBookOption"
           @unbook-option="handleUnbookOption"
         />
-        <AdditionalInformationStep
-          v-if="activeStep === 1"
-          v-model="selectedAdditionalInfo"
-          :is-mobile="true"
-        />
+
         <AppointmentStep
-          v-if="activeStep === 2"
+          v-if="activeStep === 1"
           :token="token"
           :is-mobile="true"
         />
+
+        <AdditionalInformationStep
+          v-if="activeStep === 2"
+          v-model="selectedAdditionalInfo"
+          :is-mobile="true"
+        />
+
         <VehicleDataStep
           v-if="activeStep === 3 && !bookingSuccess"
           :is-mobile="true"
@@ -183,6 +187,7 @@
         :is-open="isMobileCartOpen"
         :selected-jobs="selectedJobs"
         :selected-additional-info="selectedAdditionalInfo"
+        :token="token"
         @close="isMobileCartOpen = false"
         @remove-job="removeJob"
         @remove-additional-info="removeAdditionalInfo"
@@ -195,13 +200,14 @@
         :selected-additional-info="selectedAdditionalInfo"
         :token="token"
         @close="isMobileBookingOpen = false"
+        @remove-job="removeJob"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import AppointmentBookingSidebar from '@/views/home/components/AppointmentBookingSidebar.vue'
 import ServicesStep from '@/views/home/components/ServicesStep.vue'
 import AdditionalInformationStep from '@/views/home/components/AdditionalInformationStep.vue'
@@ -232,8 +238,25 @@ const {
   servicesConfig,
   config,
   bookingSuccess,
-  isContinueDisabled
+  isContinueDisabled,
+  resetAll
 } = useAppointmentBooking()
+
+const handleWidgetMessage = (event: MessageEvent) => {
+  if (event.data === 'resetWidget') {
+    resetAll()
+    isMobileCartOpen.value = false
+    isMobileBookingOpen.value = false
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('message', handleWidgetMessage)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('message', handleWidgetMessage)
+})
 
 const isMobileCartOpen = ref(false)
 const isMobileBookingOpen = ref(false)
@@ -334,6 +357,12 @@ const removeJob = (index: number) => {
   const optionIndex = selectedServiceOptions.value.indexOf(job.option.label)
   if (optionIndex > -1) {
     selectedServiceOptions.value.splice(optionIndex, 1)
+  }
+  if (selectedJobs.value.length === 0) {
+    activeStep.value = 0
+    isMobileCartOpen.value = false
+    isMobileBookingOpen.value = false
+    return
   }
   fetchAvailableDays()
 }

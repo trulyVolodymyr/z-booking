@@ -26,7 +26,7 @@
       <div
         v-if="displayValue"
         class="w-4 shrink-0 h-4 flex items-center justify-center text-[#c0c4cc] hover:text-[#909399] cursor-pointer
-        -ml-3 -mt-[2px]"
+        -ml-5 -mt-[2px]"
         @click.stop="clearValue"
       >
         ×
@@ -37,123 +37,162 @@
     <Teleport to="body">
       <div
         v-if="isOpen"
-        ref="dropdownRef"
-        class="bg-white border border-[#e4e7ed] rounded shadow-lg w-[280px]"
-        :style="dropdownStyle"
+        class="fixed inset-0 z-[1999] bg-[#000]/30"
+        @click.self="closePicker"
       >
-        <!-- Month navigation -->
-        <div class="flex items-center justify-between py-2 px-3">
-          <button
-            type="button"
-            class="border-none bg-transparent py-1 px-2 cursor-pointer text-[#303133] text-base hover:text-primary"
-            @click="prevYear"
-          >
-            &laquo;
-          </button>
-          <button
-            type="button"
-            class="border-none bg-transparent py-1 px-2 cursor-pointer text-[#303133] text-base hover:text-primary"
-            @click="prevMonth"
-          >
-            &lsaquo;
-          </button>
-          <span class="text-sm font-medium text-[#606266]">{{ currentYear }} {{ monthNames[currentMonth] }}</span>
-          <button
-            type="button"
-            class="border-none bg-transparent py-1 px-2 cursor-pointer text-[#303133] text-base hover:text-primary"
-            @click="nextMonth"
-          >
-            &rsaquo;
-          </button>
-          <button
-            type="button"
-            class="border-none bg-transparent py-1 px-2 cursor-pointer text-[#303133] text-base hover:text-primary"
-            @click="nextYear"
-          >
-            &raquo;
-          </button>
-        </div>
-
-        <!-- Calendar -->
-        <div class="px-3">
-          <div class="grid grid-cols-7 text-center pb-1">
-            <span
-              v-for="day in dayNames"
-              :key="day"
-              class="text-xs text-[#606266] font-normal py-0.5"
+        <div
+          ref="dropdownRef"
+          class="bg-white border border-[#e4e7ed] rounded-lg shadow-lg w-[80%] max-w-[400px]
+            fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[2000]"
+        >
+          <!-- Month navigation -->
+          <div class="flex items-center justify-between py-2 px-3">
+            <button
+              type="button"
+              class="border-none bg-transparent py-1 px-2 cursor-pointer text-[#303133] text-base hover:text-primary"
+              @click="prevYear"
             >
-              {{ day }}
-            </span>
+              &laquo;
+            </button>
+            <button
+              type="button"
+              class="border-none bg-transparent py-1 px-2 cursor-pointer text-[#303133] text-base hover:text-primary"
+              @click="prevMonth"
+            >
+              &lsaquo;
+            </button>
+            <span class="text-sm font-medium text-[#606266]">{{ currentYear }} {{ monthNames[currentMonth] }}</span>
+            <button
+              type="button"
+              class="border-none bg-transparent py-1 px-2 cursor-pointer text-[#303133] text-base hover:text-primary"
+              @click="nextMonth"
+            >
+              &rsaquo;
+            </button>
+            <button
+              type="button"
+              class="border-none bg-transparent py-1 px-2 cursor-pointer text-[#303133] text-base hover:text-primary"
+              @click="nextYear"
+            >
+              &raquo;
+            </button>
           </div>
-          <div class="flex flex-col">
-            <div
-              v-for="(week, weekIndex) in calendarDays"
-              :key="weekIndex"
-              class="grid grid-cols-7"
-            >
-              <button
-                v-for="(day, dayIndex) in week"
-                :key="dayIndex"
-                type="button"
-                class="flex items-center justify-center w-[30px] h-[28px] mx-auto my-0.5
-                  border-none rounded-full bg-transparent cursor-pointer text-xs text-[#606266]
-                  transition-all hover:text-primary"
-                :class="{
-                  'text-[#c0c4cc]': day.isOtherMonth,
-                  'bg-primary text-white hover:text-white': isSelectedDay(day),
-                  'text-primary font-bold': isToday(day) && !isSelectedDay(day)
-                }"
-                @click="selectDay(day)"
+
+          <!-- Calendar -->
+          <div class="px-3">
+            <div class="grid grid-cols-7 text-center pb-1">
+              <span
+                v-for="day in dayNames"
+                :key="day"
+                class="text-xs text-[#606266] font-normal py-0.5"
               >
-                {{ day.date }}
-              </button>
+                {{ day }}
+              </span>
+            </div>
+            <div class="flex flex-col">
+              <div
+                v-for="(week, weekIndex) in calendarDays"
+                :key="weekIndex"
+                class="grid grid-cols-7"
+              >
+                <button
+                  v-for="(day, dayIndex) in week"
+                  :key="dayIndex"
+                  type="button"
+                  class="flex items-center justify-center w-[30px] h-[28px] mx-auto my-0.5
+                  border-none rounded-full bg-transparent  text-[#606266]
+                  transition-all"
+                  :class="{
+                    'text-[#c0c4cc] cursor-not-allowed': day.isOtherMonth || isDisabledDay(day),
+                    'cursor-pointer hover:text-primary': !day.isOtherMonth && !isDisabledDay(day),
+                    'bg-primary text-white hover:text-white': isSelectedDay(day) && !isDisabledDay(day),
+                    'text-primary font-bold': isToday(day) && !isSelectedDay(day) && !isDisabledDay(day)
+                  }"
+                  :disabled="isDisabledDay(day) || day.isOtherMonth"
+                  @click="selectDay(day)"
+                >
+                  {{ day.date }}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Time picker -->
-        <div class="flex justify-center py-2 border-t border-[#e4e7ed]">
-          <div class="flex items-center gap-1">
-            <input
-              v-model.number="selectedHour"
-              type="number"
-              min="0"
-              max="23"
-              class="w-[70px] py-1.5 px-2 border border-[#dcdfe6] rounded text-center text-sm
-                focus:outline-none focus:border-primary"
-              @change="validateHour"
+          <!-- Time picker wheels -->
+          <div class="flex justify-center items-center py-3 border-t border-[#e4e7ed] gap-2">
+            <div
+              ref="hourWheelRef"
+              class="relative h-[140px] w-[70px] overflow-hidden"
+              @touchstart="onWheelTouchStart($event, 'hour')"
+              @touchmove.prevent="onWheelTouchMove"
+              @touchend="onWheelTouchEnd"
+              @wheel.prevent="onWheelScroll($event, 'hour')"
             >
-            <span class="text-base text-[#606266]">:</span>
-            <input
-              v-model.number="selectedMinute"
-              type="number"
-              min="0"
-              max="59"
-              class="w-[70px] py-1.5 px-2 border border-[#dcdfe6] rounded text-center text-sm
-                focus:outline-none focus:border-primary"
-              @change="validateMinute"
+              <div class="absolute inset-x-0 top-[56px] h-[28px] bg-[#f5f7fa] rounded pointer-events-none z-0" />
+              <div
+                class="flex flex-col items-center transition-transform duration-200"
+                :style="{ transform: `translateY(${hourOffset}px)` }"
+              >
+                <div
+                  v-for="h in hourOptions"
+                  :key="h"
+                  class="h-[28px] flex items-center justify-center text-sm cursor-pointer select-none w-full"
+                  :class="h === selectedHour
+                    ? 'text-[#303133] font-semibold text-base'
+                    : 'text-[#c0c4cc]'"
+                  @click="selectHourWheel(h)"
+                >
+                  {{ String(h).padStart(2, '0') }}
+                </div>
+              </div>
+            </div>
+            <span class="text-base text-[#606266] font-semibold">:</span>
+            <div
+              ref="minuteWheelRef"
+              class="relative h-[140px] w-[70px] overflow-hidden"
+              @touchstart="onWheelTouchStart($event, 'minute')"
+              @touchmove.prevent="onWheelTouchMove"
+              @touchend="onWheelTouchEnd"
+              @wheel.prevent="onWheelScroll($event, 'minute')"
             >
+              <div class="absolute inset-x-0 top-[56px] h-[28px] bg-[#f5f7fa] rounded pointer-events-none z-0" />
+              <div
+                class="flex flex-col items-center transition-transform duration-200"
+                :style="{ transform: `translateY(${minuteOffset}px)` }"
+              >
+                <div
+                  v-for="m in minuteOptions"
+                  :key="m"
+                  class="h-[28px] flex items-center justify-center text-sm cursor-pointer select-none w-full"
+                  :class="m === selectedMinute
+                    ? 'text-[#303133] font-semibold text-base'
+                    : 'text-[#c0c4cc]'"
+                  @click="selectMinuteWheel(m)"
+                >
+                  {{ String(m).padStart(2, '0') }}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- Footer buttons -->
-        <div class="flex justify-end gap-2 py-2 px-3 border-t border-[#e4e7ed]">
-          <button
-            type="button"
-            class="py-1.5 px-4 border border-[#dcdfe6] rounded bg-white cursor-pointer text-sm
+          <!-- Footer buttons -->
+          <div class="flex justify-end gap-2 py-2 px-3 border-t border-[#e4e7ed]">
+            <button
+              type="button"
+              class="py-1.5 px-4 border border-[#dcdfe6] rounded bg-white cursor-pointer text-sm
               text-[#606266] hover:text-primary hover:border-primary"
-            @click="closePicker"
-          >
-            {{ t('general.close') }}
-          </button>
-          <button
-            type="button"
-            class="py-1.5 px-4 border border-primary rounded bg-primary cursor-pointer text-sm
+              @click="closePicker"
+            >
+              {{ t('general.close') }}
+            </button>
+            <button
+              type="button"
+              class="py-1.5 px-4 border border-primary rounded bg-primary cursor-pointer text-sm
               text-white hover:opacity-90"
-            @click="confirmSelection"
-          >
-            {{ t('general.ok') }}
-          </button>
+              @click="confirmSelection"
+            >
+              {{ t('general.ok') }}
+            </button>
+          </div>
         </div>
       </div>
     </Teleport>
@@ -161,7 +200,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -191,17 +230,92 @@ const currentMonth = ref(new Date().getMonth())
 const currentYear = ref(new Date().getFullYear())
 
 const selectedDate = ref<Date | null>(null)
-const selectedHour = ref(0)
+const selectedHour = ref(8)
 const selectedMinute = ref(0)
 
+const hourWheelRef = ref<HTMLElement | null>(null)
+const minuteWheelRef = ref<HTMLElement | null>(null)
+
+const hourOptions = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+const minuteOptions = Array.from({ length: 60 }, (_, i) => i)
+
+const ITEM_HEIGHT = 28
+
+const hourOffset = computed(() => {
+  const idx = hourOptions.indexOf(selectedHour.value)
+  return -(idx * ITEM_HEIGHT) + 2 * ITEM_HEIGHT
+})
+
+const minuteOffset = computed(() => {
+  const idx = minuteOptions.indexOf(selectedMinute.value)
+  return -(idx * ITEM_HEIGHT) + 2 * ITEM_HEIGHT
+})
+
+const selectHourWheel = (h: number) => {
+  selectedHour.value = h
+  updateSelectedDateTime()
+}
+
+const selectMinuteWheel = (m: number) => {
+  selectedMinute.value = m
+  updateSelectedDateTime()
+}
+
+// Touch/swipe support
+let touchStartY = 0
+let touchTarget: 'hour' | 'minute' | null = null
+
+const onWheelTouchStart = (e: TouchEvent, target: 'hour' | 'minute') => {
+  touchStartY = e.touches[0].clientY
+  touchTarget = target
+}
+
+const onWheelTouchMove = (e: TouchEvent) => {
+  e.preventDefault()
+}
+
+const onWheelTouchEnd = (e: TouchEvent) => {
+  if (!touchTarget) return
+  const deltaY = touchStartY - e.changedTouches[0].clientY
+  const steps = Math.round(deltaY / ITEM_HEIGHT)
+  if (steps === 0) return
+
+  if (touchTarget === 'hour') {
+    const idx = hourOptions.indexOf(selectedHour.value)
+    const newIdx = Math.max(0, Math.min(hourOptions.length - 1, idx + steps))
+    selectedHour.value = hourOptions[newIdx]
+  } else {
+    const idx = minuteOptions.indexOf(selectedMinute.value)
+    const newIdx = Math.max(0, Math.min(minuteOptions.length - 1, idx + steps))
+    selectedMinute.value = minuteOptions[newIdx]
+  }
+  updateSelectedDateTime()
+  touchTarget = null
+}
+
+const onWheelScroll = (e: WheelEvent, target: 'hour' | 'minute') => {
+  e.preventDefault()
+  const direction = e.deltaY > 0 ? 1 : -1
+  if (target === 'hour') {
+    const idx = hourOptions.indexOf(selectedHour.value)
+    const newIdx = Math.max(0, Math.min(hourOptions.length - 1, idx + direction))
+    selectedHour.value = hourOptions[newIdx]
+  } else {
+    const idx = minuteOptions.indexOf(selectedMinute.value)
+    const newIdx = Math.max(0, Math.min(minuteOptions.length - 1, idx + direction))
+    selectedMinute.value = minuteOptions[newIdx]
+  }
+  updateSelectedDateTime()
+}
+
 const dayNames = computed(() => [
-  t('general.sun'),
   t('general.mon'),
   t('general.tue'),
   t('general.wed'),
   t('general.thu'),
   t('general.fri'),
-  t('general.sat')
+  t('general.sat'),
+  t('general.sun')
 ])
 
 const monthNames = computed(() => [
@@ -219,13 +333,6 @@ const monthNames = computed(() => [
   t('general.december')
 ])
 
-const dropdownStyle = ref({
-  position: 'fixed' as const,
-  top: '0px',
-  left: '0px',
-  zIndex: 2000
-})
-
 const displayValue = computed(() => {
   if (!selectedDate.value) return ''
   return formatDateTime(selectedDate.value)
@@ -235,7 +342,8 @@ const calendarDays = computed(() => {
   const days: Array<Array<{ date: number; fullDate: Date; isOtherMonth: boolean }>> = []
   const firstDay = new Date(currentYear.value, currentMonth.value, 1)
   const lastDay = new Date(currentYear.value, currentMonth.value + 1, 0)
-  const startDay = firstDay.getDay()
+  // Convert Sunday=0 to Monday-based: Mon=0, Tue=1, ..., Sun=6
+  const startDay = (firstDay.getDay() + 6) % 7
 
   let currentWeek: Array<{ date: number; fullDate: Date; isOtherMonth: boolean }> = []
 
@@ -281,13 +389,25 @@ const calendarDays = computed(() => {
   return days
 })
 
+const isDisabledDay = (day: { fullDate: Date }): boolean => {
+  const d = day.fullDate
+  const dayOfWeek = d.getDay()
+  // Disable weekends (Saturday=6, Sunday=0)
+  if (dayOfWeek === 0 || dayOfWeek === 6) return true
+  // Disable days before today
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  if (d < today) return true
+  return false
+}
+
 const formatDateTime = (date: Date): string => {
   const day = date.getDate().toString().padStart(2, '0')
   const month = (date.getMonth() + 1).toString().padStart(2, '0')
   const year = date.getFullYear().toString().slice(-2)
   const hours = date.getHours().toString().padStart(2, '0')
   const minutes = date.getMinutes().toString().padStart(2, '0')
-  return `${day}/${month}/${year} ${hours}:${minutes}`
+  return `${day}.${month}.${year} ${hours}:${minutes}`
 }
 
 const isSelectedDay = (day: { fullDate: Date }): boolean => {
@@ -302,60 +422,6 @@ const isToday = (day: { fullDate: Date }): boolean => {
 const togglePicker = () => {
   if (props.disabled) return
   isOpen.value = !isOpen.value
-  if (isOpen.value) {
-    nextTick(() => {
-      updateDropdownPosition()
-    })
-  }
-}
-
-const isMobile = computed(() => window.innerWidth < 900)
-
-const updateDropdownPosition = () => {
-  if (!pickerRef.value) return
-  const dropdownHeight = 380 // Approximate height of the dropdown
-  const dropdownWidth = 280
-  const viewportHeight = window.innerHeight
-  const viewportWidth = window.innerWidth
-
-  // On mobile, center the dropdown in the viewport
-  if (isMobile.value) {
-    dropdownStyle.value = {
-      position: 'fixed',
-      top: `${Math.max(8, (viewportHeight - dropdownHeight) / 2)}px`,
-      left: `${Math.max(8, (viewportWidth - dropdownWidth) / 2)}px`,
-      zIndex: 2000
-    }
-    return
-  }
-
-  // Desktop: position near the input
-  const rect = pickerRef.value.getBoundingClientRect()
-  const spaceBelow = viewportHeight - rect.bottom
-  const spaceAbove = rect.top
-
-  // Determine vertical position: prefer below, but use above if not enough space
-  let top: number
-  if (spaceBelow >= dropdownHeight + 4) {
-    top = rect.bottom + 4
-  } else if (spaceAbove >= dropdownHeight + 4) {
-    top = rect.top - dropdownHeight - 4
-  } else {
-    top = Math.max(8, (viewportHeight - dropdownHeight) / 2)
-  }
-
-  // Ensure horizontal position doesn't overflow
-  let left = rect.left
-  if (left + dropdownWidth > viewportWidth) {
-    left = Math.max(8, viewportWidth - dropdownWidth - 8)
-  }
-
-  dropdownStyle.value = {
-    position: 'fixed',
-    top: `${top}px`,
-    left: `${left}px`,
-    zIndex: 2000
-  }
 }
 
 const prevMonth = () => {
@@ -385,26 +451,10 @@ const nextYear = () => {
 }
 
 const selectDay = (day: { fullDate: Date; isOtherMonth: boolean }) => {
+  if (isDisabledDay(day) || day.isOtherMonth) return
   const newDate = new Date(day.fullDate)
   newDate.setHours(selectedHour.value, selectedMinute.value, 0, 0)
   selectedDate.value = newDate
-
-  if (day.isOtherMonth) {
-    currentMonth.value = day.fullDate.getMonth()
-    currentYear.value = day.fullDate.getFullYear()
-  }
-}
-
-const validateHour = () => {
-  if (selectedHour.value < 0) selectedHour.value = 0
-  if (selectedHour.value > 23) selectedHour.value = 23
-  updateSelectedDateTime()
-}
-
-const validateMinute = () => {
-  if (selectedMinute.value < 0) selectedMinute.value = 0
-  if (selectedMinute.value > 59) selectedMinute.value = 59
-  updateSelectedDateTime()
 }
 
 const updateSelectedDateTime = () => {
@@ -421,7 +471,7 @@ const closePicker = () => {
 
 const clearValue = () => {
   selectedDate.value = null
-  selectedHour.value = 0
+  selectedHour.value = 8
   selectedMinute.value = 0
   emit('update:modelValue', null)
   emit('change', null)
@@ -453,7 +503,8 @@ watch(() => props.modelValue, (newValue) => {
   if (newValue) {
     const date = typeof newValue === 'string' ? new Date(newValue) : newValue
     selectedDate.value = date
-    selectedHour.value = date.getHours()
+    const h = date.getHours()
+    selectedHour.value = Math.max(8, Math.min(19, h))
     selectedMinute.value = date.getMinutes()
     currentMonth.value = date.getMonth()
     currentYear.value = date.getFullYear()
@@ -464,13 +515,9 @@ watch(() => props.modelValue, (newValue) => {
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
-  window.addEventListener('scroll', updateDropdownPosition)
-  window.addEventListener('resize', updateDropdownPosition)
 })
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
-  window.removeEventListener('scroll', updateDropdownPosition)
-  window.removeEventListener('resize', updateDropdownPosition)
 })
 </script>

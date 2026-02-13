@@ -5,6 +5,8 @@ export const generalTranslations = {
   or: 'ODER',
   close: 'Schließen',
   ok: 'OK',
+  loading: 'Laden',
+  changeAppointment: 'Termin ändern',
 
   // ServicesStep
   selectYourService: 'Wählen Sie Ihre Leistung',
@@ -16,17 +18,18 @@ export const generalTranslations = {
 
   // AdditionalInformationStep
   additionalInformation: 'Zusätzliche Informationen',
+  additionalDocuments: 'Zusätzliche Dokumente',
   additionalInfoDescription: 'Bitte geben Sie hier weitere Details zu Ihrer Buchung an.',
   additionalServicesQuestion: 'Benötigen Sie weitere Serviceleistungen?',
-  uploadDocumentsQuestion: 'Möchten Sie Dokumente hochladen?',
   notesOnAppointment: 'Haben Sie weitere Informationen zu Ihrem Termin?',
   supplementaryRemarks: 'Ergänzende Bemerkungen',
   uploadVehicleRegistration: 'Fahrzeugschein hochladen',
   uploadOtherDocuments: 'Weitere Dokumente hochladen',
+  uploadAdditionalDocuments: 'Zusätzliche Dokumente hochladen',
   optionWaitOnSite: 'Ich möchte vor Ort warten',
   optionReplacementMobility: 'Ich benötige Ersatzmobilität',
   optionNightDropOff: 'Ich möchte das Fahrzeug über die Nachtabgabe zurückgeben',
-  optionVehicleBackBy: 'Ich benötige mein Fahrzeug zurück bis',
+  optionVehicleBackBy: 'Bevorzugtes Abholdatum für Fahrzeug',
   optionCallbackFromDealership: 'Ich wünsche einen Rückruf vom Autohaus',
   selectDateTime: 'Datum & Uhrzeit wählen',
 
@@ -45,6 +48,7 @@ export const generalTranslations = {
   // AppointmentBookingSidebar
   appointmentBooking: 'Terminbuchung',
   appointment: 'Termin',
+  appointmentPickupInfo: 'Ihr Auftrag wird am gewählten Tag ausgeführt. Sie können Ihr Fahrzeug kurz vor Geschäftsschluss abholen und erhalten zudem eine Benachrichtigung, sobald es zur Abholung bereitsteht.',
   services: 'Leistungen',
   confirmBooking: 'Buchung bestätigen',
   confirming: 'Wird bestätigt...',
@@ -53,9 +57,9 @@ export const generalTranslations = {
   // VehicleDataStep
   vehicleAndCustomerData: 'Fahrzeug- und Kundendaten',
   vehicleCustomerDataDescription: 'Bitte geben Sie Ihre Fahrzeug- und Kundendaten ein.',
-  customerInformation: 'Kundeninformationen',
+  customerInformation: 'Persönliche Angaben',
   address: 'Adresse',
-  vehicleInfo: 'Fahrzeuginformationen',
+  vehicleInfo: 'Fahrzeuginfo',
   email: 'E-Mail',
   emailPlaceholder: 'E-Mail*',
   firstName: 'Vorname',

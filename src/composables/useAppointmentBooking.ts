@@ -47,7 +47,6 @@ const selectedServiceOptions = ref<string[]>([])
 const selectedJobs = ref<ISelectedJob[]>([])
 const selectedAdditionalInfo = ref<string[]>([])
 const uploadedFiles = ref<IUploadedFile[]>([])
-const registrationFile = ref<IUploadedFile | null>(null)
 const selectedAppointment = ref<string | null>(null)
 const selectedDate = ref<string | null>(null)
 const selectedTime = ref<string | null>(null)
@@ -55,6 +54,7 @@ const availableDays = ref<string[]>([])
 const availableTimes = ref<any[]>([])
 const quickAppointments = ref<any[]>([])
 const config = ref<IConfig | null>(null)
+const isSeen = ref<boolean>(false)
 const bookingInfo = ref<IBookingInfo>({
   email: '',
   firstName: '',
@@ -74,13 +74,15 @@ const bookingInfo = ref<IBookingInfo>({
 
 const reservationId = ref<string | null>(null)
 const bookingSuccess = ref<boolean>(false)
+const hasSeenAdditionalInfoBottom = ref<boolean>(false)
+const vehicleBackByDate = ref<Date | null>(null)
 
 const stepTitles = computed<string[]>(() => {
   const t = i18n.global.t
   return [
     t('general.stepServices'),
-    t('general.stepAdditionalInfo'),
     t('general.stepAppointment'),
+    t('general.stepAdditionalInfo'),
     t('general.stepVehicleData')
   ]
 })
@@ -111,13 +113,14 @@ export const useAppointmentBooking = () => {
     if (activeStep.value === 0) {
       return selectedJobs.value.length === 0
     }
-    // Step 1 (Additional information): must have at least one additional info selected
+    // Step 1 (Additional information): user must have scrolled to bottom on mobile
     if (activeStep.value === 1) {
-      return selectedAdditionalInfo.value.length === 0
+      return !selectedDate.value || !selectedTime.value
     }
     // Step 2 (Appointment): must have date and time selected
     if (activeStep.value === 2) {
-      return !selectedDate.value || !selectedTime.value
+      if (window.innerWidth >= 900) return false
+      return !hasSeenAdditionalInfoBottom.value
     }
     // Step 3 (Vehicle data): validate required fields
     if (activeStep.value === 3) {
@@ -164,6 +167,43 @@ export const useAppointmentBooking = () => {
     }
   }, { immediate: true })
 
+  const resetAll = () => {
+    loading.value = false
+    activeStep.value = 0
+    serviceSearch.value = ''
+    selectedService.value = undefined
+    selectedServiceOptions.value = []
+    selectedJobs.value = []
+    selectedAdditionalInfo.value = []
+    uploadedFiles.value = []
+    selectedAppointment.value = null
+    selectedDate.value = null
+    selectedTime.value = null
+    availableDays.value = []
+    availableTimes.value = []
+    quickAppointments.value = []
+    bookingInfo.value = {
+      email: '',
+      firstName: '',
+      lastName: '',
+      mobile: '',
+      phone: '',
+      street: '',
+      zipCode: '',
+      city: '',
+      licensePlate: '',
+      carBrand: '',
+      model: '',
+      mileage: '',
+      vin: '',
+      privacyConsent: false
+    }
+    reservationId.value = null
+    bookingSuccess.value = false
+    hasSeenAdditionalInfoBottom.value = false
+    vehicleBackByDate.value = null
+  }
+
   return {
     loading,
     activeStep,
@@ -173,7 +213,6 @@ export const useAppointmentBooking = () => {
     selectedJobs,
     selectedAdditionalInfo,
     uploadedFiles,
-    registrationFile,
     selectedAppointment,
     selectedDate,
     selectedTime,
@@ -187,7 +226,11 @@ export const useAppointmentBooking = () => {
     bookingInfo,
     reservationId,
     bookingSuccess,
+    hasSeenAdditionalInfoBottom,
+    vehicleBackByDate,
     isContinueDisabled,
-    canNavigateToStep
+    isSeen,
+    canNavigateToStep,
+    resetAll
   }
 }

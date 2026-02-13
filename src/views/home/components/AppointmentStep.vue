@@ -43,7 +43,7 @@
       </div>
 
       <!-- Time Slots - Two Columns -->
-      <div v-if="selectedDate" class="mt-4">
+      <div v-if="selectedDate" ref="mobileTimeSlotsRef" class="mt-4">
         <!-- No times available message -->
         <div v-if="morningTimes.length === 0 && afternoonTimes.length === 0" class="text-center py-4">
           <p class="text-text opacity-60 text-sm">{{ $t('general.noAvailableTimeSlots') }}</p>
@@ -152,7 +152,7 @@
 
         <div v-if="selectedDate" class="flex-1 mt-9">
           <!-- No times available message -->
-          <div v-if="morningTimes.length === 0 && afternoonTimes.length === 0" class="text-center py-8">
+          <div v-if="!loading && morningTimes.length === 0 && afternoonTimes.length === 0" class="text-center py-8">
             <p class="text-text opacity-60">{{ $t('general.noAvailableTimeSlots') }}</p>
           </div>
 
@@ -167,7 +167,7 @@
             </div>
 
             <!-- Empty State -->
-            <div v-if="morningTimes.length === 0" class="flex-1 flex items-center justify-center mx-10">
+            <div v-if="!loading && morningTimes.length === 0" class="flex-1 flex items-center justify-center mx-10">
               <p class="text-text opacity-60 text-sm text-center italic">
                 {{ $t('general.noMorningAppointments') }}
               </p>
@@ -224,7 +224,7 @@
             </div>
 
             <!-- Empty State -->
-            <div v-if="afternoonTimes.length === 0" class="flex-1 flex items-center justify-center mx-10">
+            <div v-if="!loading && afternoonTimes.length === 0" class="flex-1 flex items-center justify-center mx-10">
               <p class="text-text opacity-60 text-sm text-center italic">
                 {{ $t('general.noAfternoonAppointments') }}
               </p>
@@ -276,7 +276,7 @@
 </template>
 
 <script lang='ts' setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import CustomCalendar from '@/components/CustomCalendar.vue'
@@ -305,6 +305,7 @@ interface IAppointment {
 }
 
 const {
+  loading,
   selectedAppointment,
   availableDays,
   availableTimes,
@@ -335,13 +336,10 @@ const formatQuickAppointment = (isoDateTime: string): string => {
   const day = String(date.getDate()).padStart(2, '0')
   const year = date.getFullYear()
 
-  let hours = date.getHours()
-  const minutes = date.getMinutes()
-  const period = hours >= 12 ? 'PM' : 'AM'
-  hours = hours % 12 || 12
-  const minutesStr = minutes.toString().padStart(2, '0')
+  const hours = date.getHours().toString().padStart(2, '0')
+  const minutesStr = date.getMinutes().toString().padStart(2, '0')
 
-  return `${dayName} ${month}/${day}/${year} ${hours}:${minutesStr} ${period}`
+  return `${dayName} ${day}.${month}.${year} ${hours}:${minutesStr}`
 }
 
 const quickAppointments = computed<IAppointment[]>(() => {
@@ -358,6 +356,7 @@ const quickAppointments = computed<IAppointment[]>(() => {
 
 const morningOffset = ref(0)
 const afternoonOffset = ref(0)
+const mobileTimeSlotsRef = ref<HTMLElement | null>(null)
 
 // Watch for selectedDate changes to reset UI state
 watch(selectedDate, (newDate, oldDate) => {
@@ -366,8 +365,8 @@ watch(selectedDate, (newDate, oldDate) => {
     if (selectedAppointment.value && oldDate !== newDate) {
       // Parse the date from quick appointment to see if it matches new date
       const parts = selectedAppointment.value.split(' ')
-      const dateParts = parts[1].split('/')
-      const quickAppDate = `${dateParts[2]}-${dateParts[0].padStart(2, '0')}-${dateParts[1].padStart(2, '0')}`
+      const dateParts = parts[1].split('.')
+      const quickAppDate = `${dateParts[2]}-${dateParts[1].padStart(2, '0')}-${dateParts[0].padStart(2, '0')}`
 
       // If dates don't match, user manually changed date - clear quick appointment and time
       if (quickAppDate !== newDate) {
@@ -384,19 +383,19 @@ watch(selectedDate, (newDate, oldDate) => {
   }
 })
 
-// Parse ISO format time to 12-hour format (e.g., "2025-12-10T10:00:00" -> "10:00 AM")
+watch(availableTimes, (newTimes) => {
+  if (props.isMobile && newTimes.length > 0 && selectedDate.value) {
+    nextTick(() => {
+      mobileTimeSlotsRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
+})
+
 const formatTime = (isoTime: string): string => {
   const date = new Date(isoTime)
-  let hours = date.getHours()
-  const minutes = date.getMinutes()
-  const period = hours >= 12 ? 'PM' : 'AM'
-
-  // Convert to 12-hour format
-  hours = hours % 12
-  hours = hours || 12 // 0 should be 12
-
-  const minutesStr = minutes.toString().padStart(2, '0')
-  return `${hours}:${minutesStr} ${period}`
+  const hours = date.getHours().toString().padStart(2, '0')
+  const minutesStr = date.getMinutes().toString().padStart(2, '0')
+  return `${hours}:${minutesStr}`
 }
 
 // Split times into morning (AM) and afternoon (PM)
@@ -552,7 +551,7 @@ const parseTime = (datetime: string): string => {
   // Extract time part (last 2 parts)
   const parts = datetime.split(' ')
   // Return last 2 parts (e.g., "10:30 AM")
-  return `${parts[2]} ${parts[3]}`
+  return `${parts[2]}`
 }
 
 // Store pending time to set after times are loaded
@@ -579,19 +578,19 @@ const selectAppointment = async (time: string) => {
 
     selectedAppointment.value = time
 
-    // Parse the time string: "Fri. 01/21/2025 10:30 AM"
+    // Parse the time string: "Fri 21.01.2025 10:30"
     const parts = time.split(' ')
-    // parts[1] is the date in MM/DD/YYYY format
-    const dateParts = parts[1].split('/')
-    const month = dateParts[0]
-    const day = dateParts[1]
+    // parts[1] is the date in DD.MM.YYYY format
+    const dateParts = parts[1].split('.')
+    const day = dateParts[0]
+    const month = dateParts[1]
     const year = dateParts[2]
 
     // Convert to ISO format YYYY-MM-DD
     const isoDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
 
-    // Extract time: "10:30 AM"
-    const timeStr = `${parts[2]} ${parts[3]}`
+    // Extract time: "10:30"
+    const timeStr = parts[2]
 
     // Store the time to be set after times are loaded
     pendingTimeSelection.value = timeStr

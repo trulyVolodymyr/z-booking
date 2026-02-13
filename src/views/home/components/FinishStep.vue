@@ -18,7 +18,7 @@
         </p>
 
         <!-- Date and Time -->
-        <h1 class="text-xl font-bold text-text mb-2">
+        <h1 class="text-3xl font-bold text-text mb-2">
           {{ formattedDate }} {{ $t('general.at') }} {{ formattedTime }}
         </h1>
 

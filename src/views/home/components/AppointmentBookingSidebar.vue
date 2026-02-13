@@ -1,5 +1,14 @@
 <template>
-  <div class="1250:w-[300px] 1440:w-[400px] w-[250px] h-full p-3 1080:p-6 flex flex-col bg-[#F9F9F9] shrink-0">
+  <div class="1250:w-[300px] 1440:w-[400px] w-[250px] h-full p-3 1080:p-6 flex flex-col bg-[#F9F9F9] shrink-0 relative">
+    <button
+      class="absolute -top-3 -right-3 w-7 h-7 bg-primary rounded-full flex items-center justify-center
+        hover:opacity-80 transition-opacity"
+      @click="closeWidget"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" class="w-4 h-4">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
     <span class="font-semibold text-xl text-text font-serif">
       {{ $t('general.appointmentBooking') }}
     </span>
@@ -48,7 +57,7 @@
                 </p>
               </div>
               <button
-                class="size-5 flex items-center justify-center border bg-[#F9FAFB] rounded
+                class="size-7 flex items-center justify-center border bg-[#F9FAFB] rounded
                 transition-colors flex-shrink-0 border-[#C2CDD6] hover:border-primary hover:shadow-md"
                 @click="handleRemoveJob(index)"
               >
@@ -70,14 +79,17 @@
             v-for="(info, index) in selectedAdditionalInfo"
             :key="index"
           >
-            <div class="flex items-center justify-between gap-1">
+            <div class="flex items-start justify-between gap-1">
               <div class="flex-1 min-w-0">
                 <p class="font-medium text-text text-sm">
-                  {{ info }}
+                  {{ info.indexOf(':') !== -1 ? info.substring(0, info.indexOf(':') + 1) : info }}
+                </p>
+                <p v-if="info.indexOf(':') !== -1" class="text-text text-sm opacity-60">
+                  {{ info.substring(info.indexOf(':') + 1).trim() }}
                 </p>
               </div>
               <button
-                class="size-5 flex items-center justify-center border bg-[#F9FAFB] rounded
+                class="size-7 flex items-center justify-center border bg-[#F9FAFB] rounded
                 transition-colors flex-shrink-0 border-[#C2CDD6] hover:border-primary hover:shadow-md"
                 @click="handleRemoveAdditionalInfo(index)"
               >
@@ -147,7 +159,6 @@ const {
   bookingInfo,
   reservationId,
   bookingSuccess,
-  registrationFile,
   uploadedFiles
 } = useAppointmentBooking()
 const { error, success } = useNotification()
@@ -194,7 +205,7 @@ const formatDate = (dateStr: string) => {
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
   const year = date.getFullYear()
-  return `${month}/${day}/${year}`
+  return `${day}.${month}.${year}`
 }
 
 const getShortLabel = (label: string) => {
@@ -208,6 +219,10 @@ const getShortLabel = (label: string) => {
   return label.length > 30 ? label.substring(0, 30) + '...' : label
 }
 
+const closeWidget = () => {
+  window.parent.postMessage('closeWidget', '*')
+}
+
 const handleRemoveJob = (index: number) => {
   emit('remove-job', index)
 }
@@ -219,12 +234,7 @@ const handleRemoveAdditionalInfo = (index: number) => {
 const uploadAttachments = async () => {
   const filesToUpload: File[] = []
 
-  // Collect registration file if exists
-  if (registrationFile.value?.file) {
-    filesToUpload.push(registrationFile.value.file)
-  }
-
-  // Collect all uploaded documents
+  // Collect all uploaded files
   uploadedFiles.value.forEach((uploadedFile) => {
     if (uploadedFile.file) {
       filesToUpload.push(uploadedFile.file)

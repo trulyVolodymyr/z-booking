@@ -5,6 +5,8 @@ export const generalTranslations = {
   or: 'OR',
   close: 'Close',
   ok: 'OK',
+  loading: 'Loading',
+  changeAppointment: 'Change appointment',
 
   // ServicesStep
   selectYourService: 'Select your service',
@@ -16,17 +18,18 @@ export const generalTranslations = {
 
   // AdditionalInformationStep
   additionalInformation: 'Additional Information',
+  additionalDocuments: 'Additional documents',
   additionalInfoDescription: 'Please enter further details about your booking here.',
   additionalServicesQuestion: 'Do you require any additional services?',
-  uploadDocumentsQuestion: 'Do you want to upload documents?',
   notesOnAppointment: 'Do you have any additional information in regard to your appointment?',
   supplementaryRemarks: 'Supplementary remarks',
   uploadVehicleRegistration: 'Upload vehicle registration',
   uploadOtherDocuments: 'Upload other documents',
+  uploadAdditionalDocuments: 'Upload additional documents',
   optionWaitOnSite: 'I would like to wait on-site',
   optionReplacementMobility: 'I need replacement mobility',
   optionNightDropOff: 'I would like to return the vehicle via night drop-off',
-  optionVehicleBackBy: 'I need my vehicle back by',
+  optionVehicleBackBy: 'Preferred pickup date for vehicle',
   optionCallbackFromDealership: 'I would like a callback from the dealership',
   selectDateTime: 'Select date & time',
 
@@ -45,6 +48,7 @@ export const generalTranslations = {
   // AppointmentBookingSidebar
   appointmentBooking: 'Appointment booking',
   appointment: 'Appointment',
+  appointmentPickupInfo: 'Your order will be carried out on the selected day. You can pick up your vehicle shortly before closing time and will also receive notification as soon as it is ready for collection.',
   services: 'Services',
   confirmBooking: 'Confirm Booking',
   confirming: 'Confirming...',

@@ -45,10 +45,10 @@
             <p class="text-xs text-[#909399]">{{ job.serviceTitle }}</p>
           </div>
           <button
-            class="px-4 py-2 text-sm font-semibold rounded-lg transition-colors"
+            class="px-4 py-2 text-sm font-semibold border rounded-lg transition-colors"
             :class="isOptionBooked(job.label)
-              ? 'bg-[#F9FAFB] text-text border border-[#C2CDD6] hover:bg-gray-100'
-              : 'bg-primary text-white hover:bg-blue-600'"
+              ? 'bg-[#F9FAFB] text-text border-[#C2CDD6] hover:bg-gray-100'
+              : 'bg-primary text-white hover:bg-blue-600 border-[transparent]'"
             @click="toggleMobileSearchResult(job)"
           >
             {{ isOptionBooked(job.label) ? $t('general.unbook') : $t('general.book') }}
@@ -66,9 +66,9 @@
         <div
           v-for="service in servicesConfig"
           :key="service.id"
-          class="border-[2px] rounded-[8px] bg-primaryBg transition-colors
+          class="border-[2px] rounded-[8px] transition-colors
             border-l-[4px] border-l-primary overflow-hidden w-full"
-          :class="expandedService === service.id ? 'border-primary bg-[#F5F9FF]' : 'border-[#C2CDD6]'"
+          :class="expandedService === service.id ? 'border-primary bg-[#F5F9FF]' : 'border-[#C2CDD6] bg-primaryBg'"
         >
           <!-- Service Header -->
           <div
@@ -98,16 +98,16 @@
             <div
               v-for="option in service.options"
               :key="option.id"
-              class="flex items-center justify-between py-2 border-t border-[#E6EBEF]"
+              class="flex items-center justify-between py-2 border-t border-[#E6EBEF] pl-3"
             >
               <div>
                 <p class="text-text text-sm">{{ option.label }}</p>
               </div>
               <button
-                class="px-5 py-2 text-sm font-semibold rounded-md transition-colors shrink-0 ml-3"
+                class="px-5 py-2 text-sm font-semibold border rounded-md transition-colors shrink-0 ml-3"
                 :class="isOptionBooked(option.label)
-                  ? 'bg-[#F9FAFB] text-text border border-[#C2CDD6] hover:bg-gray-100'
-                  : 'bg-primary text-white hover:bg-blue-600'"
+                  ? 'bg-[#F9FAFB] text-text border-[#C2CDD6] hover:bg-gray-100'
+                  : 'bg-primary text-white hover:bg-blue-600 border-transparent'"
                 @click.stop="toggleBookOption(service, option)"
               >
                 {{ isOptionBooked(option.label) ? $t('general.unbook') : $t('general.book') }}

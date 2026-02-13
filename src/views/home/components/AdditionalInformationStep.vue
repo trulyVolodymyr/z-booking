@@ -6,7 +6,7 @@
         {{ $t('general.additionalInfoDescription') }}
       </p>
 
-      <div class="space-y-3 mb-6">
+      <div class="space-y-3 mb-3">
         <div
           v-for="(option, index) in options"
           :key="index"
@@ -32,7 +32,7 @@
             v-model="vehicleBackByDate"
             :disabled="!isVehicleBackBySelected"
             :placeholder="$t('general.selectDateTime')"
-            class="!w-[220px] ml-[44px] sm:ml-0"
+            class="!w-[180px]"
             @click.stop
             @change="onVehicleBackByDateChange"
           />
@@ -40,31 +40,34 @@
       </div>
 
       <div>
-        <p class="font-medium text-text mb-3 text-sm">
-          {{ $t('general.notesOnAppointment') }}
-        </p>
+        <div class="border-y border-[#E5E7EB] py-3">
+          <p class="text-text text-sm mb-3">
+            {{ $t('general.additionalInformation') }}
+          </p>
 
-        <!-- Full width textarea -->
-        <textarea
-          v-model="notes"
-          :placeholder="$t('general.supplementaryRemarks')"
-          class="w-full h-[100px] p-3 border border-[#C2CDD6] rounded-lg resize-none
-            focus:outline-none focus:border-primary transition-colors mb-3"
-        />
+          <!-- Full width textarea -->
+          <textarea
+            v-model="notes"
+            :placeholder="$t('general.supplementaryRemarks')"
+            class="w-full h-[100px] p-3 border border-[#C2CDD6] rounded-lg resize-none
+              focus:outline-none focus:border-primary transition-colors"
+          />
+        </div>
 
         <!-- File upload buttons stacked -->
+        <p class="text-text text-sm my-3">
+          {{ $t('general.additionalDocuments') }}
+        </p>
         <div
           v-if="config?.params?.isDropboxEnabled"
-          class="flex flex-col gap-2"
+          class="flex flex-col gap-2 border-b border-[#E5E7EB] pb-3"
         >
           <button
-            class="flex h-[44px] items-center gap-2 px-4 py-3 border transition-colors w-full rounded-lg"
-            :class="registrationFile
-              ? 'border-primary bg-primary/10' : 'border-[#C2CDD6] bg-primaryBg hover:bg-blue-50'"
+            class="flex h-[44px] items-center gap-2 px-4 py-3 border transition-colors w-full rounded-lg
+              border-[#C2CDD6] bg-primaryBg hover:bg-blue-50"
             @click="handleUploadRegistration"
           >
-            <IconCheckCircleFull v-if="registrationFile" class="size-5 shrink-0 text-primary" />
-            <IconCarProfile v-else class="size-5 shrink-0 text-primary" />
+            <IconCarProfile class="size-5 shrink-0 text-primary" />
             <span class="text-sm text-primary">{{ $t('general.uploadVehicleRegistration') }}</span>
           </button>
           <button
@@ -98,6 +101,8 @@
           </div>
         </div>
       </div>
+
+      <div ref="mobileBottomSentinel" class="h-1" />
     </template>
 
     <!-- Desktop Layout -->
@@ -141,7 +146,7 @@
                 <div v-else class="size-8 flex items-center shrink-0 justify-center">
                   <div class="w-[26px] h-[26px] border-[2px] border-primary rounded-full shrink-0" />
                 </div>
-                <span class="text-text 1250:text-sm text-xs">{{ option }}</span>
+                <span class="text-text 1250:text-base text-xs">{{ option }}</span>
               </div>
 
               <!-- DateTimePicker for vehicleBackBy option -->
@@ -151,7 +156,7 @@
                 v-model="vehicleBackByDate"
                 :disabled="!isVehicleBackBySelected"
                 :placeholder="$t('general.selectDateTime')"
-                class="1250:!w-[220px] !w-[180px]"
+                class="!w-[180px]"
                 @click.stop
                 @change="onVehicleBackByDateChange"
               />
@@ -161,27 +166,19 @@
 
         <!-- Right side: File upload -->
         <div class="1250:w-[300px] w-[180px]">
-          <p class="text-text mb-4 text-xs 1250:text-base">
-            {{ $t('general.uploadDocumentsQuestion') }}
+          <p class="text-text mb-4">
+            {{ $t('general.uploadAdditionalDocuments') }}
           </p>
 
           <!-- Upload buttons -->
           <div class="flex flex-col gap-2 mb-4">
             <button
               class="flex h-[44px] items-center gap-2 px-4 py-3 rounded-lg transition-colors w-full text-xs
-              1250:text-base"
-              :class="registrationFile
-                ? 'border-2 border-primary bg-primary/10'
-                : 'bg-primary text-white hover:bg-primary/90'"
+              1250:text-base bg-primary text-white hover:bg-primary/90"
               @click="handleUploadRegistration"
             >
-              <IconCheckCircleFull v-if="registrationFile" class="size-5 shrink-0 text-primary" />
-              <IconCarProfile
-                v-else
-                class="size-5 shrink-0"
-                :class="registrationFile ? 'text-primary' : 'text-white'"
-              />
-              <span :class="registrationFile ? 'text-primary' : 'text-white'">
+              <IconCarProfile class="size-5 shrink-0 text-white" />
+              <span class="text-white">
                 {{ $t('general.uploadVehicleRegistration') }}
               </span>
             </button>
@@ -211,7 +208,7 @@
                 </span>
                 <button
                   class="size-8 flex items-center shrink-0 justify-center bg-white rounded-md
-                    hover:shadow-md transition-colors shrink-0"
+                    hover:shadow-md transition-colors"
                   @click="removeFile(index)"
                 >
                   <IconDelete class="size-5 text-primary" />
@@ -224,8 +221,8 @@
 
       <!-- Bottom: Notes textarea -->
       <div class="mt-auto">
-        <p class="text-text mb-3">
-          {{ $t('general.notesOnAppointment') }}
+        <p class="text-text text-xl mb-3">
+          {{ $t('general.additionalInformation') }}
         </p>
         <textarea
           v-model="notes"
@@ -256,7 +253,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useNotification } from '@/composables/useNotification'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
@@ -288,7 +285,6 @@ const options = computed(() => [
 
 const selectedOptions = ref<string[]>(props.modelValue || [])
 const notes = ref('')
-const vehicleBackByDate = ref<Date | null>(null)
 
 const optionVehicleBackBy = computed(() => t('general.optionVehicleBackBy'))
 
@@ -302,12 +298,42 @@ const formatDateTime = (date: Date): string => {
   const year = date.getFullYear().toString().slice(-2)
   const hours = date.getHours().toString().padStart(2, '0')
   const minutes = date.getMinutes().toString().padStart(2, '0')
-  return `${day}/${month}/${year} ${hours}:${minutes}`
+  return `${day}.${month}.${year} ${hours}:${minutes}`
 }
 const registrationInput = ref<HTMLInputElement | null>(null)
 const documentsInput = ref<HTMLInputElement | null>(null)
 
-const { uploadedFiles, registrationFile, config } = useAppointmentBooking()
+const { uploadedFiles, config, hasSeenAdditionalInfoBottom, vehicleBackByDate, isSeen } = useAppointmentBooking()
+
+const mobileBottomSentinel = ref<HTMLElement | null>(null)
+let observer: IntersectionObserver | null = null
+
+onMounted(() => {
+  if (!props.isMobile || isSeen.value) {
+    hasSeenAdditionalInfoBottom.value = true
+    return
+  }
+  hasSeenAdditionalInfoBottom.value = false
+  nextTick(() => {
+    if (mobileBottomSentinel.value) {
+      const scrollParent = mobileBottomSentinel.value.closest('.overflow-y-auto')
+      observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          hasSeenAdditionalInfoBottom.value = true
+          isSeen.value = true
+        }
+      }, { root: scrollParent, threshold: 0.1 })
+      observer.observe(mobileBottomSentinel.value)
+    }
+  })
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
+})
 const { error } = useNotification()
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10 MB in bytes
@@ -386,19 +412,11 @@ const handleFileSelect = (event: Event, type: 'registration' | 'documents') => {
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
     if (validateFile(file)) {
-      if (type === 'registration') {
-        registrationFile.value = {
-          name: file.name,
-          file,
-          type
-        }
-      } else {
-        uploadedFiles.value.push({
-          name: file.name,
-          file,
-          type
-        })
-      }
+      uploadedFiles.value.push({
+        name: file.name,
+        file,
+        type
+      })
     }
   }
 

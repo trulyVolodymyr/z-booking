@@ -67,12 +67,16 @@
       position: relative !important;
       width: calc(100% - 8px) !important;
       height: calc(100vh - 40px) !important;
-      background: white !important;
+      background: transparent !important;
       border-radius: 12px !important;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
       animation: slideUp 0.3s ease;
       margin: 40px 4px 0 4px !important;
       transform: none !important;
+    }
+    @media (max-width: 907px) {
+      #widget-iframe-container {
+        background: white !important;
+      }
     }
     
     #widget-header {
@@ -84,6 +88,16 @@
       background: white;
       border-radius: 12px 12px 0 0;
       background-color: #E6EBEF;
+    }
+
+    @media (min-width: 907px) {
+      #widget-header {
+        display: none !important;
+      }
+      #widget-iframe {
+        height: 100% !important;
+        border-radius: 12px;
+      }
     }
     
     #widget-logo {
@@ -181,6 +195,9 @@
   function closeWidget () {
     overlay.classList.remove('active')
     document.body.style.overflow = ''
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage('resetWidget', '*')
+    }
   }
 
   const btn = document.getElementById('widget-button')

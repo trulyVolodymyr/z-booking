@@ -5,6 +5,8 @@ export const generalTranslations = {
   or: 'OU',
   close: 'Fermer',
   ok: 'OK',
+  loading: 'Chargement',
+  changeAppointment: 'Modifier le rendez-vous',
 
   // ServicesStep
   selectYourService: 'Sélectionnez votre service',
@@ -16,17 +18,18 @@ export const generalTranslations = {
 
   // AdditionalInformationStep
   additionalInformation: 'Informations complémentaires',
+  additionalDocuments: 'Documents supplémentaires',
   additionalInfoDescription: 'Veuillez saisir ici des détails supplémentaires concernant votre réservation.',
   additionalServicesQuestion: 'Avez-vous besoin de services supplémentaires?',
-  uploadDocumentsQuestion: 'Souhaitez-vous télécharger des documents?',
   notesOnAppointment: 'Avez-vous des informations supplémentaires concernant votre rendez-vous?',
   supplementaryRemarks: 'Remarques supplémentaires',
   uploadVehicleRegistration: 'Télécharger la carte grise',
   uploadOtherDocuments: 'Télécharger d\'autres documents',
+  uploadAdditionalDocuments: 'Télécharger des documents supplémentaires',
   optionWaitOnSite: 'Je souhaite attendre sur place',
   optionReplacementMobility: 'J\'ai besoin d\'un véhicule de remplacement',
   optionNightDropOff: 'Je souhaite déposer le véhicule en dehors des heures d\'ouverture',
-  optionVehicleBackBy: 'J\'ai besoin de récupérer mon véhicule avant le',
+  optionVehicleBackBy: 'Date de récupération préférée du véhicule',
   optionCallbackFromDealership: 'Je souhaite être rappelé par la concession',
   selectDateTime: 'Sélectionner date et heure',
 
@@ -45,6 +48,7 @@ export const generalTranslations = {
   // AppointmentBookingSidebar
   appointmentBooking: 'Prise de rendez-vous',
   appointment: 'Rendez-vous',
+  appointmentPickupInfo: 'Votre commande sera exécutée le jour choisi. Vous pourrez récupérer votre véhicule peu avant la fermeture et recevrez également une notification dès qu\'il sera prêt à être récupéré.',
   services: 'Services',
   confirmBooking: 'Confirmer la réservation',
   confirming: 'Confirmation en cours...',
