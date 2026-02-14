@@ -128,7 +128,7 @@
       <div
         ref="mobileContentRef"
         class="flex-1 overflow-y-auto pt-4 pl-4 pr-1  gutter"
-        :class="bookingSuccess ? 'mt-0 mb-0' : 'mt-[120px] mb-[67px]'"
+        :class="bookingSuccess ? 'mt-0 mb-0' : 'mt-[120px] mb-[85px]'"
       >
         <ServicesStep
           v-if="activeStep === 0"
@@ -168,7 +168,7 @@
       <!-- Fixed Bottom Button -->
       <div
         v-if="!bookingSuccess"
-        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg border-t border-[#E6EBEF] px-5 pt-4"
+        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg border-t border-[#E6EBEF] px-5 py-4"
       >
         <button
           class="w-full py-3 rounded-lg font-semibold text-white transition-colors"
