@@ -168,7 +168,8 @@
       <!-- Fixed Bottom Button -->
       <div
         v-if="!bookingSuccess"
-        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg border-t border-[#E6EBEF] px-5 pt-2 pb-10"
+        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg border-t
+          border-[#E6EBEF] px-5 pt-2 pb-[max(10px,env(safe-area-inset-bottom))]"
       >
         <button
           class="w-full py-3 rounded-lg font-semibold text-white transition-colors"
