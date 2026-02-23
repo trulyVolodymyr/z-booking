@@ -498,26 +498,6 @@ const makeReservation = async (date: string, time: string) => {
   }
 }
 
-// Watch for changes in jobs, date, or time and update reservation
-watch([selectedJobs, selectedDate, selectedTime], ([newJobs, newDate, newTime], [oldJobs, oldDate, oldTime]) => {
-  // Skip if we're already making a reservation programmatically
-  if (isUpdatingReservation.value) {
-    return
-  }
-
-  // Only update if we have a reservation and something changed
-  if (reservationId.value && newDate && newTime && newJobs.length > 0) {
-    // Check if jobs changed
-    const jobsChanged = oldJobs && JSON.stringify(newJobs) !== JSON.stringify(oldJobs)
-    // Check if date or time changed
-    const dateTimeChanged = (oldDate && oldDate !== newDate) || (oldTime && oldTime !== newTime)
-
-    if (jobsChanged || dateTimeChanged) {
-      makeReservation(newDate, newTime)
-    }
-  }
-}, { deep: true })
-
 const selectTime = async (time: string) => {
   // Clear quick appointment selection when manually selecting time
   selectedAppointment.value = null

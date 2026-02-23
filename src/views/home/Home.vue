@@ -287,7 +287,6 @@ const handleBookOption = (service: any, option: any) => {
         label: option.label
       }
     })
-    fetchAvailableDays()
   }
 }
 
@@ -300,7 +299,6 @@ const handleUnbookOption = (optionLabel: string) => {
   if (jobIndex > -1) {
     selectedJobs.value.splice(jobIndex, 1)
   }
-  fetchAvailableDays()
 }
 
 const { error } = useNotification()
@@ -348,7 +346,6 @@ const toggleOption = (option: { id: number; label: string; serviceId?: number; s
       })
     }
   }
-  fetchAvailableDays()
 }
 
 const removeJob = (index: number) => {
@@ -362,9 +359,7 @@ const removeJob = (index: number) => {
     activeStep.value = 0
     isMobileCartOpen.value = false
     isMobileBookingOpen.value = false
-    return
   }
-  fetchAvailableDays()
 }
 
 const removeAdditionalInfo = (index: number) => {
@@ -376,6 +371,10 @@ const handleContinue = () => {
   if (activeStep.value === 3) {
     isMobileBookingOpen.value = true
     return
+  }
+  // On step 0 (ServicesStep), fetch available days before moving to appointment step
+  if (activeStep.value === 0) {
+    fetchAvailableDays()
   }
   activeStep.value++
 }

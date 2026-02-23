@@ -62,29 +62,16 @@ export const getConfig = async (params: IConfigParams) => {
 }
 
 export const getAvailableDays = async (params: IAvailableDaysParams) => {
-  const response = await useApiClient.get('/available-days' as any, {
-    params: {
-      token: params.token,
-      workIds: params.workIds
-    },
-    paramsSerializer: {
-      indexes: null // This will format as workIds[]=1&workIds[]=2
-    }
-  })
+  const workIdsQuery = params.workIds.map(id => `workIds[]=${id}`).join('&')
+  const url = `/available-days?token=${params.token}&${workIdsQuery}`
+  const response = await useApiClient.get(url as any)
   return response
 }
 
 export const getAvailableTimes = async (params: IAvailableTimesParams) => {
-  const response = await useApiClient.get('/available-times' as any, {
-    params: {
-      token: params.token,
-      date: params.date,
-      workIds: params.workIds
-    },
-    paramsSerializer: {
-      indexes: null // This will format as workIds[]=1&workIds[]=2
-    }
-  })
+  const workIdsQuery = params.workIds.map(id => `workIds[]=${id}`).join('&')
+  const url = `/available-times?token=${params.token}&date=${params.date}&${workIdsQuery}`
+  const response = await useApiClient.get(url as any)
   return response
 }
 
