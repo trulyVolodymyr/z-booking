@@ -2,6 +2,8 @@ import { ref, computed, watch } from 'vue'
 import type { ISelectedJob } from '@/views/home/components/AppointmentBookingSidebar.vue'
 import type { IConfig } from '@/types/config.types'
 import { setLocale, i18n } from '@/plugins/i18n'
+import { createReservation } from '@/api/services/general.service'
+import { useNotification } from '@/composables/useNotification'
 
 interface IServiceOption {
   id: number
@@ -167,6 +169,49 @@ export const useAppointmentBooking = () => {
     }
   }, { immediate: true })
 
+  const makeReservation = async (token: string, date: string, time: string) => {
+    const { error } = useNotification()
+    try {
+      // Convert date and time to ISO datetime string for API
+      // time is in "10:30 AM" format
+      const [timeStr, period] = time.split(' ')
+      const [hoursStr, minutesStr] = timeStr.split(':')
+      let hours = parseInt(hoursStr)
+      const minutes = parseInt(minutesStr)
+
+      // Convert to 24-hour format
+      if (period === 'PM' && hours !== 12) {
+        hours += 12
+      } else if (period === 'AM' && hours === 12) {
+        hours = 0
+      }
+
+      // Create ISO datetime string
+      const isoDateTime = `${date}T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`
+      const workIds = selectedJobs.value.map(job => job.option.id)
+
+      const response = await createReservation({
+        token,
+        time: isoDateTime,
+        workIds,
+        externalPortal: 'My portal',
+        existingReservationId: reservationId.value,
+        vip: false,
+        expectedReservationPeriod: 5
+      })
+
+      // Store the reservation ID for future updates
+      if (response.reservation?.appointmentId) {
+        reservationId.value = response.reservation?.appointmentId
+      }
+    } catch (err: any) {
+      // Extract error message from API response
+      const errorMessage = err?.response?.data?.error || err?.message || 'Failed to create reservation. Please try again.'
+      error(errorMessage)
+      throw err
+    }
+  }
+
   const resetAll = () => {
     loading.value = false
     activeStep.value = 0
@@ -231,6 +276,7 @@ export const useAppointmentBooking = () => {
     isContinueDisabled,
     isSeen,
     canNavigateToStep,
+    makeReservation,
     resetAll
   }
 }

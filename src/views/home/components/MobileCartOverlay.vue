@@ -246,7 +246,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import { getAvailableTimes } from '@/api/services/general.service'
@@ -281,7 +281,8 @@ defineEmits<{
 const {
   selectedDate, selectedTime, availableDays,
   selectedJobs: jobs, vehicleBackByDate,
-  selectedAdditionalInfo: additionalInfo
+  selectedAdditionalInfo: additionalInfo,
+  makeReservation
 } = useAppointmentBooking()
 
 const optionVehicleBackBy = computed(() => t('general.optionVehicleBackBy'))
@@ -371,15 +372,25 @@ const fetchEditTimes = async (date: string) => {
   }
 }
 
-const confirmEdit = () => {
+const confirmEdit = async () => {
   if (!editDate.value || !editSelectedTime.value) return
+
   const newTime = editSelectedTime.value
   const newDate = editDate.value
+
+  if (selectedDate.value === newDate && selectedTime.value === newTime) {
+    showDatePicker.value = false
+    return
+  }
+
+  try {
+    await makeReservation(props.token, newDate, newTime)
+  } catch {
+    return
+  }
+
   selectedDate.value = newDate
   selectedTime.value = newTime
-  nextTick(() => {
-    selectedTime.value = newTime
-  })
   showDatePicker.value = false
 }
 

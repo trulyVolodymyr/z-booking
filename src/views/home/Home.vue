@@ -37,7 +37,6 @@
 
         <AppointmentStep
           v-if="activeStep === 1"
-          :token="token"
           @go-back="activeStep--"
         />
         <AdditionalInformationStep
@@ -145,7 +144,6 @@
 
         <AppointmentStep
           v-if="activeStep === 1"
-          :token="token"
           :is-mobile="true"
         />
 
@@ -231,6 +229,7 @@ const {
   selectedAdditionalInfo,
   selectedAppointment,
   selectedDate,
+  selectedTime,
   availableDays,
   availableTimes,
   quickAppointments,
@@ -239,7 +238,8 @@ const {
   config,
   bookingSuccess,
   isContinueDisabled,
-  resetAll
+  resetAll,
+  makeReservation
 } = useAppointmentBooking()
 
 const handleWidgetMessage = (event: MessageEvent) => {
@@ -366,7 +366,7 @@ const removeAdditionalInfo = (index: number) => {
   selectedAdditionalInfo.value.splice(index, 1)
 }
 
-const handleContinue = () => {
+const handleContinue = async () => {
   // On step 4 (VehicleDataStep), open booking overlay instead of continuing
   if (activeStep.value === 3) {
     isMobileBookingOpen.value = true
@@ -374,7 +374,18 @@ const handleContinue = () => {
   }
   // On step 0 (ServicesStep), fetch available days before moving to appointment step
   if (activeStep.value === 0) {
-    fetchAvailableDays()
+    await fetchAvailableDays()
+  }
+  // On step 1 (AppointmentStep), create reservation before moving to next step
+  if (activeStep.value === 1) {
+    if (selectedDate.value && selectedTime.value) {
+      try {
+        await makeReservation(token.value, selectedDate.value, selectedTime.value)
+      } catch {
+        // Error already shown by makeReservation, don't advance step
+        return
+      }
+    }
   }
   activeStep.value++
 }

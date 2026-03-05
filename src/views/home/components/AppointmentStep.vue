@@ -280,13 +280,10 @@ import { ref, watch, computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import CustomCalendar from '@/components/CustomCalendar.vue'
-import { createReservation } from '@/api/services/general.service'
-import { useNotification } from '@/composables/useNotification'
 
 const { t } = useI18n()
 
 interface IProps {
-  token: string
   isMobile?: boolean
 }
 
@@ -298,7 +295,6 @@ const props = withDefaults(defineProps<IProps>(), {
   isMobile: false
 })
 const emit = defineEmits<IEmits>()
-const { error } = useNotification()
 
 interface IAppointment {
   time: string
@@ -312,12 +308,8 @@ const {
   quickAppointments: rawQuickAppointments,
   selectedDate,
   selectedTime,
-  selectedJobs,
   reservationId
 } = useAppointmentBooking()
-
-// Flag to prevent watch from triggering when reservation is made programmatically
-const isUpdatingReservation = ref(false)
 
 // Format quick appointments for display
 const formatQuickAppointment = (isoDateTime: string): string => {
@@ -451,53 +443,6 @@ const prevAfternoonPage = () => {
   afternoonOffset.value = Math.max(0, afternoonOffset.value - 6)
 }
 
-// Convert date and time to ISO datetime string for API
-const convertToISODateTime = (date: string, time: string): string => {
-  // date is in YYYY-MM-DD format
-  // time is in "10:30 AM" format
-  const [timeStr, period] = time.split(' ')
-  const [hoursStr, minutesStr] = timeStr.split(':')
-  let hours = parseInt(hoursStr)
-  const minutes = parseInt(minutesStr)
-
-  // Convert to 24-hour format
-  if (period === 'PM' && hours !== 12) {
-    hours += 12
-  } else if (period === 'AM' && hours === 12) {
-    hours = 0
-  }
-
-  // Create ISO datetime string
-  const isoDateTime = `${date}T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`
-  return isoDateTime
-}
-
-const makeReservation = async (date: string, time: string) => {
-  try {
-    const isoDateTime = convertToISODateTime(date, time)
-    const workIds = selectedJobs.value.map(job => job.option.id)
-
-    const response = await createReservation({
-      token: props.token,
-      time: isoDateTime,
-      workIds,
-      externalPortal: 'My portal',
-      existingReservationId: reservationId.value,
-      vip: false,
-      expectedReservationPeriod: 5
-    })
-
-    // Store the reservation ID for future updates
-    if (response.reservation?.appointmentId) {
-      reservationId.value = response.reservation?.appointmentId
-    }
-  } catch (err: any) {
-    // Extract error message from API response
-    const errorMessage = err?.response?.data?.error || err?.message || 'Failed to create reservation. Please try again.'
-    error(errorMessage)
-  }
-}
-
 const selectTime = async (time: string) => {
   // Clear quick appointment selection when manually selecting time
   selectedAppointment.value = null
@@ -506,17 +451,7 @@ const selectTime = async (time: string) => {
     selectedTime.value = null
     reservationId.value = null
   } else {
-    // Set flag to prevent watch from triggering
-    isUpdatingReservation.value = true
     selectedTime.value = time
-
-    // Create reservation when time is selected
-    if (selectedDate.value && selectedJobs.value.length > 0) {
-      await makeReservation(selectedDate.value, time)
-    }
-
-    // Reset flag
-    isUpdatingReservation.value = false
   }
 }
 
@@ -553,9 +488,6 @@ const selectAppointment = async (time: string) => {
     reservationId.value = null
     pendingTimeSelection.value = null
   } else {
-    // Set flag to prevent watch from triggering
-    isUpdatingReservation.value = true
-
     selectedAppointment.value = time
 
     // Parse the time string: "Fri 21.01.2025 10:30"
@@ -580,14 +512,6 @@ const selectAppointment = async (time: string) => {
 
     // Set time immediately for reservation (it will also be set when times load)
     selectedTime.value = timeStr
-
-    // Create reservation for quick appointment
-    if (selectedJobs.value.length > 0) {
-      await makeReservation(isoDate, timeStr)
-    }
-
-    // Reset flag
-    isUpdatingReservation.value = false
   }
 }
 </script>
