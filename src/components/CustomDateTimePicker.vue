@@ -2,7 +2,7 @@
   <div ref="pickerRef" class="inline-block w-full">
     <!-- Input trigger -->
     <div
-      class="flex items-center gap-2 p-1 1250:py-2 1250:px-3 border border-[#dcdfe6] rounded bg-white cursor-pointer
+      class="flex items-center gap-2 p-1 1250:py-2 border border-[#dcdfe6] rounded bg-white cursor-pointer
         transition-colors hover:border-[#c0c4cc]"
       :class="{
         'bg-[#f5f7fa] cursor-not-allowed opacity-60': disabled,
@@ -20,7 +20,7 @@
         :placeholder="placeholder"
         :disabled="disabled"
         readonly
-        class="flex-1 border-none outline-none bg-transparent 1250:text-sm text-xs text-[#606266]
+        class="flex-1 border-none outline-none bg-transparent text-xs text-[#606266]
           cursor-inherit placeholder:text-[#c0c4cc] disabled:cursor-not-allowed"
       >
       <div
