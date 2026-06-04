@@ -336,38 +336,61 @@
     return { open, close, destroy, el: root }
   }
 
-  // Public factory API for hosts that want explicit / multiple / inline instances
-  window.ZBooking = window.ZBooking || {
-    create: createWidget,
-    instances: []
-  }
-
-  // Bootstrap a default instance from window.ZBookingConfig (+ script data-*),
-  // preserving the original single-widget embed behavior.
-  const defaultConfig = Object.assign({}, DEFAULTS, window.ZBookingConfig || {}, SCRIPT_CONFIG)
-  let defaultInstance = null
-  if (defaultConfig.mode === 'inline') {
-    defaultInstance = createWidget(defaultConfig)
-  } else if (!document.querySelector('.zb-overlay')) {
-    // Only auto-create one default overlay instance
-    defaultInstance = createWidget(defaultConfig)
-  }
-
-  if (defaultInstance) {
-    window.ZBooking.instances.push(defaultInstance)
-    window.ZBooking.default = defaultInstance
-    // Backward-compatible global API
-    window.ZBookingWidget = {
-      open: defaultInstance.open,
-      close: defaultInstance.close
+  // Run a callback once the DOM <body> is available (script may load from <head>)
+  function whenBodyReady (cb) {
+    if (document.body) {
+      cb()
+    } else {
+      document.addEventListener('DOMContentLoaded', cb, { once: true })
     }
   }
 
-  // Wrap create() so every instance is tracked
-  const rawCreate = window.ZBooking.create
-  window.ZBooking.create = function (cfg) {
-    const instance = rawCreate(cfg)
-    if (instance) window.ZBooking.instances.push(instance)
-    return instance
+  // The lazily-created default instance (built from window.ZBookingConfig + script data-*)
+  let defaultInstance = null
+  function ensureDefaultInstance () {
+    if (defaultInstance) return defaultInstance
+    if (!document.body) return null // can't mount yet; caller should retry on DOM ready
+    const cfg = Object.assign({}, DEFAULTS, window.ZBookingConfig || {}, SCRIPT_CONFIG)
+    defaultInstance = createWidget(cfg)
+    if (defaultInstance) {
+      window.ZBooking.instances.push(defaultInstance)
+      window.ZBooking.default = defaultInstance
+    }
+    return defaultInstance
   }
+
+  // Public factory API — defined IMMEDIATELY so host code never hits "not defined",
+  // even if it calls open()/create() before the DOM (or this default instance) is ready.
+  window.ZBooking = window.ZBooking || {
+    instances: [],
+    create: function (cfg) {
+      const instance = createWidget(cfg)
+      if (instance) window.ZBooking.instances.push(instance)
+      return instance
+    }
+  }
+
+  // Backward-compatible global. open()/close() lazily build the default instance,
+  // so an onclick="ZBookingWidget.open()" works regardless of script load order.
+  window.ZBookingWidget = window.ZBookingWidget || {
+    open: function () {
+      const i = ensureDefaultInstance()
+      if (i) i.open()
+      else whenBodyReady(function () { const inst = ensureDefaultInstance(); if (inst) inst.open() })
+    },
+    close: function () {
+      const i = ensureDefaultInstance()
+      if (i) i.close()
+    }
+  }
+
+  // Auto-bootstrap the default instance on load (floating button / inline mount),
+  // matching the original single-widget embed behavior — once the body exists.
+  whenBodyReady(function () {
+    const cfg = Object.assign({}, DEFAULTS, window.ZBookingConfig || {}, SCRIPT_CONFIG)
+    // Only auto-create when nothing has mounted yet (avoid duplicate overlays)
+    if (cfg.mode === 'inline' || !document.querySelector('.zb-overlay')) {
+      ensureDefaultInstance()
+    }
+  })
 })()
