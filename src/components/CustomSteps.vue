@@ -1,49 +1,48 @@
 <template>
   <div class="flex items-center w-min">
     <template v-for="(step, index) in steps" :key="index">
-      <!-- Step Circle -->
+      <!-- Completed step: checkmark -->
       <div
-        class="size-6 1250:size-8 rounded-full flex items-center justify-center cursor-pointer
-          transition-all duration-300 shrink-0"
-        :class="{
-          'bg-transparent': index < activeStep,
-          'bg-white border-2 border-primary': index === activeStep,
-          'bg-primaryBg border-2 border-[#e6ebef]': index > activeStep,
-          'cursor-not-allowed opacity-50': !canNavigateToStep(index)
-        }"
+        v-if="index < activeStep"
+        class="size-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300"
+        :class="canNavigateToStep(index) ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'"
         @click="handleStepClick(index)"
       >
-        <IconCheckCircle v-if="index < activeStep" class="text-primary" />
-        <span
-          v-else
-          class="text-xs 1080:text-sm font-semibold"
-          :class="index === activeStep ? 'text-primary' : 'text-[#666]'"
-        >
+        <IconCheckCircle class="text-primary size-8" />
+      </div>
+
+      <!-- Active step: filled pill with number + label -->
+      <div
+        v-else-if="index === activeStep"
+        class="h-8 rounded-full bg-primary border-2 border-primary flex items-center justify-center
+          gap-2 pl-1 pr-3 shrink-0 cursor-default transition-all duration-300"
+      >
+        <span class="size-6 rounded-full flex items-center justify-center text-xs font-semibold text-white">
+          {{ index + 1 }}
+        </span>
+        <span class="text-xs 1080:text-sm font-semibold text-white whitespace-nowrap">
+          {{ step }}
+        </span>
+      </div>
+
+      <!-- Upcoming step: outlined circle with number -->
+      <div
+        v-else
+        class="size-8 rounded-full bg-white border-2 border-primary flex items-center justify-center shrink-0
+          transition-all duration-300"
+        :class="canNavigateToStep(index) ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'"
+        @click="handleStepClick(index)"
+      >
+        <span class="text-xs 1080:text-sm font-semibold text-primary">
           {{ index + 1 }}
         </span>
       </div>
 
-      <!-- Step Title (shown for active step instead of connector) -->
-      <span
-        v-if="index === activeStep && index < steps.length - 1"
-        class="ml-2 text-base font-semibold text-primary whitespace-nowrap"
-      >
-        {{ step }}
-      </span>
-
-      <!-- Connector line (always visible, stays gray) -->
+      <!-- Divider -->
       <div
         v-if="index < steps.length - 1"
-        class="w-10 1080:w-14 h-[2px] mx-2 bg-[#e6ebef]"
+        class="h-px w-6 1080:w-8 mx-3 bg-[#dae1e7] shrink-0"
       />
-
-      <!-- Step Title for last active step -->
-      <span
-        v-if="index === activeStep && index === steps.length - 1"
-        class="mx-2 text-base font-semibold text-primary whitespace-nowrap"
-      >
-        {{ step }}
-      </span>
     </template>
   </div>
 </template>

@@ -93,6 +93,11 @@ export interface IConfigOpts {
   mode: string
   'panel-color': string
   'panel-radius': string
+  // Optional business-info fields used by the booking header (may be absent in API config)
+  rating?: string
+  'rating-count'?: string
+  'address-line-1'?: string
+  'address-line-2'?: string
   'reservation-period': number
   'required-user-contact': string
   'selectable-times': string[]

@@ -1,158 +1,46 @@
 <template>
-  <div class="w-full flex-1 flex flex-col">
-    <!-- Mobile Layout -->
-    <template v-if="isMobile">
-      <p class="text-text text-center mb-4">
-        {{ $t('general.additionalInfoDescription') }}
+  <div class="w-full flex-1 flex flex-col 900:min-h-0">
+    <!-- Desktop header (stays fixed above the scroll area) -->
+    <div v-if="!isMobile" class="flex items-center gap-3 shrink-0 mb-10">
+      <button class="flex items-center text-primary" @click="emit('go-back')">
+        <IconArrowBack class="text-primary size-6" />
+      </button>
+      <p class="font-serif font-semibold text-2xl text-text">
+        {{ $t('general.additionalInformation') }}
       </p>
+    </div>
 
-      <div class="space-y-3 mb-3">
-        <div
-          v-for="(option, index) in options"
-          :key="index"
-          class="flex flex-wrap items-center gap-3"
-        >
+    <!-- Scrollable content (desktop only; mobile scrolls with the page) -->
+    <div class="flex flex-col gap-8 900:gap-10 900:flex-1 900:min-h-0 900:overflow-y-auto 900:pr-1">
+      <!-- Option cards -->
+      <div class="flex flex-col gap-3 w-full">
+        <template v-for="card in optionCards" :key="card.value">
+          <!-- Pick-up time card (with date input) -->
           <div
-            class="flex items-center gap-3 cursor-pointer"
-            @click.stop="toggleOption(option)"
+            v-if="card.isPickup"
+            class="border rounded-2xl p-4 transition-colors bg-white"
+            :class="isSelected(card.value) ? 'border-primary' : 'border-[#e4e7ec]'"
           >
-            <IconCheckCircleFull
-              v-if="selectedOptions.some(opt => opt.startsWith(option))"
-              class="text-primary shrink-0"
-            />
-            <div v-else class="size-8 flex items-center shrink-0 justify-center">
-              <div class="w-[26px] h-[26px] border-[2px] border-primary rounded-full shrink-0" />
-            </div>
-            <span class="text-text text-sm">{{ option }}</span>
-          </div>
-
-          <!-- DateTimePicker for vehicleBackBy option -->
-          <CustomDateTimePicker
-            v-if="option === optionVehicleBackBy"
-            v-model="vehicleBackByDate"
-            :disabled="!isVehicleBackBySelected"
-            :placeholder="$t('general.selectDateTime')"
-            class="!w-[180px]"
-            @click.stop
-            @change="onVehicleBackByDateChange"
-          />
-        </div>
-      </div>
-
-      <div>
-        <div class="border-y border-[#E5E7EB] py-3">
-          <p class="text-text text-sm mb-3">
-            {{ $t('general.additionalInformation') }}
-          </p>
-
-          <!-- Full width textarea -->
-          <textarea
-            v-model="notes"
-            :placeholder="$t('general.supplementaryRemarks')"
-            class="w-full h-[100px] p-3 border border-[#C2CDD6] rounded-lg resize-none
-              focus:outline-none focus:border-primary transition-colors"
-          />
-        </div>
-
-        <!-- File upload buttons stacked -->
-        <p class="text-text text-sm my-3">
-          {{ $t('general.additionalDocuments') }}
-        </p>
-        <div
-          v-if="config?.params?.isDropboxEnabled"
-          class="flex flex-col gap-2 border-b border-[#E5E7EB] pb-3"
-        >
-          <button
-            class="flex h-[44px] items-center gap-2 px-4 py-3 border transition-colors w-full rounded-lg
-              border-[#C2CDD6] bg-primaryBg hover:bg-blue-50"
-            @click="handleUploadRegistration"
-          >
-            <IconCarProfile class="size-5 shrink-0 text-primary" />
-            <span class="text-sm text-primary">{{ $t('general.uploadVehicleRegistration') }}</span>
-          </button>
-          <button
-            class="flex h-[44px] items-center gap-2 px-4 py-3 border border-[#C2CDD6]
-              text-primary rounded-lg hover:bg-blue-50 transition-colors bg-primaryBg  w-full"
-            @click="handleUploadDocuments"
-          >
-            <IconFiles class="size-5 shrink-0 text-primary" />
-            <span class="text-sm">{{ $t('general.uploadOtherDocuments') }}</span>
-          </button>
-        </div>
-
-        <!-- Uploaded Files Display -->
-        <div v-if="uploadedFiles.length > 0" class="mt-3 flex flex-col gap-2">
-          <div
-            v-for="(file, index) in uploadedFiles"
-            :key="index"
-            class="flex items-center justify-between gap-2 px-3 py-2
-              rounded-lg bg-[#DAE1E7]"
-          >
-            <span class="text-sm text-primary font-medium truncate flex-1">
-              {{ file.name }}
-            </span>
-            <button
-              class="size-8 flex items-center shrink-0 justify-center border border-[#C2CDD6] rounded
-                hover:border-primary hover:shadow-md transition-colors bg-white"
-              @click="removeFile(index)"
-            >
-              <IconDelete class="size-5 text-primary" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div ref="mobileBottomSentinel" class="h-1" />
-    </template>
-
-    <!-- Desktop Layout -->
-    <template v-else>
-      <div class="flex items-center gap-3">
-        <button
-          class="flex items-center gap-2 text-primary mb-4"
-          @click="emit('go-back')"
-        >
-          <IconArrowBack class="text-primary size-6" />
-        </button>
-        <p class="font-semibold text-2xl text-text mb-4 font-serif">
-          {{ $t('general.additionalInformation') }}
-        </p>
-      </div>
-
-      <!-- Two column layout -->
-      <div class="flex gap-8">
-        <!-- Left side: Options list -->
-        <div class="flex-1">
-          <p class="text-text mb-4">
-            {{ $t('general.additionalServicesQuestion') }}
-          </p>
-
-          <div class="space-y-3">
-            <div
-              v-for="(option, index) in options"
-              :key="index"
-              class="flex items-center gap-3"
-            >
-              <div
-                class="flex items-center gap-3 cursor-pointer"
-                @click.stop="toggleOption(option)"
+            <div class="flex items-center gap-3 cursor-pointer" @click="toggleOption(card.value)">
+              <span class="size-10 shrink-0 rounded-full bg-[#f2f4f7] flex items-center justify-center">
+                <IconClock class="size-5 text-primary" />
+              </span>
+              <p class="flex-1 min-w-0 font-medium text-base text-[#141c25]">{{ card.title }}</p>
+              <button
+                type="button"
+                class="relative w-9 h-5 rounded-full transition-colors shrink-0"
+                :class="isSelected(card.value) ? 'bg-primary' : 'bg-[#97a1af]'"
+                @click.stop="toggleOption(card.value)"
               >
-                <!-- Custom circle checkbox -->
-                <IconCheckCircleFull
-                  v-if="selectedOptions.some(opt => opt.startsWith(option))"
-                  class=" text-primary shrink-0"
+                <span
+                  class="absolute top-0.5 size-4 rounded-full bg-white transition-all"
+                  :class="isSelected(card.value) ? 'left-[18px]' : 'left-0.5'"
                 />
-
-                <div v-else class="size-8 flex items-center shrink-0 justify-center">
-                  <div class="w-[26px] h-[26px] border-[2px] border-primary rounded-full shrink-0" />
-                </div>
-                <span class="text-text 1250:text-base text-xs">{{ option }}</span>
-              </div>
-
-              <!-- DateTimePicker for vehicleBackBy option -->
-
+              </button>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-3 pl-[52px] mt-3">
+              <p class="text-sm text-[#344051]">{{ card.desc }}</p>
               <CustomDateTimePicker
-                v-if="option === optionVehicleBackBy"
                 v-model="vehicleBackByDate"
                 :disabled="!isVehicleBackBySelected"
                 :placeholder="$t('general.selectDateTime')"
@@ -162,92 +50,146 @@
               />
             </div>
           </div>
+
+          <!-- Standard option card -->
+          <div
+            v-else
+            class="border rounded-2xl p-4 transition-colors bg-white cursor-pointer"
+            :class="isSelected(card.value) ? 'border-primary' : 'border-[#e4e7ec]'"
+            @click="toggleOption(card.value)"
+          >
+            <div class="flex items-center gap-3">
+              <span class="size-10 shrink-0 rounded-full bg-[#f2f4f7] flex items-center justify-center">
+                <IconClock v-if="card.icon === 'clock'" class="size-5 text-primary" />
+                <IconCarProfile v-else-if="card.icon === 'car'" class="size-5 text-primary" />
+                <IconPhone v-else-if="card.icon === 'phone'" class="size-5 text-primary" />
+                <svg
+                  v-else
+                  class="size-5 text-primary"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M16.5 11.2A6.5 6.5 0 1 1 8.8 3.5a5 5 0 1 0 7.7 7.7z" />
+                </svg>
+              </span>
+              <div class="flex-1 min-w-0">
+                <p class="font-medium text-base text-[#141c25]">{{ card.title }}</p>
+                <p class="text-sm text-[#344051]">{{ card.desc }}</p>
+              </div>
+              <button
+                type="button"
+                class="relative w-9 h-5 rounded-full transition-colors shrink-0"
+                :class="isSelected(card.value) ? 'bg-primary' : 'bg-[#97a1af]'"
+                @click.stop="toggleOption(card.value)"
+              >
+                <span
+                  class="absolute top-0.5 size-4 rounded-full bg-white transition-all"
+                  :class="isSelected(card.value) ? 'left-[18px]' : 'left-0.5'"
+                />
+              </button>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- Notes + document uploader -->
+      <div class="flex flex-col 900:flex-row gap-6 900:gap-10 w-full">
+        <!-- Notes -->
+        <div class="flex-1 min-w-0 flex flex-col gap-3">
+          <p class="text-base text-text">
+            {{ $t('general.notesOnAppointment') }}
+          </p>
+          <textarea
+            v-model="notes"
+            :placeholder="$t('general.supplementaryRemarks')"
+            class="w-full h-full p-3 border border-[#C2CDD6] rounded-lg resize-none
+            focus:outline-none focus:border-primary transition-colors text-sm text-text"
+          />
         </div>
 
-        <!-- Right side: File upload -->
-        <div class="1250:w-[300px] w-[180px]">
-          <p class="text-text mb-4">
-            {{ $t('general.uploadAdditionalDocuments') }}
+        <!-- Uploader -->
+        <div class="w-full 900:w-[331px] flex flex-col gap-3">
+          <p class="text-base text-text">
+            {{ $t('general.uploadDocumentsQuestion') }}
           </p>
 
-          <!-- Upload buttons -->
-          <div class="flex flex-col gap-2 mb-4">
+          <!-- Uploaded file chips -->
+          <div
+            v-for="(file, index) in uploadedFiles"
+            :key="index"
+            class="flex items-center gap-2 border border-[#e4e7ec] rounded-full pl-[6px] pr-2 py-[6px]"
+          >
+            <span class="size-6 shrink-0 rounded-full bg-[#e5f2ff] flex items-center justify-center">
+              <IconFiles class="size-3 text-primary" />
+            </span>
+            <p class="flex-1 min-w-0 truncate font-medium text-sm text-[#141c25]">{{ file.name }}</p>
             <button
-              class="flex h-[44px] items-center gap-2 px-4 py-3 rounded-lg transition-colors w-full text-xs
-              1250:text-base bg-primary text-white hover:bg-primary/90"
-              @click="handleUploadRegistration"
+              type="button"
+              class="size-5 shrink-0 rounded-full bg-[#f2f4f7] flex items-center justify-center
+              text-[#637083] hover:text-[#141c25] transition-colors"
+              @click="removeFile(index)"
             >
-              <IconCarProfile class="size-5 shrink-0 text-white" />
-              <span class="text-white">
-                {{ $t('general.uploadVehicleRegistration') }}
-              </span>
-            </button>
-            <button
-              class="flex h-[44px] items-center gap-2 px-4 py-3 border border-[#C2CDD6]
-                text-primary rounded-lg hover:bg-blue-50 transition-colors bg-primaryBg w-full text-xs 1250:text-base"
-              @click="handleUploadDocuments"
-            >
-              <IconFiles class="size-5 shrink-0 text-primary" />
-              <span class="text-primary">{{ $t('general.uploadOtherDocuments') }}</span>
+              <svg
+                class="size-3"
+                viewBox="0 0 14 14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              >
+                <path d="M3.5 3.5l7 7M10.5 3.5l-7 7" />
+              </svg>
             </button>
           </div>
 
-          <!-- Uploaded Files Display - scrollable -->
-          <template v-if="uploadedFiles.length > 0">
-            <!-- Separator -->
-            <div class="h-[1px] bg-[#DAE1E7] my-4" />
-
-            <div class="flex flex-col gap-2 max-h-[150px] overflow-y-auto">
-              <div
-                v-for="(file, index) in uploadedFiles"
-                :key="index"
-                class="flex items-center justify-between gap-2 pl-4 pr-2 py-2 rounded-lg bg-[#DAE1E7]"
+          <!-- Drag-and-drop uploader -->
+          <div
+            class="border border-dashed rounded-2xl px-8 py-6 flex flex-col gap-[14px] items-center
+            text-center cursor-pointer transition-colors"
+            :class="isDragging ? 'border-primary bg-blue-50' : 'border-[#e4e7ec] bg-white hover:border-primary'"
+            @click="handleUploadDocuments"
+            @dragover.prevent="isDragging = true"
+            @dragleave.prevent="isDragging = false"
+            @drop.prevent="onDrop"
+          >
+            <span class="size-10 rounded-full bg-[#e5f2ff] flex items-center justify-center">
+              <svg
+                class="size-5 text-primary"
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-                <span class="text-sm text-primary font-medium truncate flex-1">
-                  {{ file.name }}
-                </span>
-                <button
-                  class="size-8 flex items-center shrink-0 justify-center bg-white rounded-md
-                    hover:shadow-md transition-colors"
-                  @click="removeFile(index)"
-                >
-                  <IconDelete class="size-5 text-primary" />
-                </button>
-              </div>
+                <path d="M10 13V3.5M6.5 7L10 3.5 13.5 7M4 13v2.5A1.5 1.5 0 0 0 5.5 17h9a1.5 1.5 0 0 0 1.5-1.5V13" />
+              </svg>
+            </span>
+            <div class="flex flex-col gap-1">
+              <p class="text-sm font-medium text-[#344051]">
+                {{ $t('general.dragFileToUpload') }}<span class="text-primary">{{ $t('general.clickToUpload') }}</span>
+              </p>
+              <p class="text-xs text-[#344051]">{{ $t('general.maxFileSize') }}</p>
             </div>
-          </template>
+          </div>
         </div>
       </div>
 
-      <!-- Bottom: Notes textarea -->
-      <div class="mt-auto">
-        <p class="text-text text-xl mb-3">
-          {{ $t('general.additionalInformation') }}
-        </p>
-        <textarea
-          v-model="notes"
-          :placeholder="$t('general.supplementaryRemarks')"
-          class="w-full h-[120px] p-3 border border-[#C2CDD6] rounded-lg resize-none
-            focus:outline-none focus:border-primary transition-colors"
-        />
-      </div>
-    </template>
+      <div v-if="isMobile" ref="mobileBottomSentinel" class="h-1" />
+    </div>
 
-    <!-- Hidden File Inputs -->
-    <input
-      ref="registrationInput"
-      type="file"
-      accept=".pdf,.jpg,.jpeg,.png"
-      class="hidden"
-      @change="handleFileSelect($event, 'registration')"
-    >
+    <!-- Hidden File Input -->
     <input
       ref="documentsInput"
       type="file"
       accept=".pdf,.jpg,.jpeg,.png"
       multiple
       class="hidden"
-      @change="handleFileSelect($event, 'documents')"
+      @change="handleFileSelect"
     >
   </div>
 </template>
@@ -275,22 +217,50 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 const emit = defineEmits<IEmits>()
 
-const options = computed(() => [
-  t('general.optionWaitOnSite'),
-  t('general.optionReplacementMobility'),
-  t('general.optionNightDropOff'),
-  t('general.optionVehicleBackBy'),
-  t('general.optionCallbackFromDealership')
-])
-
 const selectedOptions = ref<string[]>(props.modelValue || [])
 const notes = ref('')
 
 const optionVehicleBackBy = computed(() => t('general.optionVehicleBackBy'))
 
-const isVehicleBackBySelected = computed(() => {
-  return selectedOptions.value.some(opt => opt.startsWith(optionVehicleBackBy.value))
-})
+// Card configs — `value` keeps the existing stored string so the sidebar and
+// the booking payload (additionalData) are unchanged; title/desc/icon are display-only.
+const optionCards = computed(() => [
+  {
+    value: t('general.optionWaitOnSite'),
+    title: t('general.optWaitOnSiteTitle'),
+    desc: t('general.optWaitOnSiteDesc'),
+    icon: 'clock'
+  },
+  {
+    value: t('general.optionNightDropOff'),
+    title: t('general.optNightDropOffTitle'),
+    desc: t('general.optNightDropOffDesc'),
+    icon: 'moon'
+  },
+  {
+    value: optionVehicleBackBy.value,
+    title: t('general.optPickupTimeTitle'),
+    desc: t('general.optPickupTimeDesc'),
+    icon: 'clock',
+    isPickup: true
+  },
+  {
+    value: t('general.optionReplacementMobility'),
+    title: t('general.optReplacementMobilityTitle'),
+    desc: t('general.optReplacementMobilityDesc'),
+    icon: 'car'
+  },
+  {
+    value: t('general.optionCallbackFromDealership'),
+    title: t('general.optCallDealershipTitle'),
+    desc: t('general.optCallDealershipDesc'),
+    icon: 'phone'
+  }
+])
+
+const isSelected = (value: string) => selectedOptions.value.some(opt => opt.startsWith(value))
+
+const isVehicleBackBySelected = computed(() => isSelected(optionVehicleBackBy.value))
 
 const formatDateTime = (date: Date): string => {
   const day = date.getDate().toString().padStart(2, '0')
@@ -300,10 +270,11 @@ const formatDateTime = (date: Date): string => {
   const minutes = date.getMinutes().toString().padStart(2, '0')
   return `${day}.${month}.${year} ${hours}:${minutes}`
 }
-const registrationInput = ref<HTMLInputElement | null>(null)
-const documentsInput = ref<HTMLInputElement | null>(null)
 
-const { uploadedFiles, config, hasSeenAdditionalInfoBottom, vehicleBackByDate, isSeen } = useAppointmentBooking()
+const documentsInput = ref<HTMLInputElement | null>(null)
+const isDragging = ref(false)
+
+const { uploadedFiles, hasSeenAdditionalInfoBottom, vehicleBackByDate, isSeen } = useAppointmentBooking()
 
 const mobileBottomSentinel = ref<HTMLElement | null>(null)
 let observer: IntersectionObserver | null = null
@@ -379,10 +350,6 @@ watch(() => props.modelValue, (newValue) => {
   selectedOptions.value = newValue || []
 })
 
-const handleUploadRegistration = () => {
-  registrationInput.value?.click()
-}
-
 const handleUploadDocuments = () => {
   documentsInput.value?.click()
 }
@@ -403,25 +370,34 @@ const validateFile = (file: File): boolean => {
   return true
 }
 
-const handleFileSelect = (event: Event, type: 'registration' | 'documents') => {
-  const target = event.target as HTMLInputElement
-  const files = target.files
-
-  if (!files || files.length === 0) return
-
+const addFiles = (files: FileList) => {
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
     if (validateFile(file)) {
       uploadedFiles.value.push({
         name: file.name,
         file,
-        type
+        type: 'documents'
       })
     }
   }
+}
 
+const handleFileSelect = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  if (target.files && target.files.length > 0) {
+    addFiles(target.files)
+  }
   // Reset input value to allow re-uploading the same file
   target.value = ''
+}
+
+const onDrop = (event: DragEvent) => {
+  isDragging.value = false
+  const files = event.dataTransfer?.files
+  if (files && files.length > 0) {
+    addFiles(files)
+  }
 }
 
 const removeFile = (index: number) => {

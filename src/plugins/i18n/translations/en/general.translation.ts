@@ -15,6 +15,9 @@ export const generalTranslations = {
   book: 'Book',
   unbook: 'Unbook',
   noResultsFound: 'No results found',
+  allServices: 'All Services',
+  priceInfoFromAdvisor: 'Price information from service advisor',
+  appointmentSummary: 'Appointment Summary',
 
   // AdditionalInformationStep
   additionalInformation: 'Additional Information',
@@ -32,6 +35,22 @@ export const generalTranslations = {
   optionVehicleBackBy: 'Preferred pickup date for vehicle',
   optionCallbackFromDealership: 'I would like a callback from the dealership',
   selectDateTime: 'Select date & time',
+  // Additional services cards (title + description)
+  optWaitOnSiteTitle: 'Wait on-site',
+  optWaitOnSiteDesc: 'I would like to wait for the completion of my appointment on-site',
+  optNightDropOffTitle: 'Night drop-off',
+  optNightDropOffDesc: 'I will drop-off my vehicle without a service appointment',
+  optPickupTimeTitle: 'Specific pick-up time',
+  optPickupTimeDesc: 'I need my car back by',
+  optReplacementMobilityTitle: 'Replacement mobility',
+  optReplacementMobilityDesc: 'I need a replacement vehicle for the duration of my appointment',
+  optCallDealershipTitle: 'Call from the dealership',
+  optCallDealershipDesc: 'I need a call from a specialist from the dealership',
+  // Document uploader
+  uploadDocumentsQuestion: 'Do you want to upload documents?',
+  dragFileToUpload: 'Drag your file here or ',
+  clickToUpload: 'click to upload',
+  maxFileSize: 'Maximum file size of 10 MB',
 
   // AppointmentStep
   selectDesiredAppointment: 'Select your desired appointment',
@@ -39,6 +58,8 @@ export const generalTranslations = {
   appointmentDescriptionShort: 'Please choose a suitable date when we can welcome you to our facility.',
   nextAvailableAppointment: 'Next available appointment',
   chooseDesiredAppointment: 'Choose desired appointment',
+  scheduleYourAppointment: 'Schedule your appointment',
+  moreAppointments: 'More appointments',
   noAvailableTimeSlots: 'No available time slots for this date',
   noMorningAppointments: 'We apologize, but we do not have any more appointments available in the morning on the selected day.',
   noAfternoonAppointments: 'We apologize, but we do not have any more appointments available in the afternoon on the selected day.',
@@ -58,6 +79,7 @@ export const generalTranslations = {
   vehicleAndCustomerData: 'Vehicle and Customer Data',
   vehicleCustomerDataDescription: 'Please enter your vehicle and customer data.',
   customerInformation: 'Customer Information',
+  contactInformation: 'Contact information',
   address: 'Address',
   vehicleInfo: 'Vehicle Info',
   email: 'Email',

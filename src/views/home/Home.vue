@@ -5,52 +5,50 @@
   >
     <div
       :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
-      class="w-full max-w-[1920px] h-[730px] justify-center hidden 900:flex"
+      class="w-full max-w-[1920px] h-full max-h-[730px] justify-center hidden 900:flex"
     >
       <div
         v-if="!bookingSuccess"
-        class="flex-1 p-3 1080:p-6 border border-[#E6EBEF] bg-primaryBg rounded-l-[10px] flex flex-col"
+        class="flex-1 p-4 1080:p-8 border border-[#E6EBEF] bg-primaryBg rounded-l-[10px]
+          flex flex-col gap-12 overflow-hidden"
       >
-        <div class="w-full flex items-end mb-12 relative">
-          <img
-            src="/src/assets/images/logo.png"
-            alt="Logo"
-            class="1250:!w-[170px] 1250:!h-[70px] w-[120px] h-[50px] shrink-0"
-          >
+        <div class="w-full flex flex-wrap items-start gap-4 relative">
+          <BookingHeader v-bind="businessInfo" />
 
           <CustomSteps
             v-model="activeStep"
-            class="ml-auto"
+            class="shrink-0 ml-auto"
             :steps="stepTitles"
           />
         </div>
 
-        <ServicesStep
-          v-if="activeStep === 0"
-          v-model:service-search="serviceSearch"
-          :services-config="servicesConfig"
-          :selected-service="selectedService"
-          :selected-service-options="selectedServiceOptions"
-          @select-service="selectService"
-          @toggle-option="toggleOption"
-        />
+        <div class="flex-1 min-h-0 overflow-y-auto flex flex-col pr-1">
+          <ServicesStep
+            v-if="activeStep === 0"
+            v-model:service-search="serviceSearch"
+            :services-config="servicesConfig"
+            :selected-service-options="selectedServiceOptions"
+            @book-option="handleBookOption"
+            @unbook-option="handleUnbookOption"
+          />
 
-        <AppointmentStep
-          v-if="activeStep === 1"
-          @go-back="activeStep--"
-        />
-        <AdditionalInformationStep
-          v-if="activeStep === 2"
-          v-model="selectedAdditionalInfo"
-          @go-back="activeStep--"
-        />
+          <AppointmentStep
+            v-if="activeStep === 1"
+            @go-back="activeStep--"
+          />
+          <AdditionalInformationStep
+            v-if="activeStep === 2"
+            v-model="selectedAdditionalInfo"
+            @go-back="activeStep--"
+          />
 
-        <VehicleDataStep v-if="activeStep === 3" @go-back="activeStep--" />
+          <VehicleDataStep v-if="activeStep === 3" @go-back="activeStep--" />
+        </div>
       </div>
 
       <AppointmentBookingSidebar
         v-if="!bookingSuccess"
-        class="border !h-[730px] border-[#E6EBEF] bg-[#FFFFFF] rounded-r-[10px] border-l-[0px]"
+        class="border !h-full !max-h-[730px] border-[#E6EBEF] bg-[#FFFFFF] rounded-r-[10px] border-l-[0px]"
         :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
         :selected-jobs="selectedJobs"
         :selected-additional-info="selectedAdditionalInfo"
@@ -103,12 +101,12 @@
 
         <!-- Stepper (numbers only) -->
         <div class="flex items-center justify-center gap-2 px-6">
-          <template v-for="(step, index) in stepTitles" :key="index">
+          <template v-for="(_step, index) in stepTitles" :key="index">
             <div
-              class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
+              class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold shrink-0"
               :class="{
-                'bg-primary text-white': index === activeStep,
-                'text-[#666] border-2 border-[#E6EBEF]': index > activeStep
+                'bg-primary text-white border-2 border-primary': index === activeStep,
+                'bg-white text-primary border-2 border-primary': index > activeStep
               }"
             >
               <IconCheckCircle v-if="index < activeStep" class="w-8 h-8 text-primary" />
@@ -116,8 +114,8 @@
             </div>
             <div
               v-if="index < stepTitles.length - 1"
-              class="w-8 h-[2px]"
-              :class="index < activeStep ? 'bg-primary' : 'bg-[#E6EBEF]'"
+              class="w-6 h-px"
+              :class="index < activeStep ? 'bg-primary' : 'bg-[#dae1e7]'"
             />
           </template>
         </div>
@@ -126,18 +124,15 @@
       <!-- Scrollable Content Area -->
       <div
         ref="mobileContentRef"
-        class="flex-1 overflow-y-auto pt-4 pl-4 pr-1  gutter"
+        class="flex-1 overflow-y-auto overflow-x-hidden pt-4 pl-4 pr-1  gutter"
         :class="bookingSuccess ? 'mt-0 mb-0' : 'mt-[120px] mb-[105px]'"
       >
         <ServicesStep
           v-if="activeStep === 0"
           v-model:service-search="serviceSearch"
           :services-config="servicesConfig"
-          :selected-service="selectedService"
           :selected-service-options="selectedServiceOptions"
           :is-mobile="true"
-          @select-service="selectService"
-          @toggle-option="toggleOption"
           @book-option="handleBookOption"
           @unbook-option="handleUnbookOption"
         />
@@ -205,8 +200,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import AppointmentBookingSidebar from '@/views/home/components/AppointmentBookingSidebar.vue'
+import BookingHeader from '@/views/home/components/BookingHeader.vue'
 import ServicesStep from '@/views/home/components/ServicesStep.vue'
 import AdditionalInformationStep from '@/views/home/components/AdditionalInformationStep.vue'
 import AppointmentStep from '@/views/home/components/AppointmentStep.vue'
@@ -241,6 +237,20 @@ const {
   resetAll,
   makeReservation
 } = useAppointmentBooking()
+
+// Business info for the booking header — sourced from config opts, falling back to
+// BookingHeader's built-in placeholders when the API does not provide these fields.
+const businessInfo = computed(() => {
+  const opts = config.value?.opts
+  return {
+    companyName: opts?.['company-name'] || undefined,
+    logoUrl: opts?.['logo-url'] || undefined,
+    rating: opts?.rating || undefined,
+    ratingCount: opts?.['rating-count'] || undefined,
+    addressLine1: opts?.['address-line-1'] || undefined,
+    addressLine2: opts?.['address-line-2'] || undefined
+  }
+})
 
 const handleWidgetMessage = (event: MessageEvent) => {
   if (event.data === 'resetWidget') {
@@ -324,30 +334,6 @@ const getTokenFromUrl = (): string => {
 
 const token = ref<string>(getTokenFromUrl())
 
-const toggleOption = (option: { id: number; label: string; serviceId?: number; serviceTitle?: string }) => {
-  const index = selectedServiceOptions.value.indexOf(option.label)
-  if (index > -1) {
-    selectedServiceOptions.value.splice(index, 1)
-    const jobIndex = selectedJobs.value.findIndex(job => job.option.label === option.label)
-    if (jobIndex > -1) {
-      selectedJobs.value.splice(jobIndex, 1)
-    }
-  } else {
-    selectedServiceOptions.value.push(option.label)
-    // Use serviceTitle from the option if available (from filtered jobs), otherwise from selectedService
-    const serviceTitle = option.serviceTitle || selectedService.value?.title || ''
-    if (serviceTitle) {
-      selectedJobs.value.push({
-        serviceTitle,
-        option: {
-          id: option.id,
-          label: option.label
-        }
-      })
-    }
-  }
-}
-
 const removeJob = (index: number) => {
   const job = selectedJobs.value[index]
   selectedJobs.value.splice(index, 1)
@@ -388,19 +374,6 @@ const handleContinue = async () => {
     }
   }
   activeStep.value++
-}
-
-const selectService = (serviceId: number | null) => {
-  if (serviceId === null) {
-    selectedService.value = undefined
-    return
-  }
-  const service = servicesConfig.value.find((s) => s.id === serviceId)
-  if (selectedService.value?.id === serviceId) {
-    selectedService.value = undefined
-  } else {
-    selectedService.value = service
-  }
 }
 
 const fetchAvailableDays = async () => {

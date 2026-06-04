@@ -15,6 +15,9 @@ export const generalTranslations = {
   book: 'Réserver',
   unbook: 'Annuler',
   noResultsFound: 'Aucun résultat trouvé',
+  allServices: 'Tous les services',
+  priceInfoFromAdvisor: 'Information tarifaire du conseiller de service',
+  appointmentSummary: 'Récapitulatif du rendez-vous',
 
   // AdditionalInformationStep
   additionalInformation: 'Informations complémentaires',
@@ -32,6 +35,22 @@ export const generalTranslations = {
   optionVehicleBackBy: 'Date de récupération préférée du véhicule',
   optionCallbackFromDealership: 'Je souhaite être rappelé par la concession',
   selectDateTime: 'Sélectionner date et heure',
+  // Additional services cards (title + description)
+  optWaitOnSiteTitle: 'Attendre sur place',
+  optWaitOnSiteDesc: 'Je souhaite attendre sur place la fin de mon rendez-vous',
+  optNightDropOffTitle: 'Dépôt de nuit',
+  optNightDropOffDesc: 'Je dépose mon véhicule sans rendez-vous de service',
+  optPickupTimeTitle: 'Heure de retrait précise',
+  optPickupTimeDesc: 'J\'ai besoin de ma voiture pour',
+  optReplacementMobilityTitle: 'Mobilité de remplacement',
+  optReplacementMobilityDesc: 'J\'ai besoin d\'un véhicule de remplacement pour la durée de mon rendez-vous',
+  optCallDealershipTitle: 'Appel du concessionnaire',
+  optCallDealershipDesc: 'Je souhaite être appelé par un spécialiste du concessionnaire',
+  // Document uploader
+  uploadDocumentsQuestion: 'Souhaitez-vous télécharger des documents ?',
+  dragFileToUpload: 'Glissez votre fichier ici ou ',
+  clickToUpload: 'cliquez pour télécharger',
+  maxFileSize: 'Taille maximale du fichier 10 Mo',
 
   // AppointmentStep
   selectDesiredAppointment: 'Sélectionnez votre rendez-vous souhaité',
@@ -39,6 +58,8 @@ export const generalTranslations = {
   appointmentDescriptionShort: 'Veuillez choisir une date qui vous convient pour que nous puissions vous accueillir dans notre établissement.',
   nextAvailableAppointment: 'Prochain rendez-vous disponible',
   chooseDesiredAppointment: 'Choisir le rendez-vous souhaité',
+  scheduleYourAppointment: 'Planifiez votre rendez-vous',
+  moreAppointments: 'Plus de rendez-vous',
   noAvailableTimeSlots: 'Aucun créneau horaire disponible pour cette date',
   noMorningAppointments: 'Nous nous excusons, mais nous n\'avons plus de rendez-vous disponibles le matin pour le jour sélectionné.',
   noAfternoonAppointments: 'Nous nous excusons, mais nous n\'avons plus de rendez-vous disponibles l\'après-midi pour le jour sélectionné.',
@@ -58,6 +79,7 @@ export const generalTranslations = {
   vehicleAndCustomerData: 'Données du véhicule et du client',
   vehicleCustomerDataDescription: 'Veuillez saisir les données de votre véhicule et vos informations personnelles.',
   customerInformation: 'Informations client',
+  contactInformation: 'Coordonnées',
   address: 'Adresse',
   vehicleInfo: 'Informations véhicule',
   email: 'E-mail',

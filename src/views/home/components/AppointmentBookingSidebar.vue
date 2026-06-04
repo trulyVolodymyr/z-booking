@@ -10,10 +10,10 @@
       </svg>
     </button>
     <span class="font-semibold text-xl text-text font-serif">
-      {{ $t('general.appointmentBooking') }}
+      {{ $t('general.appointmentSummary') }}
     </span>
 
-    <div class="w-full h-[1px] bg-text mt-2 mb-2" />
+    <div class="w-full h-[1px] bg-[#C2CDD6] mt-2 mb-2" />
 
     <div class="flex flex-col flex-1 min-h-0">
       <!-- Appointment Section -->
@@ -45,15 +45,26 @@
         <p class="font-semibold text-base text-[#7B9CA3] mb-2">
           {{ $t('general.services') }}
         </p>
-        <div class="space-y-2">
+        <div class="space-y-3">
           <div
             v-for="(job, index) in selectedJobs"
             :key="index"
+            class="border-b border-[#E6EBEF] last:border-b-0 pb-3 last:pb-0"
           >
-            <div class="flex items-center justify-between gap-1">
-              <div class="flex-1 min-w-0">
-                <p class="font-medium text-text text-sm">
-                  {{ getShortLabel(job.option.label) }}
+            <div class="flex items-start justify-between gap-1">
+              <div class="flex-1 min-w-0 flex flex-col gap-1">
+                <el-tooltip
+                  :content="job.option.label"
+                  placement="top"
+                  :show-after="200"
+                  :disabled="getShortLabel(job.option.label) === job.option.label"
+                >
+                  <p class="font-semibold text-text text-sm">
+                    {{ getShortLabel(job.option.label) }}
+                  </p>
+                </el-tooltip>
+                <p class="text-xs text-[#859bad]">
+                  {{ $t('general.priceCalculationAtBranch') }}
                 </p>
               </div>
               <button

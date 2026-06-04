@@ -8,48 +8,63 @@
       </p>
 
       <!-- Search Input -->
-      <div class="flex items-center h-10 bg-[#ECEFF4] rounded-[10px] mb-4">
-        <IconSearch class="ml-3 text-[#909399]" />
+      <div class="flex items-center h-9 bg-white border border-[#e4e7ec] rounded-lg shadow-sm px-[10px] mb-4">
+        <IconSearch class="text-[#97a1af] size-5 shrink-0" />
         <input
           v-model="mobileSearchQuery"
           type="text"
           :placeholder="$t('general.searchForService')"
-          class="ml-3 outline-none w-full bg-[#ECEFF4] text-sm pr-3"
-          @input="onMobileSearch"
+          class="ml-2 outline-none w-full bg-transparent text-sm text-text placeholder:text-[#97a1af]"
         >
         <button
           v-if="mobileSearchQuery"
-          class="mr-3 text-[#909399] hover:text-[#606266]"
-          @click="clearMobileSearch"
+          class="ml-2 text-[#909399] hover:text-[#606266]"
+          @click="mobileSearchQuery = ''"
         >
           ×
         </button>
       </div>
 
-      <!-- OR Divider -->
-      <div v-if="!mobileSearchQuery" class="mb-4 uppercase font-semibold text-text text-sm flex items-center">
-        <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
-        <span class="px-4">{{ $t('general.or') }}</span>
-        <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
+      <!-- Category chips -->
+      <div v-if="!mobileSearchQuery" class="no-scrollbar flex gap-2 overflow-x-auto pt-2 pb-2 mb-2 -mx-4 px-4">
+        <button
+          v-for="cat in categoryTabs"
+          :key="cat.id ?? 'all'"
+          class="relative flex items-center gap-[6px] px-4 py-2 rounded-lg border whitespace-nowrap text-sm
+            font-medium transition-colors shrink-0"
+          :class="activeCategoryId === cat.id
+            ? 'bg-[#f9fafb] border-[#f2f4f7] text-[#141c25]'
+            : 'border-transparent text-[#637083] hover:text-[#141c25]'"
+          @click="activeCategoryId = cat.id"
+        >
+          {{ cat.title }}
+          <span
+            v-if="cat.id !== null && selectedCount(cat.id) > 0"
+            class="absolute -top-1.5 -right-1.5 size-5 rounded-full bg-primary text-white text-[10px]
+              font-semibold flex items-center justify-center"
+          >
+            {{ selectedCount(cat.id) }}
+          </span>
+        </button>
       </div>
 
-      <!-- Mobile Search Results -->
-      <div v-if="mobileSearchQuery && mobileFilteredJobs.length" class="mb-4">
+      <!-- Job list (mobile) -->
+      <div v-if="displayedJobs.length" class="flex flex-col divide-y divide-[#E6EBEF]">
         <div
-          v-for="job in mobileFilteredJobs"
+          v-for="job in displayedJobs"
           :key="job.id"
-          class="flex items-center justify-between bg-primaryBg py-3 border-b border-[#E6EBEF] last:border-b-0"
+          class="flex items-center justify-between gap-3 py-3"
         >
-          <div>
+          <div class="min-w-0">
             <p class="font-medium text-text text-sm">{{ job.label }}</p>
-            <p class="text-xs text-[#909399]">{{ job.serviceTitle }}</p>
+            <p class="text-xs text-[#c2cdd6]">{{ $t('general.priceInfoFromAdvisor') }}</p>
           </div>
           <button
-            class="px-4 py-2 text-sm font-semibold border rounded-lg transition-colors"
+            class="px-4 py-2 text-sm font-semibold border rounded-md transition-colors shrink-0"
             :class="isOptionBooked(job.label)
               ? 'bg-[#F9FAFB] text-text border-[#C2CDD6] hover:bg-gray-100'
-              : 'bg-primary text-white hover:bg-blue-600 border-[transparent]'"
-            @click="toggleMobileSearchResult(job)"
+              : 'bg-primary text-white hover:bg-blue-600 border-transparent'"
+            @click="toggleJob(job)"
           >
             {{ isOptionBooked(job.label) ? $t('general.unbook') : $t('general.book') }}
           </button>
@@ -57,141 +72,108 @@
       </div>
 
       <!-- No Results Message -->
-      <div v-else-if="mobileSearchQuery && !mobileFilteredJobs.length" class="text-left text-[#909399] py-4 mb-4">
+      <div v-else class="text-left text-[#909399] py-4">
         {{ $t('general.noResultsFound') }}
-      </div>
-
-      <!-- Services Accordion -->
-      <div v-if="!mobileSearchQuery" class="space-y-[10px]">
-        <div
-          v-for="service in servicesConfig"
-          :key="service.id"
-          class="border-[2px] rounded-[8px] transition-colors
-            border-l-[4px] border-l-primary overflow-hidden w-full"
-          :class="expandedService === service.id ? 'border-primary bg-[#F5F9FF]' : 'border-[#C2CDD6] bg-primaryBg'"
-        >
-          <!-- Service Header -->
-          <div
-            class="flex items-center justify-between px-3 py-2 cursor-pointer"
-            @click="toggleService(service.id)"
-          >
-            <span class="text-text">{{ service.title }}</span>
-            <svg
-              class="w-5 h-5 shrink-0 transition-transform duration-200"
-              :class="expandedService === service.id ? 'rotate-90' : ''"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#C2CDD6"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </div>
-
-          <!-- Service Options (Jobs) -->
-          <div
-            v-if="expandedService === service.id && service.options"
-            class="px-3"
-          >
-            <div
-              v-for="option in service.options"
-              :key="option.id"
-              class="flex items-center justify-between py-2 border-t border-[#E6EBEF] pl-3"
-            >
-              <div>
-                <p class="text-text text-sm">{{ option.label }}</p>
-              </div>
-              <button
-                class="px-5 py-2 text-sm font-semibold border rounded-md transition-colors shrink-0 ml-3"
-                :class="isOptionBooked(option.label)
-                  ? 'bg-[#F9FAFB] text-text border-[#C2CDD6] hover:bg-gray-100'
-                  : 'bg-primary text-white hover:bg-blue-600 border-transparent'"
-                @click.stop="toggleBookOption(service, option)"
-              >
-                {{ isOptionBooked(option.label) ? $t('general.unbook') : $t('general.book') }}
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </template>
 
     <!-- Desktop Layout -->
-    <div v-else class="flex-1 flex flex-col min-h-0">
-      <p class="font-semibold text-2xl text-text mb-4 font-serif">
-        {{ $t('general.selectYourService') }}
-      </p>
-      <p class="text-text mb-6">
-        {{ $t('general.selectServiceDescription') }}
-      </p>
-
-      <div class="flex items-center h-10 bg-[#ECEFF4] rounded-[10px] mx-4">
-        <IconSearch class="ml-3" />
-        <input
-          v-model="serviceSearchModel"
-          type="text"
-          :placeholder="$t('general.searchForService')"
-          class="ml-6 outline-none w-full bg-[#ECEFF4] text-sm"
-          @input="searchJobs(($event.target as HTMLInputElement).value)"
-        >
-      </div>
-
-      <div class="my-6 uppercase font-semibold text-text flex items-center">
-        <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
-        <span class="px-4">{{ $t('general.or') }}</span>
-        <div class="flex-1 h-[1px] bg-[#DAE1E7]" />
-      </div>
-
-      <div class="grid grid-cols-1 900:grid-cols-2 1080:grid-cols-3 gap-[10px] mb-6 mx-4">
-        <div
-          v-for="(service, index) in servicesConfig"
-          :key="index"
-          class="border-[2px] rounded-[8px] cursor-pointer bg-primaryBg  transition-colors border-l-[4px]
-          border-l-primary"
-          :class="selectedService?.id === service.id ? 'border-primary shadow-md' : 'border-[#C2CDD6]'"
-          @click="$emit('selectService', service.id)"
-        >
-          <div
-            class="flex items-center gap-2 rounded-[6px] px-3 py-[6px] "
-          >
-            {{ service.title }}
-          </div>
-        </div>
-      </div>
-
-      <div class="flex-1 flex flex-col min-h-0 mx-4">
-        <p
-          v-if="!filteredJobs.length && selectedService"
-          class="mb-1"
-        >
-          {{ selectedService.title }}
-        </p>
-
-        <div v-if="displayedJobs.length" class="flex-1 overflow-y-auto min-h-0 space-y-3">
-          <div
-            v-for="(option, index) in displayedJobs"
-            :key="index"
-            class="flex items-center justify-between cursor-pointer"
-            @click="$emit('toggleOption', option)"
-          >
-            <div class="flex items-center gap-3">
-              <div
-                class="w-6 h-6 border-2 rounded flex items-center justify-center transition-colors"
-                :class="selectedServiceOptions.includes(option.label) ?
-                  'bg-primary border-primary' : 'border-[#7B9CA3]'"
+    <div v-else class="flex-1 flex flex-col min-h-0 gap-9">
+      <!-- Heading + search + description -->
+      <div class="flex flex-col gap-3 w-full">
+        <div class="flex items-end justify-between w-full gap-4">
+          <p class="font-serif font-semibold text-2xl text-text tracking-[0.12px] whitespace-nowrap">
+            {{ $t('general.selectYourService') }}
+          </p>
+          <div class="w-[450px] max-w-[50%]">
+            <div class="flex items-center h-9 bg-white border border-[#e4e7ec] rounded-lg shadow-sm px-[10px]">
+              <IconSearch class="text-[#97a1af] size-5 shrink-0" />
+              <input
+                v-model="serviceSearchModel"
+                type="text"
+                :placeholder="$t('general.searchForService')"
+                class="ml-2 outline-none w-full bg-transparent text-sm text-text placeholder:text-[#97a1af]"
               >
-                <IconCheck class="size-4 text-primary" />
-              </div>
-              <span
-                class="text-sm text-text"
-                :class="selectedServiceOptions.includes(option.label) ? 'font-bold' : 'font-normal'"
-              >
-                {{ option.label }}
-              </span>
             </div>
           </div>
+        </div>
+        <p class="text-text text-sm tracking-[0.07px]">
+          {{ $t('general.selectServiceDescription') }}
+        </p>
+      </div>
+
+      <!-- Tabs + job list -->
+      <div class="flex gap-8 items-stretch flex-1 min-h-0 w-full pb-4 pr-4">
+        <!-- Category tabs -->
+        <div class="flex gap-3 shrink-0 min-h-0">
+          <div class="flex flex-col gap-2 overflow-y-auto overflow-x-hidden min-h-0 pr-4 pt-2">
+            <button
+              v-for="cat in categoryTabs"
+              :key="cat.id ?? 'all'"
+              class="flex items-center justify-start pl-[10px] transition-colors text-left"
+              :class="activeCategoryId === cat.id ? 'border-l-2 border-[#141c25]' : 'border-l-2 border-transparent'"
+              @click="activeCategoryId = cat.id"
+            >
+              <span
+                class="relative flex items-center gap-[6px] px-4 py-2 rounded-lg border text-sm font-medium
+                  whitespace-nowrap transition-colors"
+                :class="activeCategoryId === cat.id
+                  ? 'bg-[#f9fafb] border-[#f2f4f7] text-[#141c25]'
+                  : 'border-transparent text-[#637083] hover:text-[#141c25]'"
+              >
+                <IconMaintenance v-if="cat.id !== null" class="size-5 shrink-0" />
+                <svg
+                  v-else
+                  class="size-5 shrink-0"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M7 5h9M7 10h9M7 15h9M3.5 5h.01M3.5 10h.01M3.5 15h.01" />
+                </svg>
+                {{ cat.title }}
+                <span
+                  v-if="cat.id !== null && selectedCount(cat.id) > 0"
+                  class="absolute -top-1.5 -right-1.5 size-5 rounded-full bg-primary text-white text-[10px]
+                    font-semibold flex items-center justify-center"
+                >
+                  {{ selectedCount(cat.id) }}
+                </span>
+              </span>
+            </button>
+          </div>
+          <div class="w-px self-stretch bg-[#E6EBEF]" />
+        </div>
+
+        <!-- Job list -->
+        <div class="flex-1 min-w-0 flex flex-col gap-4 overflow-y-auto min-h-0">
+          <template v-if="displayedJobs.length">
+            <div
+              v-for="job in displayedJobs"
+              :key="job.id"
+              class="flex items-center justify-between gap-4 pl-3 w-full"
+            >
+              <div class="flex flex-col gap-1 min-w-0">
+                <p class="font-medium text-base text-text tracking-[0.08px]">{{ job.label }}</p>
+                <p class="text-sm text-[#c2cdd6]">{{ $t('general.priceInfoFromAdvisor') }}</p>
+              </div>
+              <button
+                class="h-10 min-w-[93px] px-[17px] rounded-md text-base font-medium border transition-colors shrink-0"
+                :class="isOptionBooked(job.label)
+                  ? 'bg-[#F9FAFB] text-text border-[#C2CDD6] hover:bg-gray-100'
+                  : 'bg-primary text-white hover:bg-blue-600 border-primary'"
+                @click="toggleJob(job)"
+              >
+                {{ isOptionBooked(job.label) ? $t('general.unbook') : $t('general.book') }}
+              </button>
+            </div>
+          </template>
+          <p v-else class="text-[#909399] pl-3">
+            {{ $t('general.noResultsFound') }}
+          </p>
         </div>
       </div>
     </div>
@@ -200,6 +182,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 interface IServiceOption {
   id: number
@@ -227,39 +210,39 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emit = defineEmits<{
   'update:serviceSearch': [value: string]
-  selectService: [serviceId: number | null]
-  toggleOption: [option: IServiceOption & { serviceId?: number; serviceTitle?: string }]
   bookOption: [service: IService, option: IServiceOption]
   unbookOption: [optionLabel: string]
 }>()
 
-const expandedService = ref<number | null>(null)
+const { t } = useI18n()
+
+const activeCategoryId = ref<number | null>(null)
 const mobileSearchQuery = ref('')
-
-const toggleService = (serviceId: number) => {
-  if (expandedService.value === serviceId) {
-    expandedService.value = null
-  } else {
-    expandedService.value = serviceId
-  }
-}
-
-const isOptionBooked = (optionLabel: string) => {
-  return props.selectedServiceOptions.includes(optionLabel)
-}
-
-const toggleBookOption = (service: IService, option: IServiceOption) => {
-  if (isOptionBooked(option.label)) {
-    emit('unbookOption', option.label)
-  } else {
-    emit('bookOption', service, option)
-  }
-}
 
 const serviceSearchModel = computed({
   get: () => props.serviceSearch,
   set: (value: string) => emit('update:serviceSearch', value)
 })
+
+const isOptionBooked = (optionLabel: string) => {
+  return props.selectedServiceOptions.includes(optionLabel)
+}
+
+// Number of selected (booked) jobs for a category tab; null = "All Services" (total)
+const selectedCount = (catId: number | null) => {
+  if (catId === null) {
+    return props.selectedServiceOptions.length
+  }
+  const service = props.servicesConfig.find(s => s.id === catId)
+  if (!service?.options) return 0
+  return service.options.filter(o => props.selectedServiceOptions.includes(o.label)).length
+}
+
+// Category tabs: "All Services" (id null) + one per category
+const categoryTabs = computed(() => [
+  { id: null as number | null, title: t('general.allServices') },
+  ...props.servicesConfig.map(s => ({ id: s.id as number | null, title: s.title }))
+])
 
 const allJobs = computed(() => {
   return props.servicesConfig.flatMap(service =>
@@ -271,59 +254,38 @@ const allJobs = computed(() => {
   )
 })
 
-const filteredJobs = ref<typeof allJobs.value>([])
-const mobileFilteredJobs = ref<typeof allJobs.value>([])
-
-const onMobileSearch = () => {
-  const query = mobileSearchQuery.value.trim().toLowerCase()
-  if (!query) {
-    mobileFilteredJobs.value = []
-    return
-  }
-  mobileFilteredJobs.value = allJobs.value.filter(job =>
-    job.label.toLowerCase().includes(query)
-  )
-}
-
-const clearMobileSearch = () => {
-  mobileSearchQuery.value = ''
-  mobileFilteredJobs.value = []
-}
-
-const toggleMobileSearchResult = (job: typeof allJobs.value[0]) => {
-  const service = props.servicesConfig.find(s => s.id === job.serviceId)
-  if (!service) return
-
-  if (isOptionBooked(job.label)) {
-    emit('unbookOption', job.label)
-  } else {
-    emit('bookOption', service, { id: job.id, label: job.label })
-  }
-}
+const searchQuery = computed(() => (props.isMobile ? mobileSearchQuery.value : serviceSearchModel.value))
 
 const displayedJobs = computed(() => {
-  if (filteredJobs.value.length) {
-    if (props.selectedService) {
-      return filteredJobs.value.filter(job => job.serviceId === props.selectedService?.id)
-    }
-    return filteredJobs.value
+  let jobs = allJobs.value
+  if (activeCategoryId.value !== null) {
+    jobs = jobs.filter(job => job.serviceId === activeCategoryId.value)
   }
-  if (props.selectedService?.options) {
-    return props.selectedService.options
+  const query = searchQuery.value.trim().toLowerCase()
+  if (query) {
+    jobs = jobs.filter(job => job.label.toLowerCase().includes(query))
   }
-  return allJobs.value
+  return jobs
 })
 
-const searchJobs = (query: string) => {
-  if (!query.trim()) {
-    filteredJobs.value = []
+const toggleJob = (job: { id: number; label: string; serviceId: number; serviceTitle: string }) => {
+  if (isOptionBooked(job.label)) {
+    emit('unbookOption', job.label)
     return
   }
-  expandedService.value = null
-  emit('selectService', null)
-  const lowerQuery = query.toLowerCase()
-  filteredJobs.value = allJobs.value.filter(job =>
-    job.label.toLowerCase().includes(lowerQuery)
-  )
+  const service = props.servicesConfig.find(s => s.id === job.serviceId) ??
+    { id: job.serviceId, title: job.serviceTitle }
+  emit('bookOption', service, { id: job.id, label: job.label })
 }
 </script>
+
+<style scoped>
+/* Hide the horizontal scrollbar on the mobile category chips row */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+</style>

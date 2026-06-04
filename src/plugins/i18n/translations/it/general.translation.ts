@@ -15,6 +15,9 @@ export const generalTranslations = {
   book: 'Prenota',
   unbook: 'Annulla',
   noResultsFound: 'Nessun risultato trovato',
+  allServices: 'Tutti i servizi',
+  priceInfoFromAdvisor: 'Informazioni sul prezzo dal consulente di servizio',
+  appointmentSummary: 'Riepilogo appuntamento',
 
   // AdditionalInformationStep
   additionalInformation: 'Informazioni aggiuntive',
@@ -32,6 +35,22 @@ export const generalTranslations = {
   optionVehicleBackBy: 'Data di ritiro preferita per il veicolo',
   optionCallbackFromDealership: 'Desidero essere richiamato dalla concessionaria',
   selectDateTime: 'Seleziona data e ora',
+  // Additional services cards (title + description)
+  optWaitOnSiteTitle: 'Attendere in loco',
+  optWaitOnSiteDesc: 'Desidero attendere in loco il completamento del mio appuntamento',
+  optNightDropOffTitle: 'Consegna notturna',
+  optNightDropOffDesc: 'Consegno il mio veicolo senza un appuntamento di servizio',
+  optPickupTimeTitle: 'Orario di ritiro specifico',
+  optPickupTimeDesc: 'Ho bisogno della mia auto entro',
+  optReplacementMobilityTitle: 'Mobilità sostitutiva',
+  optReplacementMobilityDesc: 'Ho bisogno di un veicolo sostitutivo per la durata del mio appuntamento',
+  optCallDealershipTitle: 'Chiamata dalla concessionaria',
+  optCallDealershipDesc: 'Desidero una chiamata da uno specialista della concessionaria',
+  // Document uploader
+  uploadDocumentsQuestion: 'Vuoi caricare dei documenti?',
+  dragFileToUpload: 'Trascina qui il tuo file o ',
+  clickToUpload: 'clicca per caricare',
+  maxFileSize: 'Dimensione massima del file 10 MB',
 
   // AppointmentStep
   selectDesiredAppointment: 'Seleziona l\'appuntamento desiderato',
@@ -39,6 +58,8 @@ export const generalTranslations = {
   appointmentDescriptionShort: 'Scegli una data adatta in cui possiamo accoglierti nella nostra struttura.',
   nextAvailableAppointment: 'Prossimo appuntamento disponibile',
   chooseDesiredAppointment: 'Scegli l\'appuntamento desiderato',
+  scheduleYourAppointment: 'Pianifica il tuo appuntamento',
+  moreAppointments: 'Altri appuntamenti',
   noAvailableTimeSlots: 'Nessuna fascia oraria disponibile per questa data',
   noMorningAppointments: 'Ci scusiamo, ma non abbiamo più appuntamenti disponibili al mattino per il giorno selezionato.',
   noAfternoonAppointments: 'Ci scusiamo, ma non abbiamo più appuntamenti disponibili nel pomeriggio per il giorno selezionato.',
@@ -58,6 +79,7 @@ export const generalTranslations = {
   vehicleAndCustomerData: 'Dati veicolo e cliente',
   vehicleCustomerDataDescription: 'Inserisci i dati del tuo veicolo e i tuoi dati personali.',
   customerInformation: 'Informazioni cliente',
+  contactInformation: 'Informazioni di contatto',
   address: 'Indirizzo',
   vehicleInfo: 'Informazioni veicolo',
   email: 'E-mail',
