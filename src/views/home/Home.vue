@@ -1,11 +1,11 @@
 <template>
   <div
     v-loading="loading"
-    class="flex items-center justify-center h-full w-full p-1 900:p-4"
+    class="flex items-center justify-center h-full w-full p-3 900:p-4"
   >
     <div
       :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
-      class="w-full max-w-[1920px] h-full max-h-[730px] justify-center hidden 900:flex"
+      class="w-full max-w-[1920px] h-full max-h-[740px] justify-center hidden 900:flex"
     >
       <div
         v-if="!bookingSuccess"
@@ -64,11 +64,32 @@
     </div>
 
     <!-- Mobile Layout (below 900px) -->
-    <div class="900:hidden flex flex-col w-full h-full">
-      <!-- Fixed Header -->
+    <div
+      class="900:hidden relative flex flex-col w-full h-full border border-[#E6EBEF]
+        rounded-[10px] bg-primaryBg"
+    >
+      <!-- Close Widget Button -->
+      <button
+        class="absolute -top-2 -right-2 z-[60] w-7 h-7 bg-primary rounded-full
+          flex items-center justify-center hover:opacity-80 transition-opacity"
+        @click="closeWidget"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="white"
+          stroke-width="2.5"
+          class="w-4 h-4"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Header -->
       <div
         v-if="!bookingSuccess"
-        class="fixed top-0 left-0 right-0 z-50 bg-primaryBg "
+        class="absolute top-0 left-0 right-0 z-50 bg-primaryBg rounded-t-[10px] pt-1"
       >
         <!-- Top bar: back button, step name, cart button -->
         <div class="flex items-center justify-between px-6 mb-5 mt-3">
@@ -161,7 +182,8 @@
       <!-- Fixed Bottom Button -->
       <div
         v-if="!bookingSuccess"
-        class="fixed bottom-0 left-0 right-0 z-50 bg-primaryBg border-t border-[#E6EBEF] px-5 pt-2 pb-10"
+        class="absolute bottom-0 left-0 right-0 z-50 bg-primaryBg border-t border-[#E6EBEF]
+          rounded-b-[10px] px-5 pt-2 pb-6"
       >
         <button
           class="w-full py-3 rounded-lg font-semibold text-white transition-colors"
@@ -267,6 +289,10 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('message', handleWidgetMessage)
 })
+
+const closeWidget = () => {
+  window.parent.postMessage('closeWidget', '*')
+}
 
 const isMobileCartOpen = ref(false)
 const isMobileBookingOpen = ref(false)
