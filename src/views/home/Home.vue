@@ -52,7 +52,7 @@
         v-if="!bookingSuccess"
         class="!h-full bg-[#FFFFFF]"
         :class="isEmbedded
-          ? ''
+          ? 'border-l border-[#E6EBEF]'
           : 'border !max-h-[730px] border-[#E6EBEF] rounded-r-[10px] border-l-[0px]'"
         :style="isEmbedded ? {} : {boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
         :selected-jobs="selectedJobs"
