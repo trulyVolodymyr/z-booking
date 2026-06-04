@@ -205,6 +205,10 @@
     if (config.token) {
       query.push('token=' + encodeURIComponent(config.token))
     }
+    // Tell the app it is embedded inline so it drops its modal card chrome
+    if (config.mode === 'inline') {
+      query.push('embedded=true')
+    }
     if (config.params && typeof config.params === 'object') {
       Object.keys(config.params).forEach(function (key) {
         query.push(encodeURIComponent(key) + '=' + encodeURIComponent(config.params[key]))

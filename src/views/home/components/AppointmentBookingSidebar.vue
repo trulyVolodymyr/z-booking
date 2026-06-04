@@ -1,6 +1,7 @@
 <template>
   <div class="1250:w-[300px] 1440:w-[400px] w-[250px] h-full p-3 1080:p-6 flex flex-col bg-[#F9F9F9] shrink-0 relative">
     <button
+      v-if="!isEmbedded"
       class="absolute -top-3 -right-3 w-7 h-7 bg-primary rounded-full flex items-center justify-center
         hover:opacity-80 transition-opacity"
       @click="closeWidget"
@@ -135,8 +136,10 @@ import { useI18n } from 'vue-i18n'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import { confirmBooking } from '@/api/services/general.service'
 import { useNotification } from '@/composables/useNotification'
+import { useEmbedded } from '@/composables/useEmbedded'
 
 const { t } = useI18n()
+const { isEmbedded } = useEmbedded()
 
 export interface ISelectedJob {
   serviceTitle: string

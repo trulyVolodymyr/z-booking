@@ -1,16 +1,18 @@
 <template>
   <div
     v-loading="loading"
-    class="flex items-center justify-center h-full w-full p-1 900:p-4"
+    class="flex items-center justify-center h-full w-full"
+    :class="isEmbedded ? 'p-0' : 'p-1 900:p-4'"
   >
     <div
-      :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
-      class="w-full max-w-[1920px] h-full max-h-[730px] justify-center hidden 900:flex"
+      :style="isEmbedded ? {} : {boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
+      class="w-full max-w-[1920px] h-full justify-center hidden 900:flex"
+      :class="isEmbedded ? '' : 'max-h-[730px]'"
     >
       <div
         v-if="!bookingSuccess"
-        class="flex-1 p-4 1080:p-8 border border-[#E6EBEF] bg-primaryBg rounded-l-[10px]
-          flex flex-col gap-12 overflow-hidden"
+        class="flex-1 p-4 1080:p-8 bg-primaryBg flex flex-col gap-12 overflow-hidden"
+        :class="isEmbedded ? '' : 'border border-[#E6EBEF] rounded-l-[10px]'"
       >
         <div class="w-full flex flex-wrap items-start gap-4 relative">
           <BookingHeader v-bind="businessInfo" />
@@ -48,8 +50,11 @@
 
       <AppointmentBookingSidebar
         v-if="!bookingSuccess"
-        class="border !h-full !max-h-[730px] border-[#E6EBEF] bg-[#FFFFFF] rounded-r-[10px] border-l-[0px]"
-        :style="{boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
+        class="!h-full bg-[#FFFFFF]"
+        :class="isEmbedded
+          ? ''
+          : 'border !max-h-[730px] border-[#E6EBEF] rounded-r-[10px] border-l-[0px]'"
+        :style="isEmbedded ? {} : {boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
         :selected-jobs="selectedJobs"
         :selected-additional-info="selectedAdditionalInfo"
         :selected-appointment="selectedAppointment"
@@ -214,6 +219,9 @@ import MobileBookingOverlay from '@/views/home/components/MobileBookingOverlay.v
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import { getConfig, getAvailableDays, getAvailableTimes } from '@/api/services/general.service'
 import { useNotification } from '@/composables/useNotification'
+import { useEmbedded } from '@/composables/useEmbedded'
+
+const { isEmbedded } = useEmbedded()
 
 const {
   loading,
