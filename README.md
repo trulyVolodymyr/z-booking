@@ -166,3 +166,88 @@ Install all browsers for Playwright
 npx playwright install
 ```
 
+-------------------------
+
+## Embedding the widget on other projects
+
+The whole app can be injected into any third-party website as a component via a single
+`<script>` tag (`public/widget.js`). It loads the hosted app inside an isolated iframe —
+no build step or bundler is required on the host side.
+
+> Detailed, copy-paste setup for each usage path (default button / your own button /
+> inline component) is in [`docs/widget-embedding.md`](docs/widget-embedding.md).
+
+### Quick start (default overlay)
+
+A floating button that opens the app in a fullscreen modal:
+
+```html
+<script src="https://trulyvolodymyr.github.io/z-booking/widget.js"></script>
+```
+
+### Configuration
+
+Configure either via a global `window.ZBookingConfig` (set **before** the script tag) or
+via `data-*` attributes on the script tag itself.
+
+```html
+<script>
+  window.ZBookingConfig = {
+    formUrl: 'https://trulyvolodymyr.github.io/z-booking', // app to load in the iframe
+    buttonText: 'Book now',
+    buttonPosition: 'bottom-right',  // bottom-right | bottom-left | top-right | top-left
+    hiddenButton: false,             // hide the floating button (open via the JS API)
+    mode: 'overlay',                 // 'overlay' (modal) | 'inline' (mounted in a container)
+    target: null,                    // CSS selector / element — required for inline mode
+    view: null,                      // optional path segment, e.g. 'service/tuv'
+    params: null,                    // optional object of extra query params
+    token: null,                     // optional auth token forwarded to the app
+    autoOpen: null                   // defaults true for inline, false for overlay
+  }
+</script>
+<script src="https://trulyvolodymyr.github.io/z-booking/widget.js"></script>
+```
+
+Equivalent via data attributes:
+
+```html
+<script
+  src="https://trulyvolodymyr.github.io/z-booking/widget.js"
+  data-button-text="Book now"
+  data-mode="inline"
+  data-target="#booking"
+></script>
+```
+
+### Inline (embedded component)
+
+Render the app inside a specific element in the host's layout instead of a modal:
+
+```html
+<div id="booking" style="width: 480px; height: 720px;"></div>
+<script>
+  window.ZBookingConfig = { mode: 'inline', target: '#booking' }
+</script>
+<script src="https://trulyvolodymyr.github.io/z-booking/widget.js"></script>
+```
+
+### JavaScript API
+
+Once loaded, the script exposes two globals:
+
+```js
+// Backward-compatible default instance
+window.ZBookingWidget.open()
+window.ZBookingWidget.close()
+
+// Factory for explicit / multiple / inline instances
+const a = window.ZBooking.create({ target: '#a', view: 'tuv' })
+const b = window.ZBooking.create({ hiddenButton: true, token: '...' })
+a.open()
+b.close()
+b.destroy() // removes the instance's DOM and listeners
+```
+
+Each `create(config)` call returns an instance handle `{ open, close, destroy, el }`, and
+all instances are tracked under `window.ZBooking.instances`.
+
