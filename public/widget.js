@@ -345,6 +345,42 @@
     }
   }
 
+  // Wait for an inline target to appear in the DOM. On SPA hosts (Vue/React/etc.)
+  // the container is often rendered AFTER load, so a one-shot lookup at DOMContentLoaded
+  // misses it. Resolve immediately if present, otherwise observe the DOM until it shows
+  // up (or give up after `timeoutMs`). Accepts a selector string or an element.
+  function whenTargetReady (target, cb, timeoutMs) {
+    if (!target || typeof target !== 'string') {
+      cb(resolveTarget(target))
+      return
+    }
+    const existing = document.querySelector(target)
+    if (existing) {
+      cb(existing)
+      return
+    }
+    let settled = false
+    const observer = new MutationObserver(function () {
+      const el = document.querySelector(target)
+      if (el && !settled) {
+        settled = true
+        observer.disconnect()
+        cb(el)
+      }
+    })
+    observer.observe(document.documentElement, { childList: true, subtree: true })
+    window.setTimeout(function () {
+      if (settled) return
+      settled = true
+      observer.disconnect()
+      if (!document.querySelector(target)) {
+        console.warn('[ZBooking] inline target "' + target + '" never appeared; widget not mounted.')
+      } else {
+        cb(document.querySelector(target))
+      }
+    }, timeoutMs || 10000)
+  }
+
   // The lazily-created default instance (built from window.ZBookingConfig + script data-*)
   let defaultInstance = null
   function ensureDefaultInstance () {
@@ -388,8 +424,13 @@
   // matching the original single-widget embed behavior — once the body exists.
   whenBodyReady(function () {
     const cfg = Object.assign({}, DEFAULTS, window.ZBookingConfig || {}, SCRIPT_CONFIG)
-    // Only auto-create when nothing has mounted yet (avoid duplicate overlays)
-    if (cfg.mode === 'inline' || !document.querySelector('.zb-overlay')) {
+    if (cfg.mode === 'inline') {
+      // Wait for the (possibly SPA-rendered) container before mounting
+      whenTargetReady(cfg.target, function (el) {
+        if (el) ensureDefaultInstance()
+      })
+    } else if (!document.querySelector('.zb-overlay')) {
+      // Only auto-create one default overlay instance
       ensureDefaultInstance()
     }
   })

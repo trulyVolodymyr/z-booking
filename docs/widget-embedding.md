@@ -164,6 +164,28 @@ is fully independent.
 > default floating button to appear, include `hiddenButton: true` in
 > `window.ZBookingConfig`, or simply set `mode: 'inline'` there too.
 
+### Inside a SPA host (Vue / React / etc.)
+
+If the host page is a single-page app, the target container is usually rendered **after**
+page load. The auto-bootstrap waits for the target to appear (via a `MutationObserver`,
+up to ~10s), so the global-config approach above still works. But the most reliable
+pattern is to create the widget yourself once your component has mounted:
+
+```js
+// Vue
+import { onMounted, onUnmounted } from 'vue'
+
+let widget = null
+onMounted(() => {
+  widget = window.ZBooking.create({ mode: 'inline', target: '#booking', token })
+})
+onUnmounted(() => widget && widget.destroy())
+```
+
+Make sure the container exists in the DOM at that point and that your framework does not
+re-render (and wipe) the container after the widget mounts into it — give the widget its
+own dedicated, otherwise-empty element.
+
 ---
 
 ## Full configuration reference
