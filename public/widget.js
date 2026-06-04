@@ -110,6 +110,14 @@
       position: relative;
       width: 100%;
       height: 100%;
+      background: transparent;
+      border-radius: 0;
+    }
+    /* Embedded look: no header, no wrapper border/chrome, iframe fills the box */
+    .zb-inline .zb-header { display: none !important; }
+    .zb-inline .zb-iframe {
+      height: 100%;
+      border-radius: 0;
     }
 
     .zb-container {
@@ -259,19 +267,24 @@
       document.body.appendChild(button)
     }
 
-    // Root element: an overlay wrapper, or an inline wrapper inside the host
-    const root = document.createElement('div')
-    root.className = isInline ? 'zb-inline' : 'zb-overlay'
-    root.innerHTML =
-      '<div class="zb-container">' +
-        '<div class="zb-header">' +
+    // Header (logo + close button) — only for the overlay modal, never for embedded inline
+    const headerHtml = isInline
+      ? ''
+      : '<div class="zb-header">' +
           '<img class="zb-logo" src="' + logoUrl + '" alt="Logo" />' +
           '<button class="zb-close" type="button">' +
             '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">' +
               '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />' +
             '</svg>' +
           '</button>' +
-        '</div>' +
+        '</div>'
+
+    // Root element: an overlay wrapper, or an inline wrapper inside the host
+    const root = document.createElement('div')
+    root.className = isInline ? 'zb-inline' : 'zb-overlay'
+    root.innerHTML =
+      '<div class="zb-container">' +
+        headerHtml +
         '<iframe class="zb-iframe" src="" title="Form Widget"></iframe>' +
       '</div>'
     host.appendChild(root)
@@ -312,7 +325,7 @@
 
     // Wiring
     if (button) button.addEventListener('click', open)
-    closeBtn.addEventListener('click', close)
+    if (closeBtn) closeBtn.addEventListener('click', close)
 
     // Overlay-only: click on the backdrop closes
     if (!isInline) {
