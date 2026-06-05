@@ -7,7 +7,7 @@
     <div
       :style="isEmbedded ? {} : {boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
       class="w-full max-w-[1920px] h-full justify-center hidden 900:flex"
-      :class="isEmbedded ? '' : 'max-h-[730px]'"
+      :class="isEmbedded ? '' : 'max-h-[740px]'"
     >
       <div
         v-if="!bookingSuccess"
@@ -53,7 +53,7 @@
         class="!h-full bg-[#FFFFFF]"
         :class="isEmbedded
           ? 'border-l border-[#E6EBEF]'
-          : 'border !max-h-[730px] border-[#E6EBEF] rounded-r-[10px] border-l-[0px]'"
+          : 'border !max-h-[740px] border-[#E6EBEF] rounded-r-[10px] border-l-[0px]'"
         :style="isEmbedded ? {} : {boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
         :selected-jobs="selectedJobs"
         :selected-additional-info="selectedAdditionalInfo"
