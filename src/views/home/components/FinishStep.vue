@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-full">
     <!-- Mobile Layout -->
     <template v-if="isMobile">
       <div class="text-center">
@@ -81,8 +81,11 @@
 
     <!-- Desktop Layout -->
     <template v-else>
-      <div class="flex items-center justify-center bg-primaryBg  p-8 flex-1 border border-[#E6EBEF] rounded-[10px]">
-        <div class="max-w-2xl w-full text-center">
+      <div
+        class="flex items-center justify-center bg-primaryBg  p-8 flex-1 border border-[#E6EBEF] rounded-[10px]
+      h-full"
+      >
+        <div class="max-w-2xl w-full text-center mb-10">
           <!-- Success Icon -->
           <div class="flex justify-center mb-8">
             <img
