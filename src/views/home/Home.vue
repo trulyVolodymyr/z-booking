@@ -6,8 +6,8 @@
   >
     <div
       :style="isEmbedded ? {} : {boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
-      class="relative w-full max-w-[1920px] h-full justify-center hidden 900:flex"
-      :class="isEmbedded ? '' : 'max-h-[740px]'"
+      class="relative w-full h-full justify-center hidden 900:flex"
+      :class="isEmbedded ? 'max-w-[1920px]' : 'max-w-[1440px] max-h-[740px]'"
     >
       <button
         v-if="!isEmbedded"
