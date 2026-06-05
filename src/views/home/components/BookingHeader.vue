@@ -35,8 +35,8 @@ withDefaults(defineProps<IProps>(), {
   logoUrl: '/src/assets/images/logo.png',
   rating: '4.8',
   ratingCount: '97',
-  addressLine1: 'Böhlerstraße 4a',
-  addressLine2: '40667 Meerbusch'
+  addressLine1: '',
+  addressLine2: ''
 })
 
 </script>

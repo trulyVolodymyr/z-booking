@@ -275,13 +275,14 @@ const businessInfo = computed(() => {
     }
   }
 
+  // Address is only shown for Google requests — hidden otherwise.
   return {
     companyName: opts?.['show-name'] ? (opts['company-name'] || undefined) : '',
     logoUrl: opts?.['logo-url'] || undefined,
     rating: opts?.rating || undefined,
     ratingCount: opts?.['rating-count'] || undefined,
-    addressLine1: opts?.['address-line-1'] || undefined,
-    addressLine2: opts?.['address-line-2'] || undefined
+    addressLine1: '',
+    addressLine2: ''
   }
 })
 
