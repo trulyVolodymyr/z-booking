@@ -321,6 +321,7 @@
     "whenever": true,
     "ElBadge": true,
     "useNotification": true,
-    "useAppointmentBooking": true
+    "useAppointmentBooking": true,
+    "useEmbedded": true
   }
 }

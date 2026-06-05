@@ -125,7 +125,30 @@ export interface IConfigOpts {
   'aux-3-pos': string
 }
 
+export interface IGoogleData {
+  company_name: string
+  street: string
+  zip: string
+  city: string
+  country_code: string
+  latitude: string
+  longitude: string
+  phone: string
+  website: string
+  booking_url: string
+}
+
+export interface IConfigGoogle {
+  isRequestFromGoogle: boolean
+  conversion_tracking_enabled: boolean
+  conversion_partner_id: string
+  merchant_changed: string
+  conversion_endpoint: string
+  data: IGoogleData
+}
+
 export interface IConfigParams {
+  google?: IConfigGoogle
   lagersoft: ILagersoftParams
   portal: string
   token: string

@@ -154,24 +154,26 @@
     }
 
     .zb-close {
-      width: 28px;
-      height: 28px;
-      background: #007bff;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 28px !important;
+      height: 28px !important;
+      padding: 0 !important;
+      background: #007bff !important;
+      border: none !important;
+      border-radius: 50% !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
       transition: all 0.2s ease;
     }
     .zb-close:hover {
-      background: #0056b3;
+      background: #0056b3 !important;
     }
     .zb-close svg {
-      width: 16px;
-      height: 16px;
-      color: white;
+      width: 16px !important;
+      height: 16px !important;
+      color: white !important;
+      stroke: white !important;
     }
 
     .zb-iframe {

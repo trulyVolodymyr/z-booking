@@ -6,9 +6,19 @@
   >
     <div
       :style="isEmbedded ? {} : {boxShadow: '0px 6px 12px 0px rgba(0, 0, 0, 0.03)'}"
-      class="w-full max-w-[1920px] h-full justify-center hidden 900:flex"
+      class="relative w-full max-w-[1920px] h-full justify-center hidden 900:flex"
       :class="isEmbedded ? '' : 'max-h-[740px]'"
     >
+      <button
+        v-if="!isEmbedded"
+        class="absolute -top-3 -right-3 z-10 w-7 h-7 bg-primary rounded-full flex items-center justify-center
+          hover:opacity-80 transition-opacity"
+        @click="closeWidget"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
       <div
         v-if="!bookingSuccess"
         class="flex-1 p-4 1080:p-8 bg-primaryBg flex flex-col gap-12 overflow-hidden bg-white"
@@ -246,12 +256,27 @@ const {
   makeReservation
 } = useAppointmentBooking()
 
-// Business info for the booking header — sourced from config opts, falling back to
-// BookingHeader's built-in placeholders when the API does not provide these fields.
+// Business info for the booking header — sourced from config opts.
+// Name visibility follows the (legacy) opts['show-name'] flag, except for requests
+// coming from Google (params.google.isRequestFromGoogle): those always show the
+// name and address from params.google.data instead.
 const businessInfo = computed(() => {
   const opts = config.value?.opts
+  const google = config.value?.params?.google
+
+  if (google?.isRequestFromGoogle) {
+    return {
+      companyName: google.data?.company_name || '',
+      logoUrl: opts?.['logo-url'] || undefined,
+      rating: opts?.rating || undefined,
+      ratingCount: opts?.['rating-count'] || undefined,
+      addressLine1: google.data?.street || '',
+      addressLine2: [google.data?.zip, google.data?.city].filter(Boolean).join(' ')
+    }
+  }
+
   return {
-    companyName: opts?.['company-name'] || undefined,
+    companyName: opts?.['show-name'] ? (opts['company-name'] || undefined) : '',
     logoUrl: opts?.['logo-url'] || undefined,
     rating: opts?.rating || undefined,
     ratingCount: opts?.['rating-count'] || undefined,
@@ -259,6 +284,10 @@ const businessInfo = computed(() => {
     addressLine2: opts?.['address-line-2'] || undefined
   }
 })
+
+const closeWidget = () => {
+  window.parent.postMessage('closeWidget', '*')
+}
 
 const handleWidgetMessage = (event: MessageEvent) => {
   if (event.data === 'resetWidget') {

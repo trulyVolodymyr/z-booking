@@ -181,6 +181,7 @@ declare global {
   const useElementSize: typeof import('@vueuse/core')['useElementSize']
   const useElementVisibility: typeof import('@vueuse/core')['useElementVisibility']
   const useEmailRule: typeof import('../src/composables/form-config')['useEmailRule']
+  const useEmbedded: typeof import('../src/composables/useEmbedded')['useEmbedded']
   const useEventBus: typeof import('@vueuse/core')['useEventBus']
   const useEventListener: typeof import('@vueuse/core')['useEventListener']
   const useEventSource: typeof import('@vueuse/core')['useEventSource']

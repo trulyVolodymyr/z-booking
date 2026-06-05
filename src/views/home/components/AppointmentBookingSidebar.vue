@@ -1,15 +1,5 @@
 <template>
   <div class="1250:w-[300px] 1440:w-[400px] w-[250px] h-full p-3 1080:p-6 flex flex-col bg-[#F9F9F9] shrink-0 relative">
-    <button
-      v-if="!isEmbedded"
-      class="absolute -top-3 -right-3 w-7 h-7 bg-primary rounded-full flex items-center justify-center
-        hover:opacity-80 transition-opacity"
-      @click="closeWidget"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" class="w-4 h-4">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
     <span class="font-semibold text-xl text-text font-serif">
       {{ $t('general.appointmentSummary') }}
     </span>
@@ -136,10 +126,8 @@ import { useI18n } from 'vue-i18n'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import { confirmBooking } from '@/api/services/general.service'
 import { useNotification } from '@/composables/useNotification'
-import { useEmbedded } from '@/composables/useEmbedded'
 
 const { t } = useI18n()
-const { isEmbedded } = useEmbedded()
 
 export interface ISelectedJob {
   serviceTitle: string
@@ -231,10 +219,6 @@ const getShortLabel = (label: string) => {
   }
 
   return label.length > 30 ? label.substring(0, 30) + '...' : label
-}
-
-const closeWidget = () => {
-  window.parent.postMessage('closeWidget', '*')
 }
 
 const handleRemoveJob = (index: number) => {
