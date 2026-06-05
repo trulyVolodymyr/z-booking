@@ -11,7 +11,7 @@
     >
       <div
         v-if="!bookingSuccess"
-        class="flex-1 p-4 1080:p-8 bg-primaryBg flex flex-col gap-12 overflow-hidden"
+        class="flex-1 p-4 1080:p-8 bg-primaryBg flex flex-col gap-12 overflow-hidden bg-white"
         :class="isEmbedded ? '' : 'border border-[#E6EBEF] rounded-l-[10px]'"
       >
         <div class="w-full flex flex-wrap items-start gap-4 relative">
