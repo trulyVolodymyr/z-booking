@@ -13,7 +13,7 @@
       <div class="space-y-3 mb-5">
         <!-- License Plate -->
         <div
-          class="flex items-center border border-[#324448] rounded-lg bg-white overflow-hidden w-2/3 h-11
+          class="flex items-center border border-[#324448] rounded-lg bg-white overflow-hidden w-full h-11
             transition-colors focus-within:border-primary"
         >
           <div
