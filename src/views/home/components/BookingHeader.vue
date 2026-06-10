@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-3 items-start shrink-0">
+  <div class="flex gap-3 items-center shrink-0">
     <img
       :src="logoUrl"
       alt="Logo"
@@ -24,8 +24,6 @@
 interface IProps {
   companyName?: string
   logoUrl?: string
-  rating?: string
-  ratingCount?: string
   addressLine1?: string
   addressLine2?: string
 }
@@ -33,8 +31,6 @@ interface IProps {
 withDefaults(defineProps<IProps>(), {
   companyName: 'Autohaus Krüger und Schellenberg GmbH',
   logoUrl: '/src/assets/images/logo.png',
-  rating: '4.8',
-  ratingCount: '97',
   addressLine1: '',
   addressLine2: ''
 })

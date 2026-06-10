@@ -126,6 +126,7 @@ import { useI18n } from 'vue-i18n'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import { confirmBooking } from '@/api/services/general.service'
 import { useNotification } from '@/composables/useNotification'
+import { trackGoogleConversion } from '@/core/google-conversion.utils'
 
 const { t } = useI18n()
 
@@ -161,7 +162,8 @@ const {
   bookingInfo,
   reservationId,
   bookingSuccess,
-  uploadedFiles
+  uploadedFiles,
+  config
 } = useAppointmentBooking()
 const { error, success } = useNotification()
 
@@ -315,6 +317,8 @@ const handleConfirmBooking = async () => {
       // Upload attachments after successful booking
       await uploadAttachments()
       bookingSuccess.value = true
+      // ZM-943 Google conversion tracking after successful booking
+      trackGoogleConversion(config.value?.params?.google)
       success('Booking confirmed successfully!')
     } else {
       error('Booking confirmation failed. Please try again.')

@@ -322,6 +322,7 @@
     "ElBadge": true,
     "useNotification": true,
     "useAppointmentBooking": true,
-    "useEmbedded": true
+    "useEmbedded": true,
+    "useBusinessHours": true
   }
 }

@@ -152,7 +152,7 @@
               />
             </div>
 
-            <div v-if="selectedDate" class="flex-1 min-w-0 flex flex-col gap-6">
+            <div v-if="selectedDate" class="flex-1 min-w-0 flex flex-col justify-between">
               <!-- No times available message -->
               <div v-if="!loading && morningTimes.length === 0 && afternoonTimes.length === 0" class="text-center py-8">
                 <p class="text-text opacity-60">{{ $t('general.noAvailableTimeSlots') }}</p>

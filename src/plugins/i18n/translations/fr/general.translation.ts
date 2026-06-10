@@ -112,8 +112,6 @@ export const generalTranslations = {
   at: 'à',
   bookingSuccessfullyReceived: 'a bien été reçue. Vous recevrez une confirmation définitive sous peu.',
   questionsAboutBooking: 'Si vous avez des questions concernant votre réservation, vous pouvez également nous joindre par téléphone ou par e-mail.',
-  monFriHours: 'Lun. - Ven. : 8h - 17h',
-  satSunClosed: 'Sam. et Dim. : fermé',
 
   // MobileBookingOverlay
   bookingSummary: 'Récapitulatif de la réservation',

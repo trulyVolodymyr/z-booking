@@ -147,8 +147,27 @@ export interface IConfigGoogle {
   data: IGoogleData
 }
 
+export interface IBusinessHoursDay {
+  from: string
+  to: string
+  breakStart: string
+  breakEnd: string
+  // Delivered as the strings 'true'/'false'
+  active: string | boolean
+}
+
+export interface ICompanyData {
+  street: string
+  zip: string
+  city: string
+  email: string
+  phone: string
+  businessHours: Record<string, IBusinessHoursDay>
+}
+
 export interface IConfigParams {
   google?: IConfigGoogle
+  companyData?: ICompanyData
   lagersoft: ILagersoftParams
   portal: string
   token: string

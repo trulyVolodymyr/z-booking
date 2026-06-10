@@ -46,32 +46,39 @@
           <!-- Contact Details -->
           <div class="flex flex-col gap-4 text-center">
             <!-- Phone -->
-            <div class="flex flex-col items-center gap-1">
+            <div
+              v-if="phone"
+              class="flex flex-col items-center gap-1"
+            >
               <div class="flex items-center gap-2">
                 <IconPhone class="w-5 h-5 text-primary" />
                 <a
-                  href="tel:+4912345678910"
+                  :href="phoneHref"
                   class="text-primary text-base font-semibold hover:underline"
                 >
-                  +49 1234 567891011
+                  {{ phone }}
                 </a>
               </div>
-              <p class="text-xs text-text">
-                {{ $t('general.monFriHours') }}
-              </p>
-              <p class="text-xs text-text">
-                {{ $t('general.satSunClosed') }}
+              <p
+                v-for="line in businessHoursLines"
+                :key="line"
+                class="text-xs text-text"
+              >
+                {{ line }}
               </p>
             </div>
 
             <!-- Email -->
-            <div class="flex items-center justify-center gap-2">
+            <div
+              v-if="email"
+              class="flex items-center justify-center gap-2"
+            >
               <IconMail class="w-5 h-5 text-primary" />
               <a
-                href="mailto:info@autohaus.de"
+                :href="`mailto:${email}`"
                 class="text-primary text-base font-semibold hover:underline"
               >
-                info@autohaus.de
+                {{ email }}
               </a>
             </div>
           </div>
@@ -129,32 +136,40 @@
             <!-- Contact Details -->
             <div class="flex flex-col gap-6 text-left">
               <!-- Phone -->
-              <div class="flex items-start gap-4">
+              <div
+                v-if="phone"
+                class="flex items-start gap-4"
+              >
                 <IconPhone class="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
                   <a
-                    href="tel:+4912345678910"
+                    :href="phoneHref"
                     class="text-primary text-lg font-semibold hover:underline"
                   >
-                    +49 1234 567891011
+                    {{ phone }}
                   </a>
-                  <p class="text-sm text-text mt-1">
-                    {{ $t('general.monFriHours') }}
-                  </p>
-                  <p class="text-sm text-text">
-                    {{ $t('general.satSunClosed') }}
+                  <p
+                    v-for="(line, index) in businessHoursLines"
+                    :key="line"
+                    class="text-sm text-text"
+                    :class="{ 'mt-1': index === 0 }"
+                  >
+                    {{ line }}
                   </p>
                 </div>
               </div>
 
               <!-- Email -->
-              <div class="flex items-center gap-4">
+              <div
+                v-if="email"
+                class="flex items-center gap-4"
+              >
                 <IconMail class="w-6 h-6 text-primary flex-shrink-0" />
                 <a
-                  href="mailto:info@autohaus.de"
+                  :href="`mailto:${email}`"
                   class="text-primary text-lg font-semibold hover:underline"
                 >
-                  info@autohaus.de
+                  {{ email }}
                 </a>
               </div>
             </div>
@@ -168,6 +183,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
+import { useBusinessHours } from '@/composables/useBusinessHours'
 
 interface IProps {
   isMobile?: boolean
@@ -177,7 +193,14 @@ withDefaults(defineProps<IProps>(), {
   isMobile: false
 })
 
-const { selectedDate, selectedTime } = useAppointmentBooking()
+const { selectedDate, selectedTime, config } = useAppointmentBooking()
+const { businessHoursLines } = useBusinessHours()
+
+const companyData = computed(() => config.value?.params?.companyData)
+
+const phone = computed(() => companyData.value?.phone || '')
+const phoneHref = computed(() => `tel:${phone.value.replace(/[^+\d]/g, '')}`)
+const email = computed(() => companyData.value?.email || '')
 
 // Format date as "Month Day, Year" (e.g., "August 21, 2025")
 const formattedDate = computed(() => {

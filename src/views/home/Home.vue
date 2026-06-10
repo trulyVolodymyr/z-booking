@@ -230,6 +230,7 @@ import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import { getConfig, getAvailableDays, getAvailableTimes } from '@/api/services/general.service'
 import { useNotification } from '@/composables/useNotification'
 import { useEmbedded } from '@/composables/useEmbedded'
+import { rememberRwgToken } from '@/core/google-conversion.utils'
 
 const { isEmbedded } = useEmbedded()
 
@@ -532,6 +533,9 @@ const init = async () => {
   try {
     loading.value = true
     config.value = await getConfig({ token: token.value })
+
+    // ZM-943 Remember Google's rwg token for conversion tracking
+    rememberRwgToken(config.value?.params?.google)
 
     // Set primary color from config
     if (config.value?.opts?.['highlight-bg']) {

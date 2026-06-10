@@ -340,6 +340,7 @@ import { useI18n } from 'vue-i18n'
 import { useAppointmentBooking } from '@/composables/useAppointmentBooking'
 import { confirmBooking, getAvailableTimes } from '@/api/services/general.service'
 import { useNotification } from '@/composables/useNotification'
+import { trackGoogleConversion } from '@/core/google-conversion.utils'
 import CustomCalendar from '@/components/CustomCalendar.vue'
 import CustomDateTimePicker from '@/components/CustomDateTimePicker.vue'
 
@@ -376,7 +377,8 @@ const {
   availableDays,
   selectedJobs: jobs,
   vehicleBackByDate,
-  selectedAdditionalInfo: additionalInfo
+  selectedAdditionalInfo: additionalInfo,
+  config
 } = useAppointmentBooking()
 
 const optionVehicleBackBy = computed(() => t('general.optionVehicleBackBy'))
@@ -550,6 +552,8 @@ const handleBookAppointment = async () => {
     // Check if booking was successful
     if (res.success) {
       bookingSuccess.value = true
+      // ZM-943 Google conversion tracking after successful booking
+      trackGoogleConversion(config.value?.params?.google)
       success('Booking confirmed successfully!')
       emit('close')
     } else {
